@@ -1,0 +1,4 @@
+# Workbench properties (Not used at run-time)
+versant.workbench.projectDescription=Simple demo showing how to use JUnit to test a JDO application.
+versant.workbench.classpath.0=build/classes
+versant.workbench.classpath.1=src

@@ -1,0 +1,8 @@
+# Workbench properties (Not used at run-time)
+versant.workbench.classpath.0=../../../../../../
+versant.workbench.classpath.1=../../../../../../../build/classes/
+versant.workbench.classpath.2=../../../../../../../../../../jstuff/jdbc_drivers/mssql/msutil.jar
+versant.workbench.classpath.3=../../../../../../../../../../jstuff/jdbc_drivers/mssql/mssqlserver.jar
+versant.workbench.classpath.4=../../../../../../../../../../jstuff/jdbc_drivers/mssql/msbase.jar
+versant.workbench.antDisabled=true
+versant.workbench.antBuildfile=../../../../../../build.xml

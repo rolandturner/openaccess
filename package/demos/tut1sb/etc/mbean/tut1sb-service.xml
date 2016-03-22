@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- MBean service file for JBoss 3 -->
+<service>
+    <mbean code="com.versant.core.jdo.mbean.PMFService"
+        name="jboss:service=jdo_tut1sb">
+        <classpath codebase="lib" archives="openaccess.jar"/>
+        <attribute name="JNDIName">jdo_tut1sb</attribute>
+        <attribute name="ConfigFileName">versant.properties</attribute>
+    </mbean>
+</service>

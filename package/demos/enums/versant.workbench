@@ -1,0 +1,6 @@
+version=3.2.7_02 (30 Nov 2004)
+# Workbench properties (Not used at run-time)
+versant.workbench.projectDescription=enums
+versant.workbench.srcPath=src/
+versant.workbench.classpath.0=src/
+versant.workbench.classpath.1=build/classes/

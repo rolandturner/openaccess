@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE jdo PUBLIC "-//Sun Microsystems, Inc.//DTD Java Data Objects Metadata 1.0//EN" "http://java.sun.com/dtd/jdo_1_0.dtd.bla">
+
+<!--wrong tag is spec, but it must still work-->
+<jdo>
+    <package name="com.versant.core.jdo.junit.testHorizontal.model.horizontal">
+        <class name="AminoAcidSequence">
+            <extension vendor-name="versant" key="jdbc-inheritance" value="horizontal"/>
+        </class>
+        <class name="Protein" persistence-capable-superclass="AminoAcidSequence">
+            <extension vendor-name="versant" key="jdbc-table-name" value="Protein" />
+            <field name="AminoAcidSequence.id">
+              <extension vendor-name="versant" key="jdbc-column">
+                <extension vendor-name="versant" key="jdbc-column-name" value="Protein_id" />
+              </extension>
+            </field>
+        </class>
+
+        <class name="Person" identity-type="datastore">
+            <extension vendor-name="versant" key="jdbc-inheritance" value="horizontal" />
+            <!--<field name="personID" null-value="exception" />-->
+            <field name="personID" primary-key="true" />
+        </class>
+        <class name="Customer" persistence-capable-superclass="Person"
+            identity-type="application"
+            objectid-class="com.versant.core.jdo.junit.testHorizontal.model.horizontal.Customer$ID">
+            <field name="Person.personID" primary-key="true">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-column-name" value="customer_id" />
+                </extension>
+            </field>
+        </class>
+
+<!--        testing of base class with string appid-->
+        <class name="StringAppIdBase">
+            <extension vendor-name="versant" key="jdbc-inheritance" value="horizontal" />
+        </class>
+        <class name="ExtendStringAppIdBase1"
+            objectid-class="ExtendStringAppIdBase1$ID" identity-type="application"
+            persistence-capable-superclass="StringAppIdBase">
+            <field name="StringAppIdBase.pk" primary-key="true"/>
+        </class>
+        <class name="ExtendStringAppIdBase2"
+            objectid-class="ExtendStringAppIdBase2$ID" identity-type="application"
+            persistence-capable-superclass="StringAppIdBase">
+            <field name="StringAppIdBase.pk" primary-key="true"/>
+        </class>
+
+
+        <class name="RefClass" />
+        <class name="AbsBaseClass">
+            <extension vendor-name="versant" key="jdbc-inheritance" value="horizontal" />
+            <field name="stringRefMap">
+                <map value-type="RefClass" key-type="java.lang.String" />
+            </field>
+            <field name="baseString">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-column-name" value="b_s_def" />
+                </extension>
+            </field>
+            <field name="stringList">
+                <collection element-type="java.lang.String" />
+            </field>
+            <field name="refClassList">
+                <collection element-type="RefClass">
+                    <extension vendor-name="versant" key="jdbc-link-table">
+                        <extension vendor-name="versant" key="jdbc-value">
+                            <extension vendor-name="versant" key="jdbc-column">
+                                <extension vendor-name="versant" key="jdbc-column-name" value="ref_pk_d" />
+                            </extension>
+                        </extension>
+                    </extension>
+                </collection>
+            </field>
+            <field name="txField" persistence-modifier="transactional" />
+            <field name="stringArray">
+                <array>
+                    <extension vendor-name="versant" key="jdbc-link-table">
+                        <extension vendor-name="versant" key="jdbc-value">
+                            <extension vendor-name="versant" key="jdbc-column">
+                                <extension vendor-name="versant" key="jdbc-column-name" value="val_d" />
+                            </extension>
+                        </extension>
+                        <extension vendor-name="versant" key="jdbc-sequence">
+                            <extension vendor-name="versant" key="jdbc-column">
+                                <extension vendor-name="versant" key="jdbc-column-name" value="seq_d" />
+                            </extension>
+                        </extension>
+                    </extension>
+                </array>
+            </field>
+        </class>
+        <class name="ConcreteSub1" persistence-capable-superclass="AbsBaseClass">
+            <field name="AbsBaseClass.stringArray">
+                <array>
+                    <extension vendor-name="versant" key="jdbc-link-table">
+                        <extension vendor-name="versant" key="jdbc-value">
+                            <extension vendor-name="versant" key="jdbc-column">
+                                <extension vendor-name="versant" key="jdbc-column-name" value="val_e" />
+                            </extension>
+                        </extension>
+                        <extension vendor-name="versant" key="jdbc-sequence">
+                            <extension vendor-name="versant" key="jdbc-column">
+                                <extension vendor-name="versant" key="jdbc-column-name" value="seq_e" />
+                            </extension>
+                        </extension>
+                    </extension>
+                </array>
+            </field>
+            <field name="AbsBaseClass.stringRefMap">
+                <map value-type="RefClass" key-type="java.lang.String">
+                    <extension vendor-name="versant" key="jdbc-link-table">
+                        <extension vendor-name="versant" key="jdbc-value">
+                            <extension vendor-name="versant" key="jdbc-column">
+                                <extension vendor-name="versant" key="jdbc-column-name" value="val_val" />
+                            </extension>
+                        </extension>
+                    </extension>
+                </map>
+            </field>
+            <field name="AbsBaseClass.baseString" default-fetch-group="false">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-column-name" value="b_s_changed" />
+                </extension>
+            </field>
+            <field name="AbsBaseClass.refClassList">
+                <collection element-type="RefClass">
+                    <extension vendor-name="versant" key="jdbc-link-table">
+                        <extension vendor-name="versant" key="jdbc-value">
+                            <extension vendor-name="versant" key="jdbc-column">
+                                <extension vendor-name="versant" key="jdbc-column-name" value="ref_pk" />
+                            </extension>
+                        </extension>
+                    </extension>
+                </collection>
+            </field>
+        </class>
+        <class name="ConcreteSub4" persistence-capable-superclass="ConcreteSub1">
+            <extension vendor-name="versant" key="jdbc-do-not-create-table" value="false" />
+        </class>
+        <class name="ConcreteSub2" persistence-capable-superclass="AbsBaseClass">
+            <extension vendor-name="versant" key="jdbc-do-not-create-table" value="false" />
+        </class>
+        <class name="ConcreteSub3" objectid-class="ConcreteSub3$ID" persistence-capable-superclass="AbsBaseClass" identity-type="application" ddd="bla">
+            <extension vendor-name="versant" key="jdbc-do-not-create-table" value="false" />
+            <field name="id" primary-key="true" />
+        </class>
+        <class name="AppIdBase">
+            <extension vendor-name="versant" key="jdbc-inheritance" value="horizontal" />
+            <field name="pk">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-type" value="INTEGER" />
+                </extension>
+            </field>
+        </class>
+        <class name="AppIdSub1" persistence-capable-superclass="AppIdBase" identity-type="application" objectid-class="com.versant.core.jdo.junit.testHorizontal.model.horizontal.AppIdSub1$PK">
+            <field name="AppIdBase.pk" primary-key="true">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-type" value="NUMERIC" />
+                    <extension vendor-name="versant" key="jdbc-length" value="10" />
+                    <extension vendor-name="versant" key="jdbc-scale" value="5" />
+                    <extension vendor-name="versant" key="jdbc-column-name" value="pk1" />
+                </extension>
+            </field>
+            <extension vendor-name="versant" key="jdbc-optimistic-locking">
+                <extension vendor-name="versant" key="field-name" value="AppIdBase.versionField" />
+            </extension>
+        </class>
+        <class name="AppIdSub2" persistence-capable-superclass="AppIdBase" />
+    </package>
+</jdo>
+

@@ -1,0 +1,16 @@
+<binding>
+    <mapping name="user" class="jibxdemo.model.User"
+            factory="jibxdemo.JibxModelFactory.newUser"
+            post-set="jibxPostSet">
+        <value name="id" style="attribute" usage="optional"
+            get-method="getId" set-method="setId" test-method="hasId"/>
+        <value name="name" field="name"/>
+        <collection name="groups" field="groups" item-type="jibxdemo.model.Group"/>
+    </mapping>
+    <mapping name="group" class="jibxdemo.model.Group"
+            factory="jibxdemo.JibxModelFactory.newGroup">
+        <value name="id" style="attribute" usage="optional"
+            get-method="getId" set-method="setId" test-method="hasId"/>
+        <value style="attribute" name="description" field="description"/>
+    </mapping>
+</binding>

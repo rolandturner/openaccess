@@ -1,0 +1,22 @@
+# Workbench properties (Not used at run-time)
+versant.workbench.classpath.0=../../../../../../
+versant.workbench.classpath.1=../../../../../../../build/classes/
+versant.workbench.antDisabled=true
+versant.workbench.antBuildfile=../../../../../../build.xml
+
+# Open Access Class Diagrams
+versant.workbench.diagram.count=2
+
+versant.workbench.diagram0.name=Knowhow
+versant.workbench.diagram0.legend=147,321
+versant.workbench.diagram0.general=13,Y,Y
+versant.workbench.diagram0.class=Y,N,Y,N,N,Y,N,Y,N,N,N,N,N,N,N,N,N
+versant.workbench.diagram0.field=Y,Y,N,N,N,N
+versant.workbench.diagram0.class.count=0
+
+versant.workbench.diagram1.name=Tom
+versant.workbench.diagram1.legend=600,458
+versant.workbench.diagram1.general=13,N,Y
+versant.workbench.diagram1.class=Y,N,Y,N,N,Y,N,Y,N,N,N,N,N,N,N,N,N
+versant.workbench.diagram1.field=Y,Y,N,N,N,N
+versant.workbench.diagram1.class.count=0

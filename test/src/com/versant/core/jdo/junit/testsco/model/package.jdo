@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jdo>
+    <package name="com.versant.core.jdo.junit.testsco.model">
+        <class name="SCOFields">
+            <field name="list">
+                <collection element-type="java.lang.String"/>
+            </field>
+            <field name="arrayList">
+                <collection element-type="java.lang.String"/>
+                <extension vendor-name="jdogenie" key="sco-factory" value="com.versant.core.jdo.sco.SCOArrayListFactory"/>
+            </field>
+            <field name="map">
+                <map key-type="java.lang.String" value-type="java.lang.String"/>
+            </field>
+            <field name="hashMap">
+                <map key-type="java.lang.String" value-type="java.lang.String"/>
+                <extension vendor-name="jdogenie" key="sco-factory" value="com.versant.core.jdo.sco.SCOHashMapFactory"/>
+            </field>
+            <field name="hashSet">
+                <collection element-type="java.lang.String"/>
+                <extension vendor-name="jdogenie" key="sco-factory" value="com.versant.core.jdo.sco.SCOHashSetFactory"/>
+            </field>
+            <field name="hashtable">
+                <map value-type="java.lang.String" key-type="java.lang.String"/>
+                <extension vendor-name="jdogenie" key="sco-factory" value="com.versant.core.jdo.sco.SCOHashtableFactory"/>
+            </field>
+            <field name="linkedList">
+                <collection element-type="java.lang.String"/>
+                <extension vendor-name="jdogenie" key="sco-factory" value="com.versant.core.jdo.sco.SCOLinkedListFactory"/>
+            </field>
+            <field name="treeMap">
+                <map key-type="java.lang.String" value-type="java.lang.String"/>
+                <extension vendor-name="jdogenie" key="sco-factory" value="com.versant.core.jdo.sco.SCOTreeMapFactory"/>
+            </field>
+            <field name="treeSet">
+                <collection element-type="java.lang.String"/>
+                <extension vendor-name="jdogenie" key="sco-factory" value="com.versant.core.jdo.sco.SCOTreeSetFactory"/>
+            </field>
+            <field name="vector">
+                <collection element-type="java.lang.String"/>
+                <extension vendor-name="jdogenie" key="sco-factory" value="com.versant.core.jdo.sco.SCOVectorFactory"/>
+            </field>
+            <field name="set">
+                <collection element-type="java.lang.String"/>
+            </field>
+            <field name="collection">
+                <collection element-type="java.lang.String"/>
+            </field>
+        </class>
+    </package>
+</jdo>
+

@@ -1,0 +1,75 @@
+<html>
+<head>
+<title>Versant Open Access Eclipse Plugin</title>
+<STYLE TYPE="text/css">
+<!--
+BODY { font-family: Helvetica; }
+H1, H2 { color: #666699; background-color: #F0F0FF; }
+-->
+</STYLE>
+</head>
+<body bgcolor="#FFFFFF">
+
+<table border="0" cellspacing="0" cellpadding="0" width="600">
+<tr>
+<td>
+
+<h1>Versant OpenAccess Eclipse Plugin</h1>
+
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td><p><center>
+<a href="http://www.versant.com"><img src="icons/voa32.png" border="0"></a><br><br>
+<a href="http://www.versant.com"><font size="-1">www.versant.com</font></a></center></p>
+</td>
+<td width="20">&nbsp;</td>
+<td>
+<p>Versant OpenAccess is a high performance Java Data Objects implementation supporting
+leading commercial and open source relational databases. This plugin integrates
+JDO enhancement into the Eclipse build process. The standalone OpenAccess
+Workbench is used to edit mappings and to setup a project (run
+workbench.bat or workbench.sh in the distribution).</p>
+</td>
+</tr></table>
+
+<h2>Using OpenAccess with an Eclipse project</h2>
+
+<p>Right click the project that you want to use and select <b>Versant OpenAccess | Add JDO nature</b>
+on the popup menu. (A 'OpenAccess Libs' classpath container is added to you
+project's 'Java Build Path'. This classpath container contains the
+openaccess.jar and jta.jar)</p>
+
+<p>Select <b>Project | Properties | OpenAccess Properties</b> and configure
+your project for OpenAccess. The fields on the form are as follows:</p>
+
+<ol>
+<li><i>Project file name.</i> Specifies the OpenAccess (versant.properties)
+project file.</li><br>
+
+<li><i>Auto Enhance.</i> Enhance persistent classes whenever they are recompiled.
+The Enhancer is added to the 'External Tools Builders' section. You can always
+enhance manually by selecting <b>Versant OpenAccess | Enhance classes</b>
+from the project popup menu.</li><br>
+
+<li><i>Copy project file to output dir.</i> Copy the project file to the
+project classpath on enhancement. This is useful if the project file is
+not in the classpath or if you want to use an Ant style token replacement.</li><br>
+
+<li><i>Ant filter token properties.</i> This is used to resolve Ant filter
+tokens in your OpenAccess project file when it is copied to the classpath.
+This option is only available if 'Copy project file to output dir' is
+selected.</li><br>
+
+<li><i>Use relative paths.</i> All paths are stored relative the project if this
+is on.</li><br>
+
+</ol>
+
+<p>For more information visit
+<a href="http://www.versant.com">www.versant.com</a>.</p>
+
+</body>
+
+</td>
+</tr>
+</table>

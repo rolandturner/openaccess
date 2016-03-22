@@ -1,0 +1,14 @@
+<versant>
+    <server name="petstoreServer">
+    </server>
+
+    <jdbc name="main"
+        db="postgres"
+        url="jdbc:postgresql:jdopetstore"
+        driver="org.postgresql.Driver"
+        user="postgres"
+        password="postgres"
+        properties=""
+        />
+    <jdo name="/petstore.jdo"/>
+</versant>

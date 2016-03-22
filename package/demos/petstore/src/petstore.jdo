@@ -1,0 +1,32 @@
+<jdo>
+    <package name="petstore.db">
+
+        <class name="Category"/>
+
+        <class name="Item"/>
+
+        <class name="Address"/>
+
+        <class name="User"/>
+
+        <class name="Customer"/>
+
+        <class name="Account"/>
+
+        <class name="ContactInfo"/>
+
+        <class name="CreditCard"/>
+
+        <class name="LineItem"/>
+
+        <class name="PurchaseOrder">
+            <field name="lineItems" default-fetch-group="true">
+                <collection element-type="LineItem">
+                    <extension vendor-name="versant"
+                        key="ordered" value="false"/>
+                </collection>
+            </field>
+        </class>
+
+    </package>
+</jdo>

@@ -1,0 +1,76 @@
+<project name="jca" default="compile" basedir=".">
+
+    <property name="debug" value="true"/>
+    <property file="../../etc/debug-${debug}.properties"/>
+    <property file="etc/plugin.properties"/>
+
+    <tstamp>
+        <format property="TODAY" pattern="dd MMM yyyy"/>
+    </tstamp>
+
+    <path id="cp.path">
+        <path location="../../tools/build/classes"/>
+        <fileset dir="lib" includes="**/*.jar"/>
+    </path>
+
+    <target name="init">
+        <mkdir dir="build/classes"/>
+    </target>
+
+    <target name="clean">
+        <delete dir="build"/>
+    </target>
+
+    <target name="compile-deps" depends="init" unless="nodeps">
+        <ant target="compile" dir="../../tools" />
+    </target>
+
+    <target name="compile" depends="compile-deps" description="Compile all sources">
+        <javac srcdir="src" destdir="build/classes"
+            source="1.3"
+            target="1.3"
+            compiler="modern"
+            debug="on"
+            optimize="${javac.optimize}"
+            debuglevel="${javac.debuglevel}">
+            <classpath>
+                <path refid="cp.path"/>
+            </classpath>
+        </javac>
+    </target>
+
+    <target name="package" depends="compile">
+        <property name="eclipseDir" value="build/package/eclipse/"/>
+        <property name="wasdDir" value="build/package/WASD/"/>
+        <property name="pluginDir" value="com.versant.voa_${eclipse-version}/"/>
+        <property name="eclipsePluginDir" value="${eclipseDir}${pluginDir}"/>
+        <property name="wasdPluginDir" value="${wasdDir}${pluginDir}"/>
+        <available file="${eclipsePluginDir}" property="eclipseVersionOK"/>
+        <ant target="clean-package"/>
+        <mkdir dir="${eclipsePluginDir}/lib" />
+        <jar jarfile="${eclipsePluginDir}/voa-eclipse.jar" >
+            <fileset dir="build/classes"/>
+        </jar>
+        <copy todir="${eclipsePluginDir}">
+            <fileset dir="etc" includes="icons/*"/>
+        </copy>
+        <filter token="ECLIPSE.VERSION" value="${eclipse-version}"/>
+        <copy todir="${eclipsePluginDir}" filtering="true">
+            <fileset dir="etc" includes="plugin.xml"/>
+            <fileset dir="docs" includes="about.html"/>
+        </copy>
+        <copy todir="${eclipseDir}" filtering="true">
+            <fileset dir="docs" includes="README.txt"/>
+            <fileset dir="etc/bin" includes="**/*"/>
+        </copy>
+        <copy todir="${wasdDir}">
+            <fileset dir="${eclipseDir}"/>
+        </copy>
+        <copy tofile="${wasdPluginDir}about.html" file="docs/wasd_about.html" overwrite="true" filtering="true"/>
+        <copy tofile="${wasdDir}README.txt" file="docs/WASD_README.txt" overwrite="true" filtering="true"/>
+	</target>
+
+    <target name="clean-package" unless="eclipseVersionOK" >
+        <delete dir="build/package"/>
+    </target>
+</project>

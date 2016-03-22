@@ -1,0 +1,6 @@
+# Workbench properties (Not used at run-time)
+versant.workbench.projectDescription=Using fetch groups to fetch a recursive graph structure
+versant.workbench.srcPath=src
+versant.workbench.classpath.0=src
+versant.workbench.classpath.1=build/classes
+versant.workbench.scriptDir=../../../../../home/david/hauke/JDOConClasses

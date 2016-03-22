@@ -1,0 +1,17 @@
+<!DOCTYPE weblogic-connection-factory-dd PUBLIC
+  '-//BEA Systems, Inc.//DTD WebLogic 8.1.0 Connector//EN'
+	'http://www.bea.com/servers/wls810/dtd/weblogic810-ra.dtd'>
+<weblogic-connection-factory-dd>
+    <connection-factory-name>Versant Open Access</connection-factory-name>
+    <jndi-name>versant</jndi-name>
+    <pool-params>
+        <initial-capacity>0</initial-capacity>
+        <max-capacity>50</max-capacity>
+        <capacity-increment>1</capacity-increment>
+        <shrinking-enabled>false</shrinking-enabled>
+        <connection-profiling-enabled>true</connection-profiling-enabled>
+        <match-connections-supported>false</match-connections-supported>
+    </pool-params>
+    <security-principal-map>
+    </security-principal-map>
+</weblogic-connection-factory-dd>

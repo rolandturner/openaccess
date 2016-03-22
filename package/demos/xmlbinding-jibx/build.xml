@@ -1,0 +1,127 @@
+<!--
+
+XML binding demo using JDO Genie with JiBX.
+
+JiBX is a flexible, fast, free XML binding framework. It uses JDO-like
+bytecode enhancement to add code to do XML marshalling and unmarshalling to
+the objects themselves. With JiBX and JDO Genie an XML message can be
+converted into model objects and persisted in a database with only a few lines
+of code. Likewise any graph of JDO instances can be marshalled to XML very
+easily.
+
+Get JiBX here: http://jibx.sourceforge.net
+
+This demo makes a graph of User and Group instances persistent from an
+in.xml, marshalls the graph to out.xml and then re-reads the graph from
+out.xml. There is an unmanaged many-to-many relationship between
+Group.users and User.groups.
+
+There are some gotchas when using JDO with JiBX that are solved in this demo.
+
+1) The JiBX Ant task is not used to do the binding. There is some strange
+classpath problem. The jdo-enhance target does not see the changes made
+by the binding compiler and does not enhance them properly.
+
+2) All of the persistent classes are deleted, recompiled, rebound and
+re-enhancenhanced every time. For some reason the jdo-enhance task still
+sometimes sees 'old' class files if this is not done. You can change this
+do only delete them when the .jdo meta data or JiBX binding file changes.
+If you get a NPE when marshalling to XML then do 'ant clean' and try
+again.
+
+3) To unmarshall a document containing a mix of old and new instances a
+factory needs to be written to create a new instance or lookup an existing
+instance for each persistent class. The implementation here uses an id
+attribute to do this and getObjectById but any attributes could be used
+perhaps with a JDOQL query. See jibxdemo.JibxModelFactory.
+
+4) Extra steps have to be taking to complete the "other side" of
+bidirectional one-to-many and many-to-many after JiBX has filled one side
+of the relationship when unmarshalling. See User.jibxPostSet.
+
+5) The only way I could find to include the JDO identity (OID) of a persistent
+instance as an 'id' attribute when marshalling was to add a base class
+extended by all persistent classes containing methods for an Id property.
+
+-->
+
+<project name="jibxdemo" default="compile" basedir=".">
+
+    <!-- Change this to point at your own JiBX installation. -->
+    <property name="jibx.home" value="/usr/local/jibx"/>
+
+    <property name="classes" value="build/classes"/>
+    <property name="jdo.project" value="versant.properties"/>
+    <property name="jdo.home" value="../.."/>
+    <property name="jdo.license" value="${jdo.home}/license"/>
+    <property name="jdo.lib" value="${jdo.home}/lib"/>
+    <property name="jdo.tools" value="${jdo.home}/tools"/>
+
+    <path id="cp">
+        <pathelement path="src"/>
+        <pathelement path="${classes}"/>
+        <pathelement path="${jdo.license}"/>
+        <fileset dir="${jdo.lib}" includes="**/*.jar"/>
+        <fileset dir="${jibx.home}/lib" includes="jibx-run.jar,xpp3.jar"/>
+    </path>
+
+    <target name="clean"
+        description="Get rid of all generated files">
+        <delete dir="build"/>
+    </target>
+
+    <target name="init">
+        <mkdir dir="${classes}"/>
+        <copy file="${jdo.project}" todir="${classes}"/>
+        <taskdef resource="versant.tasks">
+            <classpath>
+                <path refid="cp"/>
+                <fileset dir="${jdo.tools}" includes="**/*.jar"/>
+            </classpath>
+        </taskdef>
+    </target>
+
+    <target name="compile" depends="init"
+        description="Compile and enhance all Java sources">
+        <!-- Delete all of the model classes every time. For some reason
+             the jdo-enhance task sometimes sees 'old' class files if this
+             is not done. -->
+        <delete dir="${classes}" includes="jibxdemo/model/**"/>
+        <javac srcdir="src" destdir="${classes}" classpathref="cp"/>
+        <!-- Do not use the JiBX Ant task to do the binding. There is some
+             strange classpath problem. The jdo-enhance target does not see
+             the changes made by the binding compiler and does not enhance
+             them properly. -->
+        <java classname="org.jibx.binding.Compile" fork="true"
+            classpathref="cp" failonerror="true">
+            <classpath>
+                <path refid="cp"/>
+                <fileset dir="${jibx.home}/lib" includes="**/*.jar"/>
+            </classpath>
+            <arg value="binding.xml"/>
+        </java>
+        <!-- Enhance the classes after JiBX so that JiBX access to fields
+             is properly intercepted. -->
+        <jdo-enhance outputdir="${classes}">
+            <persistentaware dir="${classes}"/>
+        </jdo-enhance>
+    </target>
+
+    <target name="create-db" depends="compile"
+        description="Re-create database schema">
+        <jdo-create-db
+            outputdir="build"
+            droptables="*"
+            createtables="*"/>
+    </target>
+
+    <target name="run" depends="compile"
+        description="Run the demo">
+        <java classname="jibxdemo.Main" classpathref="cp" fork="true">
+            <classpath>
+                <path refid="cp"/>
+            </classpath>
+        </java>
+    </target>
+
+</project>

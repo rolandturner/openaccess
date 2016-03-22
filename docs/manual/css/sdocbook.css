@@ -1,0 +1,666 @@
+﻿
+
+/* 
+ * Complete DocBook 4.1 Stylesheet: the part relative to the 
+ * simplified DocBook DTD.
+ *
+ * Brian Lalonde <brian@webcoder.info>, 2002-03-08  
+ */
+
+/* 
+    Simple inlines (no styling required): 
+    abbrev 
+    acronym 
+    authorinitials 
+    bibliomisc
+    command
+    date
+    firstname
+    holder 
+    honorific 
+    issuenum 
+    option 
+    phrase 
+    pubdate 
+    systemitem 
+    volumenum 
+    year
+*/
+
+abbrev:before, 
+abstract:before, 
+author:before, 
+authorgroup:before, 
+corpauthor:before, 
+copyright:before, 
+date:before, 
+edition:before, 
+editor:before, 
+issuenum:before, 
+keywordset:before, 
+legalnotice:before, 
+orgname:before, 
+othercredit:before, 
+pubdate:before, 
+releaseinfo:before, 
+revhistory:before, 
+subjectset:before, 
+volumenum:before { 
+    color: blue; 
+    display: marker; 
+    font-size: small; 
+}
+
+abbrev:before { 
+    content: "Abbrev: "; 
+}
+
+abstract:before { 
+    content: "Abstract: "; 
+}
+
+affiliation,
+appendix,
+article,
+attribution,
+authorblurb,
+authorgroup,
+bibliodiv,
+bibliography,
+bibliomixed,
+bibliomset,
+blockquote,
+caption,
+copyright,
+corpauthor,
+edition,
+editor,
+example,
+figure,
+itemizedlist,
+jobtitle,
+legalnotice,
+listitem,
+note,
+orderedlist,
+orgname,
+othercredit,
+para,
+programlisting,
+publishername,
+releaseinfo,
+revhistory,
+revision,
+section,
+sidebar,
+subtitle,
+term,
+title,
+titleabbrev,
+variablelist,
+varlistentry {
+    display: block;
+}
+
+affiliation > *:before, 
+author > *:before, 
+authorgroup > *:before {
+    content: "" !important; 
+}
+
+appendix > title, 
+article > title, 
+articleinfo > title { 
+    font-size: 2em; 
+}
+
+appendix > title:before { 
+    content: "Appendix " counter(n-,upper-alpha) ": "; 
+}
+
+articleinfo,
+bibliomixed,
+bibliomset,
+objectinfo,
+sectioninfo {
+    display: block; 
+    background-color: #EEF; 
+    border: thin solid blue; 
+    padding: .6ex; 
+}
+
+articleinfo > title,
+bibliomixed > title,
+bibliomset > title, 
+objectinfo > title,
+sectioninfo > title,
+articleinfo > subtitle,
+bibliomixed > subtitle, 
+bibliomset > subtitle, 
+objectinfo > subtitle,
+sectioninfo > subtitle,
+articleinfo > titleabbrev,
+bibliomixed > titleabbrev, 
+bibliomset > titleabbrev,
+objectinfo > titleabbrev,
+sectioninfo > titleabbrev {
+    margin-left: 0; 
+}
+
+articleinfo > *,
+authorgroup > *,
+bibliomixed > *,
+bibliomset > *,
+objectinfo > *,
+sectioninfo > * {
+    display: block; 
+    margin-left: 18ex; 
+}
+
+attribution:after {
+    content: " -- "; 
+}
+
+audiodata {
+    content: "[audio]"; 
+    color: olive; 
+}
+
+author:before { 
+    content: "Author: "; 
+}
+
+authorgroup:before { 
+    content: "Authors: "; 
+}
+
+authorinitials:before, 
+revision > date:before, 
+revremark:before {
+    content: ", "; 
+}
+
+bibliomixed,
+bibliomset,
+literallayout,
+programlisting {
+    white-space: pre; 
+}
+
+blockquote,
+epigraph {
+    margin: 1.2ex 10ex; 
+}
+
+blockquote > title { 
+    font-style: italic; 
+}
+
+caption,
+figure > title {
+    font-style: italic; 
+}
+
+caption > *:first-child,
+listitem > *:first-child {
+    margin-top: 0; 
+    margin-bottom: 0; 
+}
+
+citetitle,
+emphasis,
+replaceable {
+    font-style: italic; 
+}
+
+colspec {
+    display: table-column; 
+}
+
+command,
+computeroutput,
+filename,
+literal,
+option {
+    font-family: monospace;
+    font-size: .83em; 
+}
+
+copyright:before {
+    content: "Copyright: "; 
+}
+
+corpauthor:before { 
+    content: "Corp. Author: "; 
+}
+
+date:before {
+    content: "Date: "; 
+}
+
+edition:before {
+    content: "Edition: "; 
+}
+
+editor:before {
+    content: "Editor: "; 
+}
+
+email,
+link,
+ulink,
+email *,
+link *,
+ulink * {
+    color: navy; 
+    text-decoration: underline; 
+}
+
+emphasis[role=bold] {
+    font-style: normal; 
+    font-weight: bold; 
+}
+
+entry {
+    display: table-cell; 
+    text-align: eval(attr(align)); 
+    vertical-align: eval(attr(valign)); 
+    border: thin inset gray; 
+    padding: 2; 
+}
+
+entry > *:first-child {
+    margin-top: 0; 
+    margin-bottom: 0; 
+}
+
+figure, 
+mediaobject {
+    text-align: center; 
+    margin: 1.33ex auto; 
+}
+
+footnote {
+    font-size: .83em; 
+    margin-left: 15ex; 
+    margin-right: 5ex; 
+    display: block; 
+}
+
+footnote:before {
+    content: "footnote "; 
+    display: marker; 
+    color: olive; 
+}
+
+imagedata {
+    content: image(attr(fileref),-400,-200); 
+}
+
+informaltable,
+table {
+    display: table; 
+    margin: 1.2ex 0; 
+}
+
+issuenum:before {
+    content: "Issue: "; 
+}
+
+itemizedlist {
+    margin-left: 2ex; 
+    margin-top: 1.33ex; 
+    margin-bottom: 1.33ex; 
+}
+
+itemizedlist > listitem {
+    margin-left: 2.5ex; 
+}
+
+itemizedlist > listitem:before {
+    display: marker; 
+    content: disc; 
+    padding-top: .6ex; 
+}
+
+itemizedlist > listitem itemizedlist > listitem:before {
+    display: marker; 
+    content: square; 
+}
+
+itemizedlist > listitem itemizedlist > listitem itemizedlist > listitem:before {
+    display: marker; 
+    content: icon(diamond); 
+}
+
+itemizedlist > listitem itemizedlist > listitem itemizedlist > listitem itemizedlist > listitem:before {
+    display: marker; 
+    content: circle; 
+}
+
+keyword:first-child:before {
+    content: ""; 
+}
+
+keyword:before {
+    content: ", "; 
+}
+
+keywordset {
+    display: block; 
+}
+
+keywordset:before {
+    content: "Keywords: "; 
+}
+
+legalnotice:before {
+    content: "Legal Notice: "; 
+}
+
+lineage:before {
+    content: ", "; 
+}
+
+mediaobject {
+    display: table; 
+}
+
+mediaobject > * {
+    display: table-cell; 
+}
+
+note {
+    margin-left: 14ex; 
+}
+
+note:before {
+    content: "note "; 
+    display: marker; 
+    color: olive; 
+}
+
+orderedlist {
+    margin-left: 2ex; 
+    margin-top: 1.33ex; 
+    margin-bottom: 1.33ex; 
+}
+
+orderedlist > listitem {
+    margin-left: 6ex; 
+}
+
+orderedlist > listitem:before {
+    display: marker; 
+    content: counter(n, decimal); 
+    font-weight: bold; 
+}
+
+orderedlist[numeration=loweralpha] > listitem:before {
+    display: marker; 
+    content: counter(n, lower-alpha); 
+}
+
+orderedlist[numeration=upperalpha] > listitem:before {
+    display: marker; 
+    content: counter(n, upper-alpha); 
+}
+
+orderedlist[numeration=lowerroman] > listitem:before {
+    display: marker; 
+    content: counter(n, lower-roman); 
+}
+
+orderedlist[numeration=upperroman] > listitem:before {
+    display: marker; 
+    content: counter(n, upper-roman); 
+}
+
+orgname:before {
+    content: "Organization: "; 
+}
+
+othercredit:before {
+    content: "Credit: "; 
+}
+
+othername:before,
+surname:before {
+    content: " "; 
+}
+
+para {
+    margin-top: 1.33ex; 
+    margin-bottom: 1.33ex; 
+}
+
+programlisting {
+    background-color: #EEE; 
+    border: thin solid gray; 
+    font-family: monospace; 
+    font-size: .83em; 
+    margin: 1ex; 
+    padding: .6ex; 
+}
+
+pubdate:before {
+    content: "Publish Date: "; 
+}
+
+quote:before {
+    content: open-quote; 
+}
+
+quote:after {
+    content: close-quote; 
+}
+
+releaseinfo:before {
+    content: "Rel. Info: "; 
+}
+
+revhistory:before {
+    content: "Revisions: "; 
+}
+
+row {
+    display: table-row; 
+    vertical-align: eval(attr(valign)); 
+}
+
+section {
+    margin: 1ex; 
+}
+
+* section {
+    margin: 0; 
+}
+
+section > title, 
+sectioninfo > title { 
+    font-size: 1.5em; 
+    margin: .83ex 0; 
+}
+
+section section > title, 
+section section > sectioninfo > title { 
+    font-size: 1.2em; 
+    margin: 1ex 0; 
+}
+
+section section section > title, 
+section section section > sectioninfo > title,
+section section * section > title, 
+section section * section > sectioninfo > title { 
+    font-size: 1em; 
+    margin: 1.33ex 0; 
+}
+
+section > title:before, 
+sectioninfo > title:before { 
+    content: counter(n-) " "; 
+}
+
+section section > title:before, 
+section section > sectioninfo > title:before { 
+    content: counter(nn-) " "; 
+}
+
+section section section > title:before, 
+section section section > sectioninfo > title:before { 
+    content: counter(nnn-) " "; 
+}
+
+section section section section > title:before, 
+section section section section > sectioninfo > title:before { 
+    content: counter(nnnn-) " "; 
+}
+
+section section section * section > title:before, 
+section section section * section > sectioninfo > title:before { 
+    content: ""; 
+}
+
+sidebar {
+    background-color: #CFC; 
+    border: thin solid #696; 
+    padding: 1ex; 
+    margin: 1ex; 
+}
+
+subject:before {
+    content: ", "; 
+}
+
+subject:first-child:before {
+    content: ""; 
+}
+
+subjectset:before {
+    content: "Subjects: "; 
+}
+
+subjectterm:before {
+    content: "/"; 
+}
+
+subjectterm:first-child:before {
+    content: ""; 
+}
+
+subtitle { 
+    color: maroon; 
+    font-weight: bold; 
+}
+
+table > title {
+    font-style: italic; 
+    text-align: center; 
+    margin: 0 2ex 2px; 
+}
+
+tbody, 
+thead {
+    display: table-row-group; 
+    vertical-align: eval(attr(valign)); 
+}
+
+tgroup {
+    display: table; 
+    border: thin outset gray; 
+    text-align: eval(attr(align)); 
+}
+
+title { 
+    color: maroon;
+    font-size: larger; 
+    font-weight: bold; 
+}
+
+titleabbrev { 
+    color: maroon; 
+}
+
+trademark[class=copyright]:after {
+    content: "©"; 
+}
+
+trademark[class=registered]:after {
+    content: "®"; 
+}
+
+trademark[class=service]:after {
+    content: " (SM)"; 
+    font-size:80%; 
+    color: olive; 
+}
+
+trademark[class=trade]:after {
+    content: " (TM)"; 
+    font-size: 80%; 
+    color: olive; 
+}
+
+userinput {
+    font-family: monospace; 
+    font-size: .83em; 
+    background-color: yellow; 
+}
+
+variablelist {
+    margin-left: 2ex; 
+    margin-top: 1.33ex; 
+    margin-bottom: 1.33ex; 
+}
+
+varlistentry > listitem {
+    margin-left: 4ex; 
+}
+
+varlistentry > term {
+    font-weight: bold; 
+}
+
+videodata {
+    content: "[video]"; 
+    color: olive; 
+}
+
+volumenum:before {
+    content: "Vol: "; 
+}
+
+xref {
+    content: icon(right-link) attr(linkend) " "; 
+    vertical-align: text-top; 
+    color: navy; 
+}
+
+year:after {
+    content: " "; 
+}
+
+/* print */
+
+@media print {
+    * {
+        background-color: transparent; 
+        line-height: 1.2; 
+    }
+
+    colspec, 
+    spanspec {
+        display: none; 
+    }
+
+    graphic,  
+    imagedata {
+        content: image(attr(fileref), -500, -700, smooth); 
+    }  
+
+    programlisting, 
+    screen {
+        background-color: #EEE; 
+        border: thin solid silver; 
+    }
+}

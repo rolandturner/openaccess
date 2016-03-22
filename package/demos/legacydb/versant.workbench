@@ -1,0 +1,27 @@
+# Workbench properties (Not used at run-time)
+versant.workbench.projectDescription=Swing GUI demo for model mapped to a legacy schema.
+versant.workbench.classpath.0=build/classes
+versant.workbench.classpath.1=src
+
+# Open Access Class Diagrams
+versant.workbench.diagram.count=2
+
+versant.workbench.diagram0.name=Order
+versant.workbench.diagram0.legend=388,183
+versant.workbench.diagram0.general=13,Y,Y
+versant.workbench.diagram0.class=Y,N,Y,N,N,Y,N,Y,N,N,N,N,N,N,N,N,N
+versant.workbench.diagram0.field=Y,Y,N,N,N,N
+versant.workbench.diagram0.class.count=4
+versant.workbench.diagram0.class0=model.Item,386,69
+versant.workbench.diagram0.class1=model.Order,8,76
+versant.workbench.diagram0.class2=model.OrderLine,202,11
+versant.workbench.diagram0.class3=model.Supplier,204,207
+
+versant.workbench.diagram1.name=Branch
+versant.workbench.diagram1.legend=162,115
+versant.workbench.diagram1.general=13,N,Y
+versant.workbench.diagram1.class=Y,N,Y,N,N,Y,N,Y,N,N,N,N,N,N,N,N,N
+versant.workbench.diagram1.field=Y,Y,N,N,N,N
+versant.workbench.diagram1.class.count=2
+versant.workbench.diagram1.class0=model.Branch,8,8
+versant.workbench.diagram1.class1=model.Country,208,8

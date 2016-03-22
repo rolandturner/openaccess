@@ -1,0 +1,91 @@
+<!--
+
+Top level build file. This just has some convenience targets to clean
+everything and to compile all of the source. Please see the individual
+subproject build files for other stuff.
+
+You need Ant 1.6.2 or newer to build this project and need to add all the
+files in ant-lib to your $ANT_HOME/lib directory.
+
+Versant Open Access must be compiled with a JDK 1.5 level VM. Different
+modules will use the source and target attributes of javac if they need
+to support older VMs. Generally the Open Access source must only use JDK
+1.3.1 APIs unless a given module is specifically aimed at only a newer
+JDK (e.g. the EJB 3 annotation stuff).
+
+-->
+<project name="openaccess" default="compile" basedir=".">
+
+    <target name="pre-init">
+        <condition property="ant-lib-ok">
+            <and>
+                <available classname="org.apache.bsf.BSFException"/>
+                <available classname="bsh.util.BeanShellBSFEngine"/>
+                <available classname="junit.framework.Test"/>
+                <available classname="net.sf.antcontrib.AntContribVersion"/>
+            </and>
+        </condition>
+        <condition property="jdk-ok">
+            <equals arg1="${ant.java.version}" arg2="1.5"/>
+        </condition>
+    </target>
+
+    <target name="check-ant-lib" depends="pre-init" unless="ant-lib-ok">
+        <fail message="Please copy all the jar files from ant-lib to ${ant.home}/lib"/>
+    </target>
+
+    <target name="check-jdk" depends="pre-init" unless="jdk-ok">
+        <fail message="JDK 1.5 is required, you are using ${ant.java.version}"/>
+    </target>
+
+    <target name="init" depends="check-ant-lib, check-jdk">
+    </target>
+
+    <target name="clean" depends="init">
+        <delete includeEmptyDirs="true">
+            <fileset dir="." includes="**/build/**"/>
+        </delete>
+    </target>
+
+    <target name="check_dirs" depends="init">
+        <available file="vds" property="vds_available"/>
+        <available file="remote" property="remote_available"/>
+        <available file="cluster" property="cluster_available"/>
+        <available file="jca" property="jca_available"/>
+    </target>
+
+    <target name="compile" depends="check_dirs"  description="Compile all sources">
+        <!-- These are arranged in dependency order. -->
+        <property name="nodeps" value="true"/>
+        <ant target="compile" dir="engine"/>
+        <ant target="compile" dir="ejbapi"/>
+        <ant target="compile" dir="ejb"/>
+        <ant target="compile" dir="jdbc"/>
+        <ant target="compile_vds"/>
+        <ant target="compile_remote"/>
+        <ant target="compile_cluster"/>
+        <ant target="compile_jca"/>
+        <ant target="compile" dir="tools"/>
+        <ant target="compile" dir="workbench"/>
+        <ant target="compile" dir="test"/>
+        <ant target="compile" dir="plugins/eclipse"/>
+        <ant target="compile" dir="plugins/eclipseTools"/>
+    </target>
+
+    <target name="compile_vds" if="vds_available">
+        <ant target="compile" dir="vds"/>
+    </target>
+
+    <target name="compile_remote" if="remote_available">
+        <ant target="compile" dir="remote"/>
+    </target>
+
+    <target name="compile_cluster" if="cluster_available">
+        <ant target="compile" dir="cluster"/>
+    </target>
+
+    <target name="compile_jca" if="jca_available">
+        <ant target="compile" dir="jca"/>
+    </target>
+
+</project>

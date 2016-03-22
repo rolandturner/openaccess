@@ -1,0 +1,19 @@
+<!-- 
+This is import'ed by all of the sub-project build.xml files.
+-->
+
+<project name="common" basedir=".">
+
+    <property file="../build.properties"/>
+    <property name="debug" value="true"/>
+    <property file="../etc/debug-${debug}.properties"/>
+    <property file="../engine/etc/version.properties"/>
+
+    <tstamp>
+        <format property="TODAY" pattern="dd MMM yyyy"/>
+    </tstamp>
+
+	<taskdef resource="net/sf/antcontrib/antcontrib.properties"/>
+    
+</project>
+

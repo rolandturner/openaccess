@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- JBoss deployment info -->
+<jboss>
+    <enterprise-beans>
+        <session>
+            <ejb-name>Tut1</ejb-name>
+            <jndi-name>Tut1</jndi-name>
+            <resource-ref>
+                <res-ref-name>jdo/jdo_tut1sb_jca</res-ref-name>
+                <jndi-name>java:/versant</jndi-name>
+            </resource-ref>
+        </session>
+    </enterprise-beans>
+</jboss>

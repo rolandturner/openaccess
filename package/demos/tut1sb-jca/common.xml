@@ -1,0 +1,174 @@
+<project basedir="." name="build_common">
+    <property file="common.properties"/>
+
+    <!-- ========== Executable Targets ======================================== -->
+    <target name="init" description="Initialize environment" depends="project_init">
+        <property name="build.dir" value="${basedir}/build"/>
+        <property name="build.classes.dir" value="${build.dir}/classes"/>
+        <property name="build.client.dir" value="${build.dir}/client"/>
+        <property name="build.ejb.dir" value="${build.dir}/ejb"/>
+        <property name="build.ear.dir" value="${build.dir}/ear"/>
+        <property name="build.test.dir" value="${build.dir}/test"/>
+        <property name="bin.dir" value="${basedir}/bin"/>
+        <property name="src.dir" value="${basedir}/src"/>
+        <property name="etc.dir" value="${basedir}/etc"/>
+        <property name="doc.dir" value="${basedir}/doc"/>
+        <property name="doc.api.dir" value="${doc.dir}/api"/>
+        <property name="lib.dir" value="${basedir}/lib"/>
+        <property name="test.dir" value="${basedir}/test"/>
+        <property name="test.src.dir" value="${test.dir}/src"/>
+        <property name="test.lib.dir" value="${test.dir}/lib"/>
+        <property name="test.report.dir" value="${test.dir}/report"/>
+        <property name="dist.dir" value="${build.dir}/dist"/>
+        <property name="build.jdo.dir" value="${build.dir}/jdo"/>
+
+        <property name="jdo.project" value="${project.file.name}"/>
+        <property name="jdo.license" value="${jdo.home}/license"/>
+        <property name="jdo.license.file" value="${jdo.license}/openaccess.license"/>
+
+        <property name="build.compiler" value="modern"/>
+
+
+        <path id="cp">
+            <pathelement path="${src.dir}"/>
+            <pathelement path="${build.classes.dir}"/>
+            <pathelement path="${jdo.license}"/>
+            <fileset dir="${jdo.home}/lib" includes="**/*.jar"/>
+            <pathelement path="${j2ee.jar}"/>
+        </path>
+
+        <mkdir dir="${build.classes.dir}"/>
+        <copy file="${jdo.project}" todir="${build.classes.dir}"/>
+        <taskdef resource="versant.tasks">
+            <classpath>
+                <path refid="cp"/>
+                <fileset dir="${jdo.home}/tools" includes="**/*.jar"/>
+            </classpath>
+        </taskdef>
+    </target>
+
+    <!-- create the EJB jar -->
+    <target name="ejb" description="Create the ejb jar file" depends="compile">
+        <mkdir dir="${dist.dir}"/>
+        <mkdir dir="${build.ejb.dir}"/>
+        <delete includeemptydirs="true">
+            <fileset dir="${build.ejb.dir}" includes="**/*"/>
+        </delete>
+        <copy todir="${build.ejb.dir}">
+            <fileset dir="${build.classes.dir}">
+                <include name="**/*"/>
+            </fileset>
+        </copy>
+        <!-- Copy the license file to the ejb -->
+        <copy file="${jdo.license.file}" todir="${build.ejb.dir}" overwrite="true"/>
+        <mkdir dir="${build.ejb.dir}/META-INF"/>
+        <copy todir="${build.ejb.dir}/META-INF">
+            <fileset dir="${etc.dir}/ejb"/>
+        </copy>
+        <copy file="${project.file.name}" tofile="${build.ejb.dir}/META-INF/versant.properties"/>
+        <copy todir="${build.ejb.dir}">
+            <fileset dir="${src.dir}" includes="**/*.jdo"/>
+        </copy>
+        <jar jarfile="${dist.dir}/tut1sb.jar"
+            basedir="${build.ejb.dir}"/>
+    </target>
+
+    <!-- create the EAR jar -->
+    <target name="ear" description="Create the application ear file" depends="ejb">
+        <mkdir dir="${build.ear.dir}"/>
+        <delete includeemptydirs="true">
+            <fileset dir="${build.ear.dir}" includes="**/*"/>
+        </delete>
+        <mkdir dir="${build.ear.dir}/META-INF"/>
+        <copy file="${dist.dir}/tut1sb.jar" todir="${build.ear.dir}"/>
+        <copy todir="${build.ear.dir}/META-INF">
+            <fileset dir="${etc.dir}/ear">
+                <exclude name="**/borland/"/>
+                <exclude name="**/websphere/"/>
+            </fileset>
+        </copy>
+        <jar jarfile="${dist.dir}\tut1sb-jca.ear"
+            basedir="${build.ear.dir}"/>
+    </target>
+
+    <target name="project_start-server"/>
+
+    <target name="start-server" description="Start the application server" depends="init,project_start-server">
+        <mkdir dir="${build.dir}/logs"/>
+    </target>
+
+    <target name="project_stop-server"/>
+    <target name="stop-server" description="Stop the application server" depends="init,project_stop-server"/>
+
+    <target name="create-db" depends="prepare"
+        description="Re-create database schema">
+        <mkdir dir="${build.dir}"/>
+        <jdo-create-db
+            outputdir="${build.dir}"
+            droptables="*"
+            createtables="*"/>
+    </target>
+
+    <target name="client" description="Create the client jar file" depends="compile">
+        <mkdir dir="${dist.dir}"/>
+        <mkdir dir="${build.client.dir}"/>
+        <copy todir="${build.client.dir}">
+            <fileset dir="${build.classes.dir}">
+                <include name="**/*"/>
+                <exclude name="com/versant/jdo/jca/test/**"/>
+            </fileset>
+        </copy>
+        <copy todir="${build.client.dir}">
+            <fileset dir="${etc.dir}">
+                <include name="**/*.properties"/>
+            </fileset>
+        </copy>
+        <jar jarfile="${dist.dir}/client.jar"
+            basedir="${build.client.dir}"
+            />
+    </target>
+
+    <target name="compile-test" depends="client">
+    </target>
+
+    <target name="project_run-test"/>
+    <target name="run-test" description="Run client against server"  depends="init,project_run-test"/>
+
+    <target name="project_deploy"/>
+    <target name="deploy" description="Deploy application to server" depends="ejb,ear,project_deploy"/>
+
+    <!-- deploy the jca to the application server-->
+    <target name="project_deploy_jca"/>
+    <target name="deploy_jca" description="Deploy JCA to server" depends="init,project_deploy_jca"/>
+
+    <target name="project_prepare" />
+
+    <target name="prepare" depends="init,project_prepare" >
+    </target>
+
+    <target name="compile" depends="prepare" description="Compile source">
+        <dependset>
+            <!-- Delete the classes if the JDO meta data has been changed.
+            They need to be recompiled and enhanced. -->
+            <srcfileset dir="${src.dir}/tut1" includes="**/*.jdo"/>
+            <targetfileset dir="${build.classes.dir}" includes="tut1/**/*.class"/>
+        </dependset>
+        <javac srcdir="${src.dir}" destdir="${build.classes.dir}" debug="true">
+            <classpath>
+                <path refid="cp"/>
+            </classpath>
+        </javac>
+        <jdo-enhance outputDir="${build.classes.dir}">
+            <persistentaware dir="${build.classes.dir}"/>
+        </jdo-enhance>
+    </target>
+
+    <target name="project_clean" />
+
+    <target name="clean" depends="init,project_clean" description="Delete all generated files">
+        <delete dir="${build.dir}"/>
+        <delete dir="${doc.api.dir}"/>
+        <delete dir="${test.report.dir}"/>
+    </target>
+
+</project>

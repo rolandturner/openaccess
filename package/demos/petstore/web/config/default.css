@@ -1,0 +1,244 @@
+
+/************
+ *   link   *
+ ***********/
+a:link    {background-color: transparent;
+           color: #6489A0;
+           font-weight: bold;}
+a:visited {background-color: transparent;
+           color: #6489A0;
+           font-weight: bold;}
+a:active  {background-color: transparent;
+           color: #fe0000;
+           font-weight: bold;}
+a:hover   {background-color: transparent;
+           color: #1919aa;
+           font-weight: bold;
+           text-decoration:underline;}
+
+/*************
+ *   body    *
+ ************/
+
+body    {
+  	color                 : black;
+	background-color      : white;
+	margin-left           : 10;
+	margin-top            : 10;
+    margin-bottom         : 10;
+    font-size             :small;
+}
+
+table {font-size:small;}
+td {font-size: small;}
+th {font-size: small;}
+
+textarea {
+		font-family     :Arial,Helvetica,sans-serif;
+        font-size       :10pt;
+}
+
+
+
+/******************************
+ *    class used to display   *
+ *    the input field labels  *
+ *****************************/
+P.LABEL {
+     	 color : #FFFFFF;
+  	     font-weight : bold;
+}
+
+TH.LABEL {
+		text-align:right;
+}
+
+/* uneditable text */
+TD.LABEL SPAN.LABEL {
+        font-family     :Arial,Helvetica,sans-serif;
+        font-size       :small;
+}
+
+P.REQUIRED {
+     	 color : #FFFFFF;
+  	     font-weight : bold;
+}
+
+TH.REQUIRED {
+		text-align:right;
+}
+
+/* uneditable text */
+TD.REQUIRED SPAN.REQUIRED {
+        font-family     :Arial,Helvetica,sans-serif;
+        font-size       :small;
+}
+
+SELECT.REQUIRED {
+        background-color:#dee547;
+}
+
+
+INPUT.REQUIRED {
+		background-color:#dee547;
+}
+
+TEXTAREA.REQUIRED {
+		background-color:#dee547;
+}
+
+
+
+
+
+/*******************************
+ *  background color to use to *
+ *  display global errors         *
+ ******************************/
+DIV.ERROR {
+		color : #ED4F50;
+}
+
+
+/*******************************
+ *  background color to use to *
+ *  display field errors         *
+ ******************************/
+TD.ERROR {
+		color : #ED4F50;
+}
+
+
+/***********************************************
+ * color of the thin line surrounding the form *
+ **********************************************/
+TABLE.FORM {
+		background-color : #000000;
+}
+/**************************************
+ * background color of the form title *
+ *************************************/
+TH.FORM {
+		color      : grey;
+		background-color : #bdf13d;
+		font-weight: bold;
+        font-size: 120%;
+}
+/********************************
+ * background color of the form *
+ *******************************/
+TD.FORM {
+		background-color :  #e3f9ad;
+}
+
+
+/***********************************************
+ * color of the thin line surrounding the form *
+ **********************************************/
+TABLE.sidebar {
+		background-color : #000000;
+}
+/**************************************
+ * background color of the form title *
+ *************************************/
+TH.sidebar {
+		color      : grey;
+		background-color : #bdf13d;
+		font-weight: bold;
+}
+/********************************
+ * background color of the form *
+ *******************************/
+TD.sidebar {
+		background-color :  #edfbca;
+}
+
+
+
+/***********************************************
+ * color of the thin line surrounding the form *
+ **********************************************/
+TABLE.catalog {
+		background-color : #000000;
+}
+/**************************************
+ * background color of the form title *
+ *************************************/
+TH.catalog {
+		color      : grey;
+		background-color : #bdf13d;
+		font-weight: bold;
+}
+/********************************
+ * background color of the form *
+ *******************************/
+TD.catalog {
+		background-color :  #edfbca;
+}
+
+H3.catalog {
+    font-weight: bold;
+}
+/*TD.catalog TABLE.FORM {
+    height:100%;
+}
+
+TD.catalog TABLE.FORM TR TD TABLE {
+    height:100%;
+} */
+
+
+/***********************************************
+ * color of the thin line surrounding the form *
+ **********************************************/
+TABLE.login {
+		background-color : #edfbca;
+}
+/**************************************
+ * background color of the form title *
+ *************************************/
+TH.login {
+		color      : grey;
+		background-color : #edfbca;
+		font-weight: bold;
+}
+/********************************
+ * background color of the form *
+ *******************************/
+TD.login {
+		background-color :  #edfbca;
+}
+
+H3.login {
+    font-weight: bold;
+}
+
+
+/***********************************************
+ * color of the thin line surrounding the form *
+ **********************************************/
+TABLE.cart {
+		background-color : #000000;
+}
+/**************************************
+ * background color of the form title *
+ *************************************/
+TH.cart {
+		color      : grey;
+		background-color : #bdf13d;
+		font-weight: bold;
+}
+/********************************
+ * background color of the form *
+ *******************************/
+TD.cart {
+		background-color :  #edfbca;
+}
+
+H3.cart {
+    font-weight: bold;
+}
+
+TD.cart TABLE {
+    width : 100%;
+}

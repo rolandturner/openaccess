@@ -1,0 +1,16 @@
+<!DOCTYPE ejb-jar PUBLIC
+	"-//Borland Software Corporation//DTD Enterprise JavaBeans 2.0//EN"
+	"http://www.borland.com/devsupport/appserver/dtds/ejb-jar_2_0-borland.dtd">
+
+<ejb-jar>
+    <enterprise-beans>
+        <session>
+            <ejb-name>Tut1</ejb-name>
+            <bean-home-name>tut1/Tut1</bean-home-name>
+            <resource-ref>
+                <res-ref-name>jdo/jdo_tut1sb_jca</res-ref-name>
+                <jndi-name>@JNDI_NAME@</jndi-name>
+            </resource-ref>
+        </session>
+    </enterprise-beans>
+</ejb-jar>

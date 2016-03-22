@@ -1,0 +1,44 @@
+<!--
+Our version of the javax.persistence packages. When the spec versions are
+released we will be able to get rid of these.
+-->
+<project name="ejbapi" default="compile" basedir=".">
+
+    <import file="../common.xml"/>
+
+    <path id="cp.path">
+    </path>
+
+    <target name="init">
+        <mkdir dir="build/classes"/>
+    </target>
+
+    <target name="clean">
+        <delete dir="build"/>
+    </target>
+
+    <target name="compile" depends="init" description="Compile all sources">
+        <javac srcdir="src" destdir="build/classes"
+            source="1.5"
+            target="1.5"
+            compiler="modern"
+            debug="on"
+            optimize="${javac.optimize}"
+            debuglevel="${javac.debuglevel}">
+            <classpath>
+                <path refid="cp.path"/>
+            </classpath>
+        </javac>
+    </target>
+	
+	<target name="jar" depends="compile" description="Create ejb3 API jars">
+		<jar destfile="build/ejb3-persistence.jar">
+			<fileset dir="build/classes"/>
+			<fileset dir="src" excludes="**/*.java"/>
+		</jar>
+		<jar destfile="build/ejb3-persistence-src.jar">
+			<fileset dir="src"/>
+		</jar>
+	</target>
+
+</project>

@@ -1,0 +1,17 @@
+<entity-manager>
+	<name>Emp</name>
+	<provider>com.versant.persistence</provider>
+	<jta-data-source>jdbc:mysql://localhost/jdotest</jta-data-source>
+	<mapping-file>ormap.xml</mapping-file>
+	<jar-file>MyApp.jar</jar-file>
+	<class>ejb3.model.Employee</class>
+	<class>ejb3.model.Address</class>
+	<properties>
+		<property name="versant.logging.logEvents" value="all"/>
+		<property name="javax.jdo.PersistenceManagerFactoryClass" 
+					value="com.versant.core.jdo.BootstrapPMF"/>
+		<property name="javax.jdo.option.ConnectionURL" 
+					value="jdbc:mysql://localhost/jdotest"/>
+		<property name="versant.hyperdrive" value="false"/>
+	</properties>
+</entity-manager>

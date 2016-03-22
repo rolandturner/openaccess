@@ -1,0 +1,21 @@
+<entity-manager>
+	<name>Cust</name>
+	<provider>com.versant.persistence</provider>
+	<jta-data-source>jdbc:mysql://localhost/test</jta-data-source>
+	<mapping-file>ormap.xml</mapping-file>
+	<jar-file>MyApp.jar</jar-file>
+	<class>com.acme.Customer</class>
+	<class>com.acme.Address</class>
+	<class>com.acme.DeliveryService</class>
+	<class>com.acme.PurchaseOrder</class>
+	<class>com.acme.WholesaleCustomer</class>
+	<class>com.acme.Invoice</class>
+	<properties>
+		<property name="versant.logging.logEvents" value="all"/>
+		<property name="javax.jdo.PersistenceManagerFactoryClass" 
+					value="com.versant.core.jdo.BootstrapPMF"/>
+		<property name="javax.jdo.option.ConnectionURL" 
+					value="jdbc:mysql://localhost/test"/>
+		<property name="versant.hyperdrive" value="false"/>
+	</properties>
+</entity-manager>

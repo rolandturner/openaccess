@@ -1,0 +1,5 @@
+# Workbench properties (Not used at run-time)
+versant.workbench.projectDescription=The Tut2 demo
+versant.workbench.classpath.0=build/classes
+versant.workbench.classpath.1=src
+versant.workbench.classpath.2=../../lib

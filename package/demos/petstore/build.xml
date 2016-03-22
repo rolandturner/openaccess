@@ -1,0 +1,93 @@
+<!--
+JDO Petstore.
+$Id: build.xml,v 1.1 2005/03/08 08:31:43 david Exp $
+-->
+
+<project name="petstore" default="build">
+
+    <property name="src" value="src"/>
+    <property name="build" value="build"/>
+    <property name="web" value="web"/>
+    <property name="lib" value="${web}/WEB-INF/lib"/>
+    <property name="classes" value="${web}/WEB-INF/classes"/>
+    <property name="jdo.project" value="versant.properties"/>
+
+    <property name="jdo.home" value="../.."/>
+    <property name="jdo.lib" value="${jdo.home}/lib"/>
+    <property name="jdo.tools" value="${jdo.home}/tools"/>
+    <property name="jdo.license" value="${jdo.home}/license"/>
+
+    <path id="cp">
+        <pathelement path="${src}"/> <!-- for images etc -->
+        <pathelement path="${classes}"/>
+        <fileset dir="${lib}" includes="*.jar"/>
+
+        <!-- JDO Genie libraries and license -->
+        <pathelement path="${jdo.license}"/>
+        <fileset dir="${jdo.lib}" includes="*.jar"/>
+    </path>
+
+    <target name="clean"
+        description="Remove generated files and directories">
+        <delete dir="${build}"/>
+        <delete dir="${classes}"/>
+        <mkdir dir="${build}"/>
+        <mkdir dir="${classes}"/>
+    </target>
+
+    <target name="init">
+        <mkdir dir="${build}"/>
+        <mkdir dir="${classes}"/>
+        <copy file="${jdo.project}" todir="${classes}"/>
+        <!-- Define JDO Genie tasks (jdo-xxx) -->
+        <taskdef resource="versant.tasks">
+            <classpath>
+                <path refid="cp"/>
+                <fileset dir="${jdo.tools}" includes="**/*.jar"/>
+            </classpath>
+        </taskdef>
+    </target>
+
+    <target name="compile" depends="init" description="Compile sources">
+        <dependset>
+            <!-- Delete the classes if the JDO meta data has been changed.
+            They need to be recompiled and enhanced. -->
+            <srcfileset dir="${src}" includes="**/*.jdo"/>
+            <targetfileset dir="${classes}" includes="**/*.class"/>
+        </dependset>
+        <javac srcdir="${src}" destdir="${classes}">
+            <classpath refid="cp"/>
+        </javac>
+        <jdo-enhance outputdir="${classes}">
+            <persistentaware dir="${classes}"/>
+        </jdo-enhance>
+    </target>
+
+    <target name="create-db" depends="compile"
+        description="Create database schema">
+        <jdo-create-db
+            outputdir="${build}"
+            droptables="*"
+            createtables="*"/>
+    </target>
+
+    <target name="init-db" depends="create-db"
+        description="Populate db with initial data">
+        <java classname="petstore.model.CatalogDelegate" fork="yes">
+            <classpath>
+                <path refid="cp"/>
+            </classpath>
+        </java>
+    </target>
+
+    <target name="war" depends="compile"
+        description="Create build/petstore.war for deployment">
+        <war destfile="${build}/petstore.war" webxml="${web}/WEB-INF/web.xml">
+            <fileset dir="${web}" excludes="**/web.xml"/>
+            <lib dir="${jdo.lib}" includes="*.jar"/>
+            <classes dir="${jdo.license}" includes="openccess.license"/>
+            <classes dir="${src}" includes="**/*.properties,**/*.jdo,**/*.xml"/>
+        </war>
+    </target>
+
+</project>

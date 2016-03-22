@@ -1,0 +1,7 @@
+# Workbench properties (Not used at run-time)
+versant.workbench.classpath.0=../../../../../../../build/compile
+versant.workbench.antDisabled=true
+versant.workbench.antBuildfile=../../../../../../build.xml
+versant.workbench.antCompile=compile
+versant.workbench.antShowAllTargets=false
+versant.workbench.scriptDir=

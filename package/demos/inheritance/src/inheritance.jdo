@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jdo>
+    <package name="inheritance.model">
+        <class name="Cat" persistence-capable-superclass="Pet">
+            <extension vendor-name="versant" key="jdbc-inheritance" value="vertical" />
+        </class>
+        <class name="Dog" persistence-capable-superclass="Pet">
+            <extension vendor-name="versant" key="jdbc-inheritance" value="vertical" />
+        </class>
+        <class name="Pet" />
+        <class name="Rottweiler" persistence-capable-superclass="Dog" />
+        <class name="WienerDog" persistence-capable-superclass="Dog" />
+        <class name="FarmAnimal">
+            <extension vendor-name="versant" key="jdbc-inheritance" value="horizontal" />
+        </class>
+        <class name="Cow" persistence-capable-superclass="FarmAnimal" identity-type="application" objectid-class="inheritance.model.Cow$ID">
+            <field name="number" primary-key="true" />
+        </class>
+        <class name="Sheep" persistence-capable-superclass="FarmAnimal">
+        </class>
+    </package>
+</jdo>
+

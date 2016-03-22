@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-manager>
+    <name>mycontext</name>
+	<provider>com.versant.persistence</provider>
+	<jta-data-source>jdbc:mysql://localhost/biztest</jta-data-source>
+	<mapping-file>ormap.xml</mapping-file>
+    <class>business.domain.Company</class>
+    <class>business.domain.Employee</class>
+    <class>business.domain.Department</class>
+    <class>business.domain.Person</class>
+    <class>business.domain.Phone</class>
+    <properties>
+		<property name="versant.logging.logEvents" value="all"/>
+		<property name="javax.jdo.PersistenceManagerFactoryClass" 
+					value="com.versant.core.jdo.BootstrapPMF"/>
+		<property name="javax.jdo.option.ConnectionURL" 
+					value="jdbc:mysql://localhost/biztest"/>
+		<property name="versant.hyperdrive" value="false"/>
+    </properties>
+</entity-manager>

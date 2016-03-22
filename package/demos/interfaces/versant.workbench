@@ -1,0 +1,15 @@
+# Workbench properties (Not used at run-time)
+versant.workbench.projectDescription=Demo for persistent interfaces as well as interface and object references.
+versant.workbench.classpath.0=build/classes
+versant.workbench.classpath.1=src
+versant.workbench.classpath.2=../../lib
+
+# Open Access Class Diagrams
+versant.workbench.diagram.count=1
+
+versant.workbench.diagram0.name=Classes
+versant.workbench.diagram0.legend=287,2
+versant.workbench.diagram0.general=13,Y,Y
+versant.workbench.diagram0.class=Y,N,N,N,N,Y,N,Y,N,N,N,N,N,N,N,N,N
+versant.workbench.diagram0.field=Y,Y,N,N,N,N
+versant.workbench.diagram0.class.count=0

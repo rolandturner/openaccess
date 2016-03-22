@@ -1,0 +1,26 @@
+# All tests for JDBC, one per line x
+
+test0/default
+test0/vertical
+test0/vertical-no-descriminator
+
+test2/default
+test2/vertical
+test2/vertical-no-descriminator
+
+test3/default
+test3/vertical
+test3/vertical-no-descriminator
+test3/vertical-name-descriminator
+test3/vertical-fullname-descriminator
+
+testsco/default
+
+testfg/default
+testfg/vertical
+testfg/vertical-no-descriminator
+testfg/vertical-name-descriminator
+
+torpedo/default
+
+ejbtest0/default

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<jdo>
+    <package name="com.versant.core.jdo.junit.test0.model.testl2cache">
+        <class name="Village">
+            <extension vendor-name="kodo" key="detachable" value="true"/>
+            <field name="arrangementTypes">
+                <collection element-type="ArrangementType"/>
+            </field>
+            <field name="region">
+                <extension vendor-name="kodo" key="fetch-group" value="village.countryRegion"/>
+            </field>
+            <extension vendor-name="versant" key="fetch-group" value="village.countryRegion.country">
+                <extension vendor-name="versant" key="field-name" value="code"/>
+                <extension vendor-name="versant" key="field-name" value="region">
+                    <extension vendor-name="versant" key="next-fetch-group" value="countryRegion.country">
+                    </extension>
+                </extension>
+            </extension>
+
+        </class>
+    </package>
+</jdo>

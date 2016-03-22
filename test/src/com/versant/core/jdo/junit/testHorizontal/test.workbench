@@ -1,0 +1,23 @@
+# Workbench properties (Not used at run-time)
+versant.workbench.classpath.0=../../../../../../
+versant.workbench.classpath.1=../../../../../../../build/classes/
+versant.workbench.antDisabled=true
+
+# Open Access Class Diagrams
+versant.workbench.diagram.count=1
+
+versant.workbench.diagram0.name=Diagram 1
+versant.workbench.diagram0.legend=600,453
+versant.workbench.diagram0.general=13,Y,Y
+versant.workbench.diagram0.class=Y,N,Y,N,N,Y,N,Y,N,N,N,N,N,N,N,N,N
+versant.workbench.diagram0.field=Y,Y,N,N,N,N
+versant.workbench.diagram0.class.count=9
+versant.workbench.diagram0.class0=com.versant.core.jdo.junit.testHorizontal.model.horizontal.AbsBaseClass,301,76
+versant.workbench.diagram0.class1=com.versant.core.jdo.junit.testHorizontal.model.horizontal.AppIdBase,740,46
+versant.workbench.diagram0.class2=com.versant.core.jdo.junit.testHorizontal.model.horizontal.AppIdSub1,856,190
+versant.workbench.diagram0.class3=com.versant.core.jdo.junit.testHorizontal.model.horizontal.AppIdSub2,615,195
+versant.workbench.diagram0.class4=com.versant.core.jdo.junit.testHorizontal.model.horizontal.ConcreteSub1,98,499
+versant.workbench.diagram0.class5=com.versant.core.jdo.junit.testHorizontal.model.horizontal.ConcreteSub2,408,293
+versant.workbench.diagram0.class6=com.versant.core.jdo.junit.testHorizontal.model.horizontal.ConcreteSub3,304,502
+versant.workbench.diagram0.class7=com.versant.core.jdo.junit.testHorizontal.model.horizontal.ConcreteSub4,56,715
+versant.workbench.diagram0.class8=com.versant.core.jdo.junit.testHorizontal.model.horizontal.RefClass,32,255

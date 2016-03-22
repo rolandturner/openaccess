@@ -1,0 +1,45 @@
+main.title=JDO Зоомагазин
+sidebar.title=Домашние животные
+productPage.title=Продукты в этой категории
+heading.tooltip=Java Pet Store Demo logo
+catalog.next=Вперед
+catalog.prev=Назад
+catalog.listPrice=Цена
+
+
+itemPage.title=Items for this Product
+cart.add=Add to cart
+cart.remove=Remove
+cart.show=Cart
+cartPage.title=Your Shopping Cart
+cartPage.subtotal=Subtotal
+cartPage.emptyTitle=Your Shopping Cart is empty
+
+login.signin=Sign In
+login.question=Are you a returning customer?
+login.answer1=Yes.
+login.answer2=No. I would like to sign up for an account.
+login.userName=User name:
+login.password=Pasword:
+login.password1=Password(Repeat):
+
+account.show=Account
+
+customer.title=Your Acccount Information
+customer.contact.title=Contact Information
+customer.firstName=Имя
+customer.lastName=Фамилия
+customer.street1=Street Address
+customer.street2=
+customer.city=City
+customer.state=State/Province
+customer.zipCode=Postal Code
+customer.country=Country
+customer.telephone=Telephone<br>Number
+customer.email=E-mail
+customer.creditCard.title=Credit Card Information
+customer.creditCard.number=Card Number
+customer.creditCard.type=Card Type
+customer.creditCard.expiry=Card Expiry<br>Date
+customer.creditCard.expiry.year=/&nbsp;&nbsp;
+customer.edit=Edit Your Account Information

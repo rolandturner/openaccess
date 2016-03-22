@@ -1,0 +1,104 @@
+<!--
+Simple tutorial for 2 and 3 tier JDO.
+$Id: build.xml,v 1.1 2005/03/08 08:31:44 david Exp $
+-->
+
+<project name="tut1" default="compile" basedir=".">
+
+    <property name="src" value="src"/>
+    <property name="build" value="build"/>
+    <property name="build.classes" value="${build}/classes"/>
+    <property name="jdo.project" value="versant.properties"/>
+    <property name="jdo.home" value="../.."/>
+    <property name="jdo.license" value="${jdo.home}/license"/>
+    <property name="jdo.lib" value="${jdo.home}/lib"/>
+    <property name="jdo.tools" value="${jdo.home}/tools"/>
+
+    <path id="cp">
+        <pathelement path="${src}"/>
+        <pathelement path="${build.classes}"/>
+        <pathelement path="${jdo.license}"/>
+        <fileset dir="${jdo.lib}" includes="**/*.jar"/>
+    </path>
+
+    <target name="clean"
+        description="Get rid of all generated files">
+        <delete dir="${build}"/>
+        <mkdir dir="${build.classes}"/>
+    </target>
+
+    <target name="init">
+        <mkdir dir="${build.classes}"/>
+        <copy file="${jdo.project}" todir="${build.classes}"/>
+        <!-- Define JDO Genie tasks (jdo-xxx) -->
+        <taskdef resource="versant.tasks">
+            <classpath>
+                <path refid="cp"/>
+                <fileset dir="${jdo.tools}" includes="**/*.jar"/>
+            </classpath>
+        </taskdef>
+    </target>
+
+    <target name="compile" depends="init"
+        description="Compile and enhance all Java sources">
+        <dependset>
+            <!-- Delete the classes if the JDO meta data has been changed.
+                 They need to be recompiled and enhanced. -->
+            <srcfileset dir="${src}" includes="**/*.jdo"/>
+            <targetfileset dir="${build.classes}" includes="tut1/**/*.class"/>
+        </dependset>
+        <javac srcdir="${src}" destdir="${build.classes}" classpathref="cp"/>
+        <jdo-enhance outputdir="${build.classes}">
+            <persistentaware dir="${build.classes}"/>
+        </jdo-enhance>
+    </target>
+
+    <target name="create-db" depends="compile"
+        description="Re-create database schema">
+        <jdo-create-db
+            outputdir="${build}"
+            droptables="*"
+            createtables="*"/>
+    </target>
+
+    <target name="validate-db" depends="compile"
+        description="Validate the database schema against mapping">
+        <jdo-create-db
+            outputdir="${build}"
+            validate="*"/>
+    </target>
+
+    <target name="insert-data" depends="create-db"
+        description="Insert test data">
+        <java classname="tut1.InsertData" classpathref="cp" fork="true">
+            <jvmarg value="-Djava.security.policy=./policy.all"/>
+        </java>
+    </target>
+
+    <target name="run-server" depends="compile"
+        description="Start remote server for 3-tier usage">
+        <java classname="tut1.MainServer" classpathref="cp" fork="true">
+            <jvmarg value="-Djava.security.policy=./policy.all"/>
+        </java>
+    </target>
+
+    <target name="run-remote" depends="compile"
+        description="Run the application against a remote server (3-tier)">
+        <java classname="tut1.MainGui" classpathref="cp" fork="true">
+            <jvmarg value="-Djava.security.policy=./policy.all"/>
+            <arg value="localhost"/>
+        </java>
+    </target>
+
+    <target name="log-remote" depends="compile"
+        description="Download event log and metrics from remote server">
+        <jdo-log-download host="127.0.0.1"/>
+    </target>
+
+    <target name="run" depends="compile"
+        description="Run the application in stand alone (2-tier) mode">
+        <java classname="tut1.MainGui" classpathref="cp" fork="true">
+            <jvmarg value="-Djava.security.policy=./policy.all"/>
+        </java>
+    </target>
+</project>

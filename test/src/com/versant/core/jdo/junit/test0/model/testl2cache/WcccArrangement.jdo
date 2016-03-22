@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jdo>
+    <package name="com.versant.core.jdo.junit.test0.model.testl2cache">
+        <class name="WcccArrangement">
+            <extension vendor-name="kodo" key="detachable" value="true" />
+            <field name="wcccArrangements" default-fetch-group="false">
+                <collection element-type="WcccArrangement" />
+                <extension vendor-name="kodo" key="fetch-group" value="wcccArrangement.wcccArrangement" />
+            </field>
+            <field name="arrangementType" default-fetch-group="false">
+                <extension vendor-name="kodo" key="fetch-group" value="wcccArrangement.arrangementType" />
+            </field>
+            <field name="attentionccc">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-length" value="30" />
+                </extension>
+            </field>
+            <field name="bookingchannelexception">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-length" value="30" />
+                </extension>
+            </field>
+            <field name="brochure">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-length" value="30" />
+                </extension>
+            </field>
+            <field name="category">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-length" value="30" />
+                </extension>
+            </field>
+            <field name="conditions">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-length" value="30" />
+                </extension>
+            </field>
+            <field name="contactperson">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-length" value="30" />
+                </extension>
+            </field>
+            <field name="createdby">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-length" value="30" />
+                </extension>
+            </field>
+            <field name="description">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-length" value="30" />
+                </extension>
+            </field>
+            <field name="descriptionccc">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-length" value="30" />
+                </extension>
+            </field>
+            <field name="externaldoctype">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-length" value="30" />
+                </extension>
+            </field>
+            <field name="filename">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-length" value="30" />
+                </extension>
+            </field>
+            <field name="location">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-length" value="30" />
+                </extension>
+            </field>
+            <field name="name">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-length" value="30" />
+                </extension>
+            </field>
+            <field name="nameccc">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-length" value="30" />
+                </extension>
+            </field>
+            <field name="numberofpersons">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-length" value="30" />
+                </extension>
+            </field>
+            <field name="organisationonvillage">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-length" value="30" />
+                </extension>
+            </field>
+            <field name="path">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-length" value="30" />
+                </extension>
+            </field>
+            <field name="price">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-length" value="30" />
+                </extension>
+            </field>
+            <field name="reasonoffernotvalid">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-length" value="30" />
+                </extension>
+            </field>
+            <field name="responsiblecontentpersonccc">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-length" value="30" />
+                </extension>
+            </field>
+            <field name="responsiblecontentpersonext">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-length" value="30" />
+                </extension>
+            </field>
+            <field name="sellingarguments">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-length" value="30" />
+                </extension>
+            </field>
+            <field name="shortname">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-length" value="30" />
+                </extension>
+            </field>
+            <field name="shortnamedisplay">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-length" value="30" />
+                </extension>
+            </field>
+            <field name="status">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-length" value="30" />
+                </extension>
+            </field>
+            <field name="subtype">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-length" value="30" />
+                </extension>
+            </field>
+            <field name="template">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-length" value="30" />
+                </extension>
+            </field>
+            <field name="updatedby">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-length" value="30" />
+                </extension>
+            </field>
+            <field name="urlexternaldoc">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-length" value="30" />
+                </extension>
+            </field>
+            <field name="urlexternaldocxml">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-length" value="30" />
+                </extension>
+            </field>
+            <field name="validarrivingperioddesc">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-length" value="30" />
+                </extension>
+            </field>
+        </class>
+    </package>
+</jdo>
+

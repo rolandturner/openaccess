@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jdo>
+    <package name="com.versant.testcenter.model">
+        <class name="Exam"/>
+        <class name="Student" persistence-capable-superclass="SystemUser">
+            <field name="exams">
+                <collection element-type="Exam">
+                    <extension vendor-name="versant" key="ordering" value="name ascending"/>
+                </collection>
+            </field>
+        </class>
+        <class name="SystemUser">
+            <extension vendor-name="versant" key="jdbc-index">
+                <extension vendor-name="versant" key="field-name" value="login"/>
+                <extension vendor-name="versant" key="jdbc-unique" value="true"/>
+            </extension>
+        </class>
+        <class name="Administrator" persistence-capable-superclass="SystemUser"/>
+        <class name="ExamCategory"/>
+    </package>
+</jdo>
+

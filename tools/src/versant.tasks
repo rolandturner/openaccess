@@ -1,0 +1,9 @@
+# Ant taskdef's for Versant Open Access
+
+jdo-enhance=com.versant.core.jdo.tools.ant.EnhancerTask
+jdo-create-db=com.versant.core.jdo.tools.ant.CreateJdbcSchemaTask
+jdo-copy-db=com.versant.core.jdo.tools.ant.CopyDatabaseTask
+jdo-migrate-db=com.versant.core.jdo.tools.ant.SchemaMigrationTask
+jdo-exec-sql=com.versant.core.jdo.tools.ant.ExecuteScriptTask
+jdo-log-download=com.versant.core.jdo.tools.ant.LogDownloaderTask
+jdo-create-vds-schema=com.versant.core.jdo.tools.ant.VdsSchemaTask

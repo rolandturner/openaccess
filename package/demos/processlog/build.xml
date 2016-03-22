@@ -1,0 +1,42 @@
+<!--
+Sample application to analyze one or more .jdolog event log files. This one
+looks for Connection's, Statement's and ResultSet's that are not closed.
+$Id: build.xml,v 1.1 2005/03/08 08:31:43 david Exp $
+-->
+
+<project name="processlog" default="run" basedir=".">
+
+    <property name="src" value="src"/>
+    <property name="build" value="build"/>
+    <property name="build.classes" value="${build}/classes"/>
+    <property name="jdo.home" value="../.."/>
+    <property name="jdo.license" value="${jdo.home}/license"/>
+    <property name="jdo.lib" value="${jdo.home}/lib"/>
+
+    <path id="cp">
+        <pathelement path="${build.classes}"/>
+        <fileset dir="${jdo.lib}" includes="**/*.jar"/>
+    </path>
+
+    <target name="clean"
+        description="Get rid of all generated files">
+        <delete dir="${build}"/>
+        <mkdir dir="${build.classes}"/>
+    </target>
+
+    <target name="init">
+        <mkdir dir="${build.classes}"/>
+    </target>
+
+    <target name="compile" depends="init"
+        description="Compile all Java sources">
+        <javac srcdir="${src}" destdir="${build.classes}" classpathref="cp"/>
+    </target>
+
+    <target name="run" depends="compile"
+        description="Run the application">
+        <java classname="CheckJdoLog" classpathref="cp" fork="true">
+        </java>
+    </target>
+
+</project>

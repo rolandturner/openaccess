@@ -1,0 +1,57 @@
+<project basedir="." default="compile" name="JBoss3">
+    <import file="common.xml"/>
+    <property file="common.properties"/>
+
+    <!-- ========== Executable Targets ======================================== -->
+    <target  name="project_init">
+        <property name="jboss.deploy" value="${jboss.home}/server/default/deploy"/>
+        <property name="jboss.lib" value="${jboss.home}/server/default/lib"/>
+        <property name="j2ee.jar" value="${jboss.home}/client/jboss-j2ee.jar"/>
+        
+        <path id="jboss-client.path">
+            <fileset dir="${jboss.home}/client" includes="*.jar"/>
+        </path>
+    </target>
+
+    <target name="project_start-server">
+        <echo>Starting up Jboss server !!!</echo>
+        <exec executable="${jboss.home}/bin/run.sh" dir="${jboss.home}/bin"/>
+        <echo>Server has been shutdown !!!</echo>
+    </target>
+
+    <target name="project_stop-server">
+        <echo>Stopping Jboss server !!!</echo>
+        <exec executable="${jboss.home}/bin/shutdown.sh" dir="${jboss.home}/bin">
+            <arg line="-S"/>
+        </exec>
+        <echo>Server has been shutdown !!!</echo>
+    </target>
+
+    <target name="project_run-test"
+        depends="compile">
+        <java classname="tut1.Main" fork="yes" failonerror="yes">
+            <sysproperty key="java.naming.factory.initial"
+                value="org.jnp.interfaces.NamingContextFactory"/>
+            <sysproperty key="java.naming.provider.url"
+                value="jnp://localhost"/>
+            <sysproperty key="java.naming.provider.url.pkgs"
+                value="org.jboss.naming:org.jnp.interfaces"/>
+            <classpath refid="jboss-client.path" />
+            <classpath refid="cp" />
+        </java>
+    </target>
+
+    <target name="project_deploy" >
+        <copy toDir="${jboss.lib}" file="${jdo.home}/lib/openaccess.jar" overwrite="true"/>
+        <copy toDir="${jboss.lib}" file="${jdo.home}/lib/jdo.jar" overwrite="true"/>
+        <copy toDir="${jboss.deploy}" file="${dist.dir}/tut1sb.jar" overwrite="true"/>
+    </target>
+
+    <target name="project_deploy_jca" >
+        <copy file="${jdo.home}/jca/openaccess-ds.xml"
+            tofile="${jboss.deploy}/tut1sb-openaccess-ds.xml" overwrite="true">
+        </copy>
+        <copy file="${jdo.home}/jca/openaccess.rar" todir="${jboss.deploy}" overwrite="true"/>
+    </target>
+
+</project>

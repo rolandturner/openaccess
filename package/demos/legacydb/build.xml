@@ -1,0 +1,104 @@
+<!--
+Swing app showing mapping to a legacy database schema with some 'funnies'.
+
+This demo uses application identity and many of the references share columns
+with the primary key of the table they are in.
+
+Non-transactional reads are used except when updating objects. This keeps
+the transactions as short as possible and avoids holding database locks.
+
+$Id: build.xml,v 1.1 2005/03/08 08:31:43 david Exp $
+-->
+
+<project name="legacydb" default="compile" basedir=".">
+
+    <property name="src" value="src"/>
+    <property name="build" value="build"/>
+    <property name="build.classes" value="${build}/classes"/>
+    <property name="jdo.project" value="versant.properties"/>
+    <property name="jdo.home" value="../.."/>
+    <property name="jdo.license" value="../../license"/>
+    <property name="jdo.lib" value="../../lib"/>
+    <property name="jdo.tools" value="../../tools"/>
+
+    <path id="cp">
+        <pathelement path="${src}"/>
+        <pathelement path="${build.classes}"/>
+        <pathelement path="${jdo.license}"/>
+        <fileset dir="${jdo.lib}" includes="**/*.jar"/>
+    </path>
+
+    <target name="clean"
+        description="Get rid of all generated files">
+        <delete dir="${build}"/>
+        <mkdir dir="${build.classes}"/>
+    </target>
+
+    <target name="init">
+        <mkdir dir="${build.classes}"/>
+        <copy file="${jdo.project}" todir="${build.classes}"/>
+        <!-- Define JDO Genie tasks (jdo-xxx) -->
+        <taskdef resource="versant.tasks">
+            <classpath>
+                <path refid="cp"/>
+                <fileset dir="${jdo.tools}" includes="**/*.jar"/>
+            </classpath>
+        </taskdef>
+    </target>
+
+    <target name="compile" depends="init"
+        description="Compile and enhance all Java sources">
+        <dependset>
+            <!-- Delete the classes if the JDO meta data has been changed.
+                 They need to be recompiled and enhanced. -->
+            <srcfileset dir="${src}" includes="**/*.jdo"/>
+            <targetfileset dir="${build.classes}" includes="**/*.class"/>
+        </dependset>
+        <javac srcdir="${src}" destdir="${build.classes}" classpathref="cp"/>
+        <jdo-enhance outputdir="${build.classes}">
+            <persistentaware dir="${build.classes}"/>
+        </jdo-enhance>
+    </target>
+
+    <target name="create-schema" depends="compile">
+        <jdo-create-db
+            outputdir="${build}"
+            droptables="*"
+            createtables="*"/>
+    </target>
+
+    <target name="create-db" depends="create-schema"
+        description="Re-create database schema and populate with sample data">
+        <java classname="model.PopulateModel" classpathref="cp" fork="true"/>
+    </target>
+
+    <target name="validate-db" depends="compile"
+        description="Validate the database schema against mapping">
+        <jdo-create-db
+            outputdir="${build}"
+            validate="*"/>
+    </target>
+
+    <target name="run" depends="compile"
+        description="Run the application">
+        <java classname="gui.Main" classpathref="cp" fork="true">
+            <jvmarg value="-Djava.security.policy=./policy.all"/>
+        </java>
+    </target>
+
+    <target name="server" depends="compile"
+        description="Start remote server for 3-tier usage">
+        <java classname="util.JDOSupport" classpathref="cp" fork="true">
+            <jvmarg value="-Djava.security.policy=./policy.all"/>
+        </java>
+    </target>
+
+    <target name="run-remote" depends="compile"
+        description="Run the application against a remote server">
+        <java classname="gui.Main" classpathref="cp" fork="true">
+            <jvmarg value="-Djava.security.policy=./policy.all"/>
+            <arg value="localhost"/>
+        </java>
+    </target>
+
+</project>

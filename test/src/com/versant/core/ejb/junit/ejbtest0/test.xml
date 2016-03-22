@@ -1,0 +1,10 @@
+<project name="jdo" default="default">
+
+    <target name="default"
+            description="Standard configuration">
+        <copy file="src/com/versant/core/ejb/junit/ejbtest0/persistence.xml"
+              tofile="build/persistence.xml" filtering="true"
+              overwrite="true"/>
+    </target>
+
+</project>

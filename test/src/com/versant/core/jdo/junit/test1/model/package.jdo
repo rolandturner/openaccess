@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jdo>
+    <package name="com.versant.core.jdo.junit.test1.model">
+        <class name="ObjectFieldWithPCValue">
+          <field name="_object" persistence-modifier="persistent"/>
+        </class>
+        <class name="StringKeyStringValueMap">
+          <field name="_map">
+             <map key-type="String" value-type="String"/>
+          </field>
+        </class>
+        <class name="StringKeyPCValueMap">
+          <field name="_map">
+             <map key-type="String" value-type="Simple"/>
+          </field>
+        </class>
+        <class name="PCKeyStringValueMap">
+          <field name="_map">
+             <map key-type="Simple" value-type="String"/>
+          </field>
+        </class>
+        <class name="PCKeyPCValueMap">
+          <field name="_map">
+             <map key-type="Simple" value-type="Simple"/>
+          </field>
+        </class>
+        <class name="Simple"/>
+        <class name="Friend"/>
+        <class name="Node">
+            <field name="children">
+                <collection element-type="Node"/>
+            </field>
+        </class>
+        <class name="IndexedNode">
+            <field name="children">
+                <collection element-type="IndexedNode"/>
+            </field>
+        </class>
+        <class name="StringSetContainer">
+            <field name="strings">
+                <collection element-type="String"/>
+            </field>
+        </class>
+		<class name="QueryTest1">
+			<field name="clobField">
+			</field>
+			<field name="manyToMany">
+			<collection element-type="java.lang.String"/>
+			</field>
+		</class>
+
+        <class name="ArrayCollection">
+            <field name="array2DInt" persistent="true"/>
+            <field name="arrayInt" embedded="false"/>
+            <field name="emArrayInt" embedded="true"/>
+            <field name="arrayIntW" embedded="false"/>
+            <field name="arrayLong" embedded="false"/>
+            <field name="emArrayLong" embedded="true"/>
+            <field name="arrayLongW" embedded="false"/>
+            <field name="arrayNode" embedded="false"/>
+            <field name="emSet" embedded="true">
+                <collection element-type="Node"/>
+            </field>
+            <field name="emArraylist" embedded="true">
+                <collection element-type="Node"/>
+            </field>
+            <field name="map">
+                <map key-type="Node" value-type="java.lang.Object"/>
+            </field>
+            <field name="emMap" embedded="true">
+                <map key-type="Node" value-type="Node"/>
+            </field>
+        </class>
+    </package>
+</jdo>

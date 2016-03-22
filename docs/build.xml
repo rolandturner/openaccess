@@ -1,0 +1,135 @@
+<!--
+
+The HTML and PDF manual can only be built on a Linux-like system with the
+docbook XSL and DSSSL stylesheets, openjade and Tex installed.
+
+On Gentoo emerge in the following (and possibly some others):
+
+app-text/openjade
+app-text/docbook-xsl-stylesheets
+app-text/docbook-dsssl-stylesheets
+app-text/docbook-sgml-dtd
+app-text/docbook-xml-dtd
+
+-->
+<project name="docs" default="manual-html" basedir=".">
+
+    <import file="../common.xml"/>
+
+    <target name="init">
+        <mkdir dir="build"/>
+        <property environment="env"/>
+        <available property="xsltproc" file="xsltproc" filepath="${env.PATH}" />
+        <available property="openjade" file="openjade" filepath="${env.PATH}" />
+    </target>
+
+    <target name="clean">
+        <delete dir="build"/>
+    </target>
+
+    <target name="all" depends="manual-html,manual-pdf">
+        <mkdir dir="build/manual-html"/>
+        <touch file="build/manual.pdf"/>
+    </target>
+
+    <target name="manual-html-dep" depends="init" unless="skipdocs"> <!-- if="xlstproc" -->
+        <dependset>
+            <srcfileset dir="../engine/build" includes="build.properties" />
+            <srcfileset dir="manual"/>
+            <targetfileset dir="build/manual-html" includes="**"/>
+        </dependset>
+        <available property="manual-html-uptodate" file="build/manual-html/index.html"/>
+    </target>
+
+    <target name="manual-html" depends="manual-html-dep"
+            unless="manual-html-uptodate"
+            description="Generate the chunked HTML manual">  <!-- if="xlstproc" -->
+        <mkdir dir="build/manual-html"/>
+        <copy todir="build/manual-html">
+            <fileset dir="manual" includes="manual.css"/>
+        </copy>
+        <mkdir dir="build/manual-html/images"/>
+        <copy todir="build/manual-html/images">
+            <fileset dir="manual/images" includes="**/*.jpg,**/*.gif,**/*.png"/>
+        </copy>
+        <exec executable="xsltproc" dir="build/manual-html" failonerror="true">
+            <arg value="${basedir}/manual/manual-html-chunks.xsl"/>
+            <arg value="${basedir}/manual/manual.xml"/>
+        </exec>
+        <replace dir="build/manual-html" includes="*.html" encoding="ISO-8859-1">
+            <replacefilter token="@JDO.VERSION@" value="${version}"/>
+            <replacefilter token="@JDO.VERSION.DATE@" value="${TODAY}"/>
+        </replace>
+    </target>
+
+    <target name="manual-pdf-dep" depends="init" unless="skipdocs"> <!-- if="openjade" -->
+        <dependset>
+            <srcfileset dir="../engine/build" includes="build.properties" />
+            <srcfileset dir="manual"/>
+            <targetfileset file="build/manual.pdf"/>
+        </dependset>
+        <available property="manual-pdf-uptodate" file="build/manual.pdf"/>
+    </target>
+
+    <target name="manual-pdf" depends="manual-pdf-dep" 
+            unless="manual-pdf-uptodate"
+            description="Generate the PDF manual using DSSSL and Tex">  <!-- if="openjade" -->
+        <!-- Basicaly, we use a dsssl stylesheet and an xml entity declaration file
+            to transform it into an fot file (.tex) by openjade.  The pdfjadetex
+            utility convert the .tex file into an pdf.
+        -->
+        <mkdir dir="build/pdf"/>
+
+        <!-- Locate the DSL stylesheets and fill in the correct dir in ours -->
+        <exec executable="find" outputproperty="dsl.dir">
+            <arg line="/usr/share/sgml/docbook"/>
+            <arg line="-type d"/>
+            <arg line="-name print"/>
+        </exec>
+        <available property="dsl.ok" file="${dsl.dir}/docbook.dsl"/>
+        <fail unless="dsl.ok"
+            message="Unable to locate print/docbook.dsl under /usr/share/sgml/docbook" />
+        <filter token="docbook.dsl" value="${dsl.dir}/docbook.dsl"/>
+        <copy todir="build/pdf" filtering="true" overwrite="true" >
+            <fileset dir="manual" includes="manual-pdf.dsl"/>
+        </copy>
+        <copy todir="build/pdf">
+            <fileset dir="manual" includes="sgml/*,dtd/**,images/**"/>
+        </copy>
+
+        <copy file="manual/manual.xml" tofile="build/pdf/openaccess.xml" filtering="true">
+            <filterset>
+                <filter token="@JDO.VERSION@" value="${version}"/>
+                <filter token="@JDO.VERSION.DATE@" value="${TODAY}"/>
+            </filterset>
+        </copy>
+
+        <!-- These comands must be run twice to resolve references. -->
+        <exec executable="openjade" dir="build/pdf">
+            <arg line="-E 3000"/>
+            <arg line="-t tex"/>
+            <arg line="-d manual-pdf.dsl"/>
+            <arg line="sgml/xml.dcl"/>
+            <arg line="openaccess.xml"/>
+        </exec>
+        <exec executable="pdfjadetex" dir="build/pdf">
+            <arg line="openaccess.tex"/>
+        </exec>
+        <exec executable="openjade" dir="build/pdf">
+            <arg line="-E 3000"/>
+            <arg line="-t tex"/>
+            <arg line="-d manual-pdf.dsl"/>
+            <arg line="sgml/xml.dcl"/>
+            <arg line="openaccess.xml"/>
+        </exec>
+        <exec executable="pdfjadetex" dir="build/pdf">
+            <arg line="openaccess.tex"/>
+        </exec>
+        <exec executable="pdfjadetex" dir="build/pdf">
+            <arg line="openaccess.tex"/>
+        </exec>
+
+        <move file="build/pdf/openaccess.pdf" tofile="build/manual.pdf"/>
+    </target>
+
+</project>

@@ -1,0 +1,86 @@
+
+/*
+ * Copyright (c) 1998 - 2005 Versant Corporation
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ * Versant Corporation - initial API and implementation
+ */
+<html>
+<head>
+<style TYPE="text/css">
+<!--
+BODY { font-family: dialog; }
+-->
+</style>
+</head>
+<body bgcolor="#FFFFFF">
+
+<table>
+<tr>
+<td>
+<p>The Open Access Workbench is a powerful IDE for mapping your classes,
+reverse engineering Java source files from tables, monitoring 
+Open Access servers and running JDOQL queries. To run JDOQL
+queries a Open Access server is started inside of the Workbench. The
+Workbench works in a similar way to a normal IDE: you edit meta data
+for your classes, compile the meta data, build the JDBC schema and
+run the Open Access server.</p>
+</td>
+</tr>
+</table>
+
+<tr>
+<td><img src="workbench_toolbar.gif"></td>
+<td>
+<p>The Workbench and Ant tasks use the properties file used to start a
+Open Access server as a project file (.properties extension). This file
+contains the database connection properties, the configuration of the
+Open Access Server, default meta data settings, the classpath for the
+project and so on. You can edit this by hand but it is usually easier
+to use the Workbench. Only one project may be open at a time (<b>File |
+Open Project</b>). You can edit project wide settings using <b>File | Project
+& Datastore Properties</b>.</p>
+</td>
+</tr>
+</table>
+
+<table>
+<tr valign="top">
+<td><img src="workbench_views.gif"></td>
+<td>
+<p>The workbench needs to load and analyze your persistent classes. For
+this reason you should have classes compiled when using the Workbench.
+If you make changes and recompile your classes outside of the Workbench
+(e.g. using an IDE or Ant) then they need to be reloaded. The Workbench
+will automatically reload your classes when it is activated or you can
+choose <b>File | Reload Classes</b> to reload them manually.</p>
+<p>The workbench parses your .jdo meta data (mappings) in the
+background. If there are errors in the meta data then the compile meta
+data icon on the toolbar goes red. You can click the icon to open a wizard
+with the error message and help on how to fix the problem.</p>
+<p>The toolbar down the left hand side of the Workbench selects
+different views of your classes and activates other functionality
+(e.g. developing JDOQL queries). The buttons on the toolbar depend
+on the selected view.</p>
+
+<p>Open Access Links (these open in your external browser)</p>
+<p>
+<a href="http://www.jdogenie.com/download.html">New releases</a><br>
+<a href="file://manual.html">Manual (local copy)</a><br>
+<a href="http://downloads.hemtech.co.za/jdo/manual">Manual (latest version online)</a><br>
+<a href="http://www.jdogenie.com">Home page (www.jdogenie.com)</a><br>
+<a href="http://www.hemtech.co.za/forums/index.jsp">Discussion forums</a><br>
+</p>
+
+<p>Use <b>Help | Introduction</b> to redisplay this page</p>
+
+</td>
+</tr>
+</table>
+
+</body>
+</html>

@@ -1,0 +1,1003 @@
+options {
+  LOOKAHEAD = 1;
+  JAVA_UNICODE_ESCAPE = true;
+  UNICODE_INPUT = false;
+  STATIC=false;
+}
+
+PARSER_BEGIN(JDOQLParser)
+package com.versant.core.jdo.query;
+
+import com.versant.core.util.CharBuf;
+import com.versant.core.util.IntArray;
+
+import java.util.ArrayList;
+
+/**
+ * JavaCC generated parser. Do not put a main method in this class as that
+ * breaks obfuscation.
+ */
+public class JDOQLParser{
+
+    /**
+     * Put method name to the method node
+     * for example a.b.c() is FieldNavNode a, FieldNavNode b, FieldNode c and MethodNode ()  [ name = null ]
+     * after this method a.b.c() becomes FieldNavNode a, FieldNode b  MethodNode () [name = c ]
+     * if the Primary expresssion resolves to a method only then that method is returned instead
+     * of PrimaryExprNode this.
+     */
+
+
+	private void moveMethodName(MethodNode method){
+		Node left = method.childList;
+		if(left == null ){
+			return;
+		}
+		if(left instanceof FieldNode ){
+			FieldNode f = (FieldNode)left;
+			method.setName(f.lexeme);
+			f.lexeme = "this";
+		}else if( left instanceof FieldNavNode){
+			Node n = left, next = left.next;
+			while(!(n.childList instanceof FieldNode))n = n.childList;
+			FieldNode f = (FieldNode)n.childList;
+			method.setName(f.lexeme);
+
+			//Reset the FieldNode to it's parent
+			f.lexeme = ((FieldNavNode)n).lexeme;
+			f.parent = n.parent;
+			n.parent.childList = f;
+
+			//Reset next
+			method.childList.next = next;
+		}
+
+	}
+	public Node resolveMethod(Node node){
+        for(Node current = node.childList, previous = null;
+				current != null;){
+            if(current.next instanceof MethodNode){
+                MethodNode currentMethod = (MethodNode)current.next;
+
+				if(previous != null){
+					previous.next = currentMethod;
+				}else{
+					node.childList = currentMethod;
+				}
+				current.next = currentMethod.childList;
+				currentMethod.childList = current;
+				current.parent = currentMethod;
+
+				moveMethodName(currentMethod);
+
+				current = currentMethod;
+			}else{
+				previous = current;
+				current = current.next;
+			}
+		}
+
+
+		resolveMethod2(node);
+		/*
+		if(node.childList.next == null){
+			return node.childList;
+		}
+		*/
+		return node;
+	}
+	
+	 public Node resolveMethod2(Node node){
+        for(Node current = node.childList, previous = null;
+				current != null;){
+            if(current.next instanceof MethodNode){
+                MethodNode currentMethod = (MethodNode)current.next;
+
+				if(previous != null){
+					previous.next = currentMethod;
+				}else{
+					node.childList = currentMethod;
+				}
+				current.next = (currentMethod.childList instanceof FieldNode
+					&& ((FieldNode)currentMethod.childList).lexeme.equals("this"))?
+					currentMethod.childList.next : currentMethod.childList;
+
+				currentMethod.childList = current;
+				current.parent = currentMethod;
+
+				current = currentMethod;
+			}else{
+				previous = current;
+				current = current.next;
+			}
+		}
+
+		return node;
+	}
+
+    public static void main(String args[])throws Exception{
+		JDOQLParser parser = new JDOQLParser(System.in);
+		System.out.println("Type some input and Ctrl-D to parse :");
+		//parser.literal();
+		//parser.type().dump(" ");
+		parser.filterExpression().dump(" ");
+		//Node nodes[] = parser.declareVariables();
+		//Node nodes[] = parser.declareImports();
+		//Node nodes[] = parser.setOrderings();
+		/*Node nodes[] = parser.declareParameters();
+		if(nodes != null){
+			for(int i=0; i<nodes.length; i++){
+				nodes[i].dump(">>>");
+				System.out.println();
+			}
+		}*/
+	}
+
+}
+PARSER_END(JDOQLParser)
+
+
+SKIP : /* WHITE SPACE */
+{
+  	" "
+	| "\t"
+	| "\n"
+	| "\r"
+	| "\f"
+}
+
+SPECIAL_TOKEN : /* COMMENTS */
+{
+  	<SINGLE_LINE_COMMENT: "//" (~["\n","\r"])* ("\n"|"\r"|"\r\n")>
+	| <FORMAL_COMMENT: "/**" (~["*"])* "*" ("*" | (~["*","/"] (~["*"])* "*"))* "/">
+	| <MULTI_LINE_COMMENT: "/*" (~["*"])* "*" ("*" | (~["*","/"] (~["*"])* "*"))* "/">
+}
+
+TOKEN : /* RESERVED WORDS AND LITERALS */
+{
+	< ABSTRACT: "abstract" >
+	| < ASCENDING: "ascending" >
+	| < DISTINCT: "distinct" >
+    | < GROUP: "group" >
+    | < HAVING: "having" >
+    | < MAX: "max" >
+    | < MIN: "min" >
+    | < AVG: "avg" >
+    | < COUNT_STAR: "count(*)" >
+    | < COUNT: "count" >
+    | < SUM: "sum" >
+	| < AS: "as" >
+	| < BOOLEAN: "boolean" >
+	| < BYTE: "byte" >
+	| < CHAR: "char" >
+	| < DESCENDING: "descending" >
+	| < DOUBLE: "double" >
+	| < FLOAT: "float" >
+	| < IMPORT: "import" >
+	| < INT: "int" >
+	| < LONG: "long" >
+	| < SHORT: "short" >
+	/*| < SUPER: "super" > */
+	| < THIS: "this" >
+}
+
+TOKEN : /* LITERALS */
+{
+  	< INTEGER_LITERAL:
+        <DECIMAL_LITERAL> (["l","L"])?
+      	| <HEX_LITERAL> (["l","L"])?
+      	| <OCTAL_LITERAL> (["l","L"])? >
+	|
+	  < #DECIMAL_LITERAL: ["1"-"9"] (["0"-"9"])* >
+	|
+	  < #HEX_LITERAL: "0" ["x","X"] (["0"-"9","a"-"f","A"-"F"])+ >/*{
+            if (Debug.DEBUG) {
+                Debug.out.println("Convertin hexadecimal "+image+ " to integer");
+            }
+			image =	new StringBuffer(Integer.valueOf(image.toString(),16).toString());
+	 } */
+	|
+	  < OCTAL_LITERAL: "0" (["0"-"7"])* > /*{
+		  image = new StringBuffer(Integer.valueOf(image.toString(),8).toString());
+	  }*/
+	|
+	  < FLOATING_POINT_LITERAL:
+			(["0"-"9"])+ "." (["0"-"9"])* (<EXPONENT>)? (["f","F","d","D"])?
+		  | "." (["0"-"9"])+ (<EXPONENT>)? (["f","F","d","D"])?
+		  | (["0"-"9"])+ <EXPONENT> (["f","F","d","D"])?
+		  | (["0"-"9"])+ (<EXPONENT>)? ["f","F","d","D"]
+	  >
+	|
+	  < #EXPONENT: ["e","E"] (["+","-"])? (["0"-"9"])+ >
+	|
+	  < CHARACTER_LITERAL:
+		  "'"
+		  (   (~["'","\\","\n","\r"])
+			| ("\\"
+				( ["n","t","b","r","f","\\","'","\""]
+				| ["0"-"7"] ( ["0"-"7"] )?
+				| ["0"-"3"] ["0"-"7"] ["0"-"7"]
+				)
+			  )
+		  )*
+		  "'"
+	  >
+	| < NULL: "null" >
+
+	| <BOOLEAN_LITERAL: "true" | "false" >
+
+	|
+	  < STRING_LITERAL:
+		  "\""
+		  (   (~["\"","\\","\n","\r"])
+			| ("\\"
+				( ["n","t","b","r","f","\\","'","\""]
+				| ["0"-"7"] ( ["0"-"7"] )?
+				| ["0"-"3"] ["0"-"7"] ["0"-"7"]
+				)
+			  )
+		  )*
+		  "\""
+	  >
+}
+
+TOKEN : /* IDENTIFIERS */
+{
+  	< IDENTIFIER: <LETTER> (<LETTER>|<DIGIT>)* >
+	| < #LETTER: ["_","a"-"z","A"-"Z"] 	>
+	| < #DIGIT:  ["0"-"9"]>
+}
+
+TOKEN : /* SEPARATORS */
+{
+	< LPAREN: "(" >
+	| < RPAREN: ")" >
+	| < LBRACE: "{" >
+	| < RBRACE: "}" >
+	| < LBRACKET: "[" >
+	| < RBRACKET: "]" >
+	| < SEMICOLON: ";" >
+	| < COMMA: "," >
+	| < DOT: "." >
+}
+
+TOKEN : /* OPERATORS */
+{
+	< GT: ">" >
+	| < LT: "<" >
+	| < BANG: "!" >
+	| < TILDE: "~" >
+	| < EQ: "==" >
+	| < LE: "<=" >
+	| < GE: ">=" >
+	| < NE: "!=" >
+	| < SC_OR: "||" >
+	| < SC_AND: "&&" >
+	| < PLUS: "+" >
+	| < MINUS: "-" >
+	| < STAR: "*" >
+	| < SLASH: "/" >
+	| < BIT_AND: "&" >
+	| < BIT_OR: "|" >
+}
+
+/**
+  * Parameter declaration
+  */
+ParamNode[] declareParameters() : {
+	ArrayList list = new ArrayList();
+}
+{
+	parameters(list) [ <COMMA> ] <EOF>{
+		int size = list.size();
+		ParamNode[] params = new ParamNode[size];
+		for(int i = 0; i < size; params[i] = (ParamNode)list.get(i++));
+		return params;
+	}
+	| <EOF> {
+		return null;
+	}
+}
+void parameters(ArrayList list): {ParamNode n;}
+{
+	n = parameter(){list.add(n);} (LOOKAHEAD(2) <COMMA> n = parameter() {list.add(n);})*
+}
+
+ParamNode parameter(): {
+    ParamNode n = new ParamNode();
+    Token t;
+    Object tp;
+}
+{
+	tp = type() t = <IDENTIFIER> {
+        if (tp instanceof Class) n.setCls((Class)tp);
+        else n.setType((String)tp);
+		n.setIdentifier(t.image);
+		return n;
+	}
+}
+
+/**
+  * variable declaration
+  */
+VarNode[] declareVariables() : {
+	ArrayList list = new ArrayList();
+}{
+	variables(list) [ <SEMICOLON> ] <EOF>{
+		int size = list.size();
+		VarNode[] Vars = new VarNode[size];
+		for(int i = 0; i < size; Vars[i] = (VarNode)list.get(i++));
+		return Vars;
+	}
+	| <EOF> {
+		return null;
+	}
+}
+void variables(ArrayList list): {
+VarNode n;
+}{
+	n = variable(){list.add(n);}(LOOKAHEAD(2) <SEMICOLON> n = variable() {list.add(n);} )*
+}
+
+VarNode variable(): {
+	VarNode n = new VarNode();
+	Token t;
+    Object tp;
+}{
+	tp = type() t = <IDENTIFIER> {
+        if (tp instanceof Class) n.setCls((Class)tp);
+        else n.setType((String)tp);
+		n.setIdentifier(t.image);
+		return n;
+	}
+}
+
+/**
+  * Import declaration
+  */
+ImportNode[] declareImports() : {
+	ArrayList list = new ArrayList();
+}{
+	importDeclarations(list) [ <SEMICOLON> ] {
+		int size = list.size();
+		ImportNode[] imports = new ImportNode[size];
+		for(int i = 0; i < size; imports[i] = (ImportNode)list.get(i++));
+		return imports;
+	}
+	| <EOF> {
+		return null;
+	}
+}
+void importDeclarations(ArrayList list): {ImportNode n;}
+{
+
+	n = importDeclaration(){list.add(n);}
+	(LOOKAHEAD(2) <SEMICOLON> n = importDeclaration() {list.add(n);})*
+
+}
+
+ImportNode importDeclaration(): {
+	ImportNode n = new ImportNode();
+	Token t;
+	StringBuffer sb = new StringBuffer();
+}{
+	<IMPORT> t = <IDENTIFIER>{ sb.append(t.image); }
+		( LOOKAHEAD(2) <DOT> t = <IDENTIFIER> { sb.append("."); sb.append(t.image);} )*
+		[ <DOT> t = <STAR> { sb.append("."); n.all = true; } ]{
+		n.name = sb.toString();
+		return n;
+
+	}
+}
+
+/**
+  * orderSpecification declaration
+  */
+OrderNode[] setOrderings() : {
+	ArrayList list = new ArrayList();
+}
+{
+	orderSpecifications(list) [ <COMMA> ] {
+		int size = list.size();
+		OrderNode[] orders = new OrderNode[size];
+		for(int i = 0; i < size; orders[i] = (OrderNode)list.get(i++));
+		return orders;
+	}
+	| <EOF> {
+		return null;
+	}
+}
+void orderSpecifications(ArrayList list): {OrderNode n;}
+{
+	n = orderSpecification(){list.add(n);} (LOOKAHEAD(2) <COMMA> n = orderSpecification() {list.add(n);})*
+}
+
+OrderNode orderSpecification(): {
+	OrderNode n = new OrderNode();
+}{
+	n.childList = unaryExpressionNotPlusMinus() (
+		(<ASCENDING>{ n.order=OrderNode.ORDER_ASCENDING;})
+		| ( <DESCENDING> { n.order = OrderNode.ORDER_DESCENDING; })
+	){
+		n.childList.parent = n;
+		return n;
+	}
+}
+
+
+
+/**
+  * orderSpecification declaration
+  */
+ResultNode setResults() :
+{
+    ResultNode rNode = null;
+    Node current = null;
+    boolean distinct = false;
+}
+    {
+       [<DISTINCT> {distinct = true;}]
+       current = setResultsImp(rNode)
+       {
+        rNode = new ResultNode(current);
+        current.parent = rNode;
+        rNode.setDistinct(distinct);
+       }
+       (LOOKAHEAD(2) <COMMA> current.next = setResultsImp(rNode) {current = current.next; })*
+       {return rNode;}
+    }
+
+Node setResultsImp(Node parent): {
+    Node n = null;
+}
+
+{
+    LOOKAHEAD(<COUNT_STAR>) <COUNT_STAR> {n = new AggregateCountStarNode(parent); } [<AS> AsClause(n)] {return n;}
+    |
+    LOOKAHEAD(<COUNT>) <COUNT> n = aggregateNode(AggregateNode.TYPE_COUNT, parent) {return n;}
+    |
+    LOOKAHEAD(<AVG>) <AVG> n = aggregateNode(AggregateNode.TYPE_AVG, parent) {return n;}
+    |
+    LOOKAHEAD(<SUM>) <SUM> n = aggregateNode(AggregateNode.TYPE_SUM, parent) {return n;}
+    |
+    LOOKAHEAD(<MIN>) <MIN> n = aggregateNode(AggregateNode.TYPE_MIN, parent) {return n;}
+    |
+    LOOKAHEAD(<MAX>) <MAX> n = aggregateNode(AggregateNode.TYPE_MAX, parent) {return n;}
+    |
+    n = unExpImp() {n.parent = parent; return n;}
+}
+
+Node aggregateNode(int type, Node parent): {
+    AggregateNode an = null;
+    Node n = null;
+}
+{
+    n = unExpImp()
+    {an = new AggregateNode(n, type);}
+    {an.parent = parent; return an;}
+}
+
+Node unExpImp(): {
+    Node n = null;
+}
+{
+    n = unaryExpression() [<AS> AsClause(n)] {return n;}
+}
+
+void AsClause(Node n): {
+    Token t = null;
+}
+{
+    t = <IDENTIFIER> {n.asValue = t.image;}
+}
+
+/**
+* (LOOKAHEAD(<COMMA>) <COMMA> current.next = setGroupingImp(gNode, gNode) {current = current.next; })*
+*/
+GroupingNode setGrouping():{
+    Node current = null;
+    GroupingNode gNode = null;
+    Node having = null;
+}
+{
+    current = setGroupingImp(gNode, gNode)
+    {
+        gNode = new GroupingNode();
+        gNode.childList = current;
+        current.parent = gNode;
+    }
+
+    (LOOKAHEAD(<COMMA>) <COMMA> current.next = setGroupingImp(gNode, gNode) {current = current.next; })*
+    [LOOKAHEAD(<HAVING>) <HAVING> having = orExpression() {gNode.havingNode = having; having.parent = gNode;}]
+    {return gNode;}
+}
+
+/**
+*[LOOKAHEAD(<HAVING>) <HAVING> having = unaryExpression(){gNode.havingNode = having; having.parent = gNode;}]
+*/
+Node setGroupingImp(Node parent, GroupingNode gNode): {
+    Node n = null;
+    Node having = null;
+}
+{
+    n = unaryExpression()
+    {
+        n.parent = parent;
+        return n;
+    }
+
+}
+
+
+
+
+Node nameOrThis(): {
+	Node n = null;
+}{
+	n = name() { return n; }
+	| <THIS> { return new ReservedFieldNode(ReservedFieldNode.TYPE_THIS, "this"); }
+}
+
+ /**
+  * Filter Expression
+  */
+Node  filterExpression(): {Node n;}
+{
+	n = orExpression()  <EOF>{
+		return n;
+	}
+	| <EOF> {
+		return null;
+	}
+}
+
+Node orExpression(): {
+	OrNode node = new OrNode();
+	Node n = null;
+    Node pos = null;
+}
+{
+ ( n = andExpression(){
+    pos = node.childList = n;
+ }
+ ( (<SC_OR> | <BIT_OR>)  n = andExpression() {
+    pos = pos.next = n;
+ } )* ) {
+    if (pos == node.childList) return n;
+    node.setParentOnChildren();
+    return node;
+ }
+}
+
+Node andExpression(): {
+	AndNode node = new AndNode();
+	Node n = null;
+    Node pos = null;
+}
+{
+  ( (LOOKAHEAD (relationalExpression() <EQ> )
+   n = equalityExpression()
+   | n = inequalityExpression() ){
+    pos = node.childList = n;
+   }
+
+   ( (<SC_AND> | <BIT_AND>) (LOOKAHEAD (relationalExpression() <EQ> )
+		 n = equalityExpression()
+		| n = inequalityExpression() ) {
+        pos = pos.next = n;
+  } )* ) {
+    if (pos == node.childList) return n;
+    node.setParentOnChildren();
+    return node;
+ }
+}
+
+Node equalityExpression(): {
+	Node n1;
+	Node n2;
+}
+{
+     (n1 = relationalExpression()
+  	 	[ <EQ>	n2 = relationalExpression() {
+	 		n1 = new EqualNode(n1, n2);
+		}]
+   	 ){
+		//System.out.println("returning equality = "+n1);
+		return n1;
+	 }
+}
+
+Node inequalityExpression(): {
+	Node n1;
+	Node n2;
+}
+{
+     (n1 = relationalExpression()
+  	 	[ <NE>	n2 = relationalExpression() {
+	 		n1 = new NotEqualNode(n1, n2);
+		}]
+   	 ){
+		//System.out.println("returning inequality = "+n1);
+		return n1;
+	 }
+}
+
+Node relationalExpression(): {
+	Node n1;
+	Node n2;
+    int op = 0;
+}
+{
+   ( n1 = additiveExpression()
+   [
+   		( <LT> { op = CompareOpNode.LT; }
+	    | <GT> { op = CompareOpNode.GT; }
+		| <LE> { op = CompareOpNode.LE; }
+		| <GE> { op = CompareOpNode.GE; })
+    n2 = additiveExpression() {
+        n1 = new CompareOpNode(n1, n2, op);
+	}]
+   ) {
+
+	   //System.out.println("returning relational = "+n1);
+	   return n1;
+	}
+
+}
+
+Node additiveExpression(): {
+	AddNode node = new AddNode();
+	Node n = null;
+    Node pos = null;
+    IntArray ops = new IntArray();
+}
+{
+  ( n = multiplicativeExpression(){
+    pos = node.childList = n;
+    }
+ ( (<PLUS>{ ops.add(node.OP_PLUS); }
+   | <MINUS>{ops.add(node.OP_MINUS); })
+  n = multiplicativeExpression() {
+    pos = pos.next = n;
+ } )* ) {
+    if (pos == node.childList) return n;
+    node.setParentOnChildren();
+    node.ops = ops.toArray();
+    return node;
+ }
+}
+
+Node multiplicativeExpression(): {
+	MultiplyNode node = new MultiplyNode();
+	Node n = null;
+    Node pos = null;
+    IntArray ops = new IntArray();
+}
+{
+  ( n = unaryExpression(){
+    pos = node.childList = n;
+    }
+ (( <STAR>{ ops.add(node.OP_TIMES); }
+  	| <SLASH>{ops.add(node.OP_DIVIDE); })
+  n = unaryExpression() {
+    pos = pos.next = n;
+ } )* ) {
+    if (pos == node.childList) return n;
+    node.setParentOnChildren();
+    node.ops = ops.toArray();
+    return node;
+ }
+}
+
+Node unaryExpression():{
+	Node n;
+    int op;
+}
+{
+  	(<PLUS> { op = UnaryOpNode.OP_PLUS;}
+	| <MINUS> { op = UnaryOpNode.OP_MINUS;}
+	 ) n = unaryExpression() {
+        return new UnaryOpNode(n, op);
+	}
+	| n = unaryExpressionNotPlusMinus(){
+		//System.out.println("returning  unaryExpression = "+n);
+		return n;
+	}
+}
+
+Node unaryExpressionNotPlusMinus():{
+    Node n;
+    int op;
+}
+{
+	(<TILDE> { op = UnaryOpNode.OP_TILDE; }
+	| <BANG> { op = UnaryOpNode.OP_BANG; }
+	 ) n = unaryExpression() {
+        return new UnaryOpNode(n, op);
+	}
+	| LOOKAHEAD( castLookahead() )
+  	  n = castExpression() {
+	  	return n;
+	}
+	| n = primaryExpression()  {
+		//System.out.println("returning unaryExpressionNOtPlusMinus = "+n);
+		return n;
+	}
+}
+// This production is to determine lookahead.
+void castLookahead():{}
+{
+	LOOKAHEAD(<LPAREN> type() <LBRACKET>)
+  		<LPAREN> type() <LBRACKET> <RBRACKET>
+	| <LPAREN> type() <RPAREN> ( <TILDE> |
+			<BANG> | <LPAREN> | <IDENTIFIER> |
+			<THIS> | /* <SUPER> | */ literal() )
+}
+
+Node castExpression(): {
+    Object tp;
+    int brackets = 0;
+    Node n;
+}
+{
+	<LPAREN> tp = type()
+		( LOOKAHEAD(2) <LBRACKET> { brackets++; } <RBRACKET> )* <RPAREN>
+    n = unaryExpression() {
+        return new CastNode(n, brackets, tp);
+    }
+}
+
+
+Node primaryExpression(): {
+	PrimaryExprNode node = new PrimaryExprNode();
+	Node n = null;
+    Node pos = null;
+}
+{
+ (  n = primaryPrefix(){
+    pos = node.childList = n;
+    }
+ 	 ( LOOKAHEAD(3) n = primarySuffix() {
+        pos = pos.next = n;
+     } )*
+  ) {
+    /*if(pos == node.childList &&  ! (node.childList instanceof MethodNode)){
+		return n;
+	}
+	node.setParentOnChildren();
+	return resolveMethod(node); 
+	*/
+
+	if(pos == node.childList &&
+        (!(node.childList instanceof MethodNode) ||
+                                         (node.childList instanceof MethodNode
+                                         && ((MethodNode)node.childList).getMethod() > 0 ))) {
+		return node.childList;
+	}else{
+		Node tmp = node;
+		tmp.setParentOnChildren();
+		resolveMethod(tmp);
+
+		if(tmp.childList.next == null){
+			tmp = tmp.childList;
+		}	
+
+		if(tmp != null && tmp.childList instanceof ReservedFieldNode ){
+			Node tmp2 = tmp.childList;
+			tmp2.childList = tmp2.next;
+
+			if(tmp2.childList != null){
+				tmp2.next = tmp2.childList.next;
+				tmp2.childList.next = null;				
+			}else{
+				tmp2.next = null;
+			}
+			tmp2.setParentOnChildren();
+		}
+		tmp.setParentOnChildren();	
+		if(tmp instanceof PrimaryExprNode && tmp.childList.next == null){
+			tmp = tmp.childList;
+		}
+		tmp.parent = null;
+		return tmp;
+	}
+	
+	//return node;
+ }
+}
+
+Node primaryPrefix(): {Node n = null; Token t; Node tmp;}
+{
+	(
+	LOOKAHEAD(<COUNT_STAR>) <COUNT_STAR> {return new AggregateCountStarNode();}
+    |
+    LOOKAHEAD(<COUNT>) <COUNT> tmp = unaryExpression() {
+        n = new AggregateNode(tmp, AggregateNode.TYPE_COUNT);
+        return n;
+    }
+    |
+    LOOKAHEAD(<AVG>) <AVG> tmp = unaryExpression() {
+        n = new AggregateNode(tmp, AggregateNode.TYPE_AVG);
+        return n;
+    }
+    |
+    LOOKAHEAD(<SUM>) <SUM> tmp = unaryExpression() {
+        n = new AggregateNode(tmp, AggregateNode.TYPE_SUM);
+        return n;
+    }
+    |
+    LOOKAHEAD(<MIN>) <MIN> tmp = unaryExpression() {
+        n = new AggregateNode(tmp, AggregateNode.TYPE_MIN);
+        return n;
+    }
+    |
+    LOOKAHEAD(<MAX>) <MAX> tmp = unaryExpression() {
+        n = new AggregateNode(tmp, AggregateNode.TYPE_MAX);
+        return n;
+    }
+
+	| n = literal()
+	|  n = name()
+	| <THIS> {
+		n = new ReservedFieldNode(ReservedFieldNode.TYPE_THIS,"this");
+	}
+	/* | <SUPER> <DOT> t = <IDENTIFIER> {
+		 n = new ReservedFieldNode(ReservedFieldNode.TYPE_SUPER,"super");
+		FieldNode node = new FieldNode();
+		node.lexeme = t.image;
+		n.childList = node;
+		node.parent = n;
+	} */
+	| <LPAREN> n = orExpression() <RPAREN> ){
+		//System.out.println("returning primaryPrefix = "+n);
+		return n;
+	}
+}
+
+Node primarySuffix():{
+	Token t;
+	Node n;
+}
+{
+	<LBRACKET> n = orExpression() <RBRACKET> {
+		ArrayNode an = new ArrayNode();
+		an.args = n;
+		if(n != null) n.parent = an;
+		return an;
+
+	}
+	| <DOT>	n = name() {return n; }
+	|  n = arguments() {
+		MethodNode mn = new MethodNode();
+		//mn.args = n;
+		mn.childList = n;
+		if (n != null) {
+            n.next = null;
+            n.parent = mn;
+        }
+		return mn;
+	}
+}
+
+Node arguments():{Node n = null;}
+{
+  <LPAREN> [ n = argumentList() ] <RPAREN> {return n; }
+}
+
+Node argumentList() : {
+	ArgNode node = new ArgNode();
+	Node n = null;
+    Node pos = null;
+}
+{
+ (  n = orExpression(){
+        pos = node.childList = n;
+    }
+ 	( <COMMA> n = orExpression() )* {
+        pos = pos.next = n;
+    } ) {
+    if (pos == node.childList) return n;
+    node.setParentOnChildren();
+    return node;
+ }
+}
+
+
+/**
+ * Definition of types. Primitives and Names (e.g. String).
+ */
+Object type(): {
+    CharBuf s = null;
+    Token t = null;
+}
+{
+	(<INT> { return Integer.TYPE; }
+	| <BYTE> { return Byte.TYPE; }
+	| <SHORT> { return Short.TYPE; }
+	| <LONG> { return Long.TYPE; }
+	| <CHAR> { return Character.TYPE; }
+	| <FLOAT> { return Float.TYPE; }
+	| <DOUBLE> { return Double.TYPE; }
+	| <BOOLEAN> { return Boolean.TYPE; }
+	| { s = new CharBuf(); }
+        t = <IDENTIFIER> { s.append(t.image); }
+        ( <DOT> { s.append("."); } t = <IDENTIFIER> { s.append(t.image); } )*
+        { return s.toString(); }
+    )
+}
+
+
+Node name(): {ArrayList list = new ArrayList(); Token t = null;}
+{
+	t = <IDENTIFIER>{ list.add(t.image); } (
+		LOOKAHEAD(2) <DOT> t = <IDENTIFIER> { list.add(t.image); } )* {
+		FieldNavNode parent = null;
+		Node root = null;
+		for(int i = 0; i < list.size() - 1; i++){
+			FieldNavNode node = new FieldNavNode();
+            node.parent = parent;
+			node.lexeme = (String)list.get(i);
+			if(parent != null){
+				parent.childList = node;
+			}else{
+				root = node;
+			}
+			parent = node;
+		}
+
+		FieldNode node = new FieldNode(parent,t.image);
+//        node.parent = parent;
+//		node.lexeme = t.image;
+		if(parent != null){
+			parent.childList = node;
+		}else{
+			root = node;
+		}
+		//System.out.println("returning name = "+root);
+		return root;
+	}
+}
+
+LiteralNode literal(): {
+	Token t  = null;
+	LiteralNode literal = new LiteralNode(null,LiteralNode.TYPE_OTHER,null);
+    StringBuffer buffer;
+}
+{
+	( t = <INTEGER_LITERAL> {
+	    literal.type = LiteralNode.TYPE_LONG;
+    }
+	| t = <FLOATING_POINT_LITERAL> {
+	    literal.type = LiteralNode.TYPE_DOUBLE;
+	}
+	| t = <BOOLEAN_LITERAL> {
+		literal.type = LiteralNode.TYPE_BOOLEAN;
+	}
+//    | t = <CHARACTER_LITERAL> {
+//        literal.type = LiteralNode.TYPE_CHAR;
+//    }
+	| t = <NULL> {
+		literal.type = LiteralNode.TYPE_NULL;
+	}
+	| t = <STRING_LITERAL> {
+		literal.type = LiteralNode.TYPE_STRING;
+		buffer = new StringBuffer(t.image);
+		buffer.deleteCharAt(0);
+		buffer.deleteCharAt(buffer.length() - 1);
+		literal.value = buffer.toString();
+		return literal;
+	}
+	| t = <CHARACTER_LITERAL> {
+		literal.type = LiteralNode.TYPE_STRING;
+		buffer = new StringBuffer(t.image);
+		buffer.deleteCharAt(0);
+		buffer.deleteCharAt(buffer.length() - 1);
+		literal.value = buffer.toString();
+		return literal;
+	}
+	){
+				literal.value = t.image;
+				return literal;
+	}
+
+}

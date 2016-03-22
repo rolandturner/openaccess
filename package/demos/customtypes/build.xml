@@ -1,0 +1,98 @@
+<!--
+
+Demo for custom field types. The only persistent class is Contact. This
+has fields of type PhoneNumber and PngImage which are persisted as custom
+field types.
+
+Note that for most applications the portable externalization support is a
+better choice than the JdbcConverter's used by this demo. Please have a
+look at the externalization demo for an example.
+
+This demo uses the ImageIO class which is only available using Java 1.4 and
+newer.
+
+-->
+<project name="customtypes" default="compile" basedir=".">
+
+    <property name="src" value="src"/>
+    <property name="build" value="build"/>
+    <property name="build.classes" value="${build}/classes"/>
+    <property name="jdo.project" value="versant.properties"/>
+    <property name="jdo.home" value="../.."/>
+    <property name="jdo.license" value="${jdo.home}/license"/>
+    <property name="jdo.lib" value="${jdo.home}/lib"/>
+    <property name="jdo.tools" value="${jdo.home}/tools"/>
+
+    <path id="cp">
+        <pathelement path="${src}"/>
+        <pathelement path="${build.classes}"/>
+        <pathelement path="${jdo.license}"/>
+        <fileset dir="${jdo.lib}" includes="**/*.jar"/>
+    </path>
+
+    <target name="clean"
+        description="Get rid of all generated files">
+        <delete dir="${build}"/>
+        <mkdir dir="${build.classes}"/>
+    </target>
+
+    <target name="init">
+        <mkdir dir="${build.classes}"/>
+        <copy file="${jdo.project}" todir="${build.classes}"/>
+        <!-- Define JDO Genie tasks (jdo-xxx) -->
+        <taskdef resource="versant.tasks">
+            <classpath>
+                <path refid="cp"/>
+                <fileset dir="${jdo.tools}" includes="**/*.jar"/>
+            </classpath>
+        </taskdef>
+    </target>
+
+    <target name="compile" depends="init"
+        description="Compile and enhance all Java sources">
+        <dependset>
+            <!-- Delete the classes if the JDO meta data has been changed.
+                 They need to be recompiled and enhanced. -->
+            <srcfileset dir="${src}" includes="**/*.jdo"/>
+            <srcfileset dir="." includes="${jdo.project}"/>
+            <targetfileset dir="${build.classes}" includes="**/*.class"/>
+        </dependset>
+        <javac srcdir="${src}" destdir="${build.classes}" classpathref="cp"/>
+        <jdo-enhance outputdir="${build.classes}">
+            <persistentaware dir="${build.classes}"/>
+        </jdo-enhance>
+    </target>
+
+    <target name="create-db" depends="compile"
+        description="Re-create database schema">
+        <jdo-create-db
+            outputdir="${build}"
+            droptables="*"
+            createtables="*"/>
+    </target>
+
+    <target name="insert-data" depends="create-db"
+        description="Re-create the database and insert test data">
+        <java classname="customtypes.InsertData" classpathref="cp" fork="true"/>
+    </target>
+
+    <target name="run" depends="compile" description="Run the application">
+        <java classname="customtypes.Main" classpathref="cp" fork="true"/>
+    </target>
+
+    <target name="server" depends="compile"
+        description="Start standalone server for remote (3-tier) usage">
+        <java classname="customtypes.Sys" classpathref="cp" fork="true">
+            <jvmarg value="-Djava.security.policy=./policy.all"/>
+        </java>
+    </target>
+
+    <target name="run-remote" depends="compile"
+        description="Run against a remote server on same machine">
+        <java classname="customtypes.Main" classpathref="cp" fork="true">
+            <jvmarg value="-Djdo.host=localhost"/>
+            <jvmarg value="-Djava.security.policy=./policy.all"/>
+        </java>
+    </target>
+
+</project>

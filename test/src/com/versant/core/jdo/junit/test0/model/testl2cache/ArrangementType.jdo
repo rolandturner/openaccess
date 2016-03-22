@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jdo>
+    <package name="com.versant.core.jdo.junit.test0.model.testl2cache">
+        <class name="ArrangementType">
+            <extension vendor-name="kodo" key="detachable" value="true"/>
+            <field name="villages">
+                <collection element-type="Village"/>
+                <extension vendor-name="kodo" key="fetch-group" value="arrangementType.village"/>
+            </field>
+        </class>
+    </package>
+</jdo>

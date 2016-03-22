@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<connection-factories>
+    <tx-connection-factory>
+        <jndi-name>versant</jndi-name>
+        
+        <!--if the rar file is in the ear file write it like this-->
+        <!--<rar-name>myapplication.ear#openaccess.rar</rar-name>-->
+
+        <!--if the rar file is outside the ear file write it like this-->
+        <rar-name>openaccess.rar</rar-name>
+
+        <connection-definition>com.versant.core.jdo.VersantPersistenceManagerFactory</connection-definition>
+        <adapter-display-name>Versant Open Access</adapter-display-name>
+        <min-pool-size>5</min-pool-size>
+        <max-pool-size>50</max-pool-size>
+        <blocking-timeout-millis>5000</blocking-timeout-millis>
+        <idle-timeout-minutes>1</idle-timeout-minutes>
+    </tx-connection-factory>
+</connection-factories>

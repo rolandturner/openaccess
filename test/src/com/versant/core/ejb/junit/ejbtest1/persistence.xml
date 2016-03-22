@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-manager>
+    <name>mycontext</name>
+    <provider>com.versant.core.jdo.BootstrapPMF</provider>
+    <class>com.versant.core.ejb.junit.ejbtest1.model.QueryAddress</class>
+    <class>com.versant.core.ejb.junit.ejbtest1.model.QueryEmployee</class>
+    <class>com.versant.core.ejb.junit.ejbtest1.model.BigTask</class>
+    <class>com.versant.core.ejb.junit.ejbtest1.model.EmploymentTime</class>
+    <class>com.versant.core.ejb.junit.ejbtest1.model.SmallTask</class>
+    <class>com.versant.core.ejb.junit.ejbtest1.model.Task</class>
+    <class>com.versant.core.ejb.junit.ejbtest1.model.TelNumber</class>
+    <properties>
+        <property name="javax.jdo.option.ConnectionDriverName" value="@DRIVER@"/>
+        <property name="javax.jdo.option.ConnectionUserName" value="@USER@"/>
+        <property name="javax.jdo.option.ConnectionPassword" value="@PASSWORD@"/>
+        <property name="javax.jdo.option.ConnectionURL" value="@URL@"/>
+        <property name="versant.properties" value="@PROPERTIES@"/>
+        <property name="versant.hyperdrive" value="@HYPERDRIVE@"/>
+    </properties>
+</entity-manager>

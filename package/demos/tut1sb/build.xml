@@ -1,0 +1,227 @@
+<!--
+Simple tutorial on using JDO Genie from a session bean.
+$Id: build.xml,v 1.1 2005/03/08 08:31:44 david Exp $
+
+There is a walkthrough for this tutorial in Appendix C of the JDO Genie
+manual. Please open docs/index.html in your browser to access the manual.
+
+There are important extra steps required to run this tutorial on WebLogic
+or WebSphere that are explained in the manual.
+
+-->
+
+<project name="tut1sb" default="compile" basedir=".">
+    <!--
+        Properties that depend on your installation environment.
+        Please supply values for application servers which you
+        would like to use. e.g. if you would like to use
+        jboss3.0.x write it's path as a value in jboss3.home property.
+    -->
+    <property environment="env"/>
+
+    <!-- JBoss 3.0.x -->
+    <property name="jboss3.home" value="${env.JBOSS_HOME}"/>
+    <property name="jboss3.deploy" value="${jboss3.home}/server/default/deploy"/>
+    <property name="jboss3.lib" value="${jboss3.home}/server/default/lib"/>
+    <property name="jboss.j2ee.jar" value="${jboss3.home}/client/jboss-j2ee.jar"/>
+    <path id="jboss3-client.path">
+        <fileset dir="${jboss3.home}/client" includes="*.jar"/>
+    </path>
+
+    <!-- Weblogic 7.0 -->
+    <property name="weblogic.home" value="${env.WL_HOME}"/>
+    <property name="weblogic.deploy"
+        value="${weblogic.home}/samples/server/config/examples/applications"/>
+    <property name="weblogic.j2ee.jar"
+        value="${weblogic.home}/server/lib/weblogic.jar"/>
+    <path id="weblogic-client.path">
+        <pathelement path="${weblogic.home}/server/lib/weblogic.jar"/>
+    </path>
+
+    <!-- WebSphere 5.0 -->
+    <property name="was5.home" value="${env.WAS_HOME}"/>
+    <property name="was5.j2ee.jar"
+        value="${weblogic.home}/server/lib/weblogic.jar"/>
+
+    <!-- JRun -->
+    <property name="jrun4.home" value="${env.JRUN4_HOME}"/>
+    <property name="jrun4.j2ee.jar" value="${env.JRUN4_HOME}/lib/jrun.jar"/>
+
+    <!-- Common properties for all app servers -->
+    <property name="src" value="src"/>
+    <property name="build" value="build"/>
+    <property name="build.classes" value="${build}/classes"/>
+    <property name="etc" value="etc"/>
+    <property name="jdo.project" value="versant.properties"/>
+
+    <property name="jdo.home" value="../.."/>
+    <property name="jdo.license" value="${jdo.home}/license"/>
+    <property name="jdo.license.file" value="${jdo.license}/openaccess.license"/>
+    <property name="jdo.lib" value="${jdo.home}/lib"/>
+    <property name="jdo.tools" value="${jdo.home}/tools"/>
+
+    <path id="cp">
+        <pathelement path="${src}"/>
+        <pathelement path="${build.classes}"/>
+        <pathelement path="${jdo.license}"/>
+        <fileset dir="${jdo.lib}" includes="**/*.jar"/>
+        <pathelement path="${jboss.j2ee.jar}"/>
+        <pathelement path="${weblogic.j2ee.jar}"/>
+        <pathelement path="${was5.j2ee.jar}"/>
+        <pathelement path="${jrun4.j2ee.jar}"/>
+        <pathelement path="lib/jboss-j2ee.jar"/>
+    </path>
+
+    <target name="clean" depends="init"
+        description="Remove everything created by this script">
+        <delete dir="${build}"/>
+        <mkdir dir="${build.classes}"/>
+    </target>
+
+    <target name="init">
+        <mkdir dir="${build.classes}"/>
+        <copy file="${jdo.project}" todir="${build.classes}"/>
+        <!-- Define JDO Genie tasks (jdo-xxx) -->
+        <taskdef resource="versant.tasks">
+            <classpath>
+                <path refid="cp"/>
+                <fileset dir="${jdo.tools}" includes="**/*.jar"/>
+            </classpath>
+        </taskdef>
+    </target>
+
+    <target name="compile" depends="init"
+        description="Compile and enhance all Java sources">
+        <mkdir dir="${build.classes}"/>
+        <dependset>
+            <!-- Delete the classes if the JDO meta data has been changed.
+                 They need to be recompiled and enhanced. -->
+            <srcfileset dir="${src}" includes="**/*.jdo"/>
+            <targetfileset dir="${build.classes}" includes="**/*.class"/>
+        </dependset>
+        <javac srcdir="${src}" destdir="${build.classes}" debug="true">
+            <classpath>
+                <path refid="cp"/>
+            </classpath>
+        </javac>
+        <jdo-enhance outputDir="${build.classes}">
+            <persistentaware dir="${build.classes}"/>
+        </jdo-enhance>
+    </target>
+
+    <target name="create-db" depends="compile"
+        description="Re-create database schema">
+        <jdo-create-db
+            outputdir="${build}"
+            droptables="*"
+            createtables="*"/>
+    </target>
+
+    <target name="ejb" depends="compile"
+        description="Build the EJB jar file">
+        <jar jarfile="${build}/tut1sb.jar">
+            <metainf dir="${etc}/ejb"/>
+            <fileset dir="${build.classes}"/>
+            <fileset dir="${jdo.license}" includes="openaccess.license"/>
+            <fileset dir="${src}" includes="**/*.jdo,${jdo.project}"/>
+        </jar>
+    </target>
+
+    <target name="ear" depends="ejb"
+        description="Build the EAR file (not for WebSphere 5)">
+        <ear destfile="${build}/tut1sb.ear"
+            appxml="${etc}/ear/application.xml"
+            basedir="${build}" includes="tut1sb.jar"/>
+    </target>
+
+    <target name="client-was5" depends="compile"
+        description="Build the J2EE client for the WebSphere 5 EAR">
+        <jar jarfile="${build}/tut1client.jar" manifest="${etc}/client/MANIFEST.MF">
+            <metainf dir="${etc}/client" excludes="MANIFEST.MF"/>
+            <fileset dir="${build.classes}" includes="tut1/Main.class"/>
+        </jar>
+    </target>
+
+    <target name="ear-was5" depends="ejb,client-was5"
+        description="Build the EAR file for WebSphere 5">
+        <ear destfile="${build}/tut1sb.ear"
+            appxml="${etc}/ear/was5-application.xml"
+            basedir="${build}" includes="tut1sb.jar,tut1client.jar"/>
+    </target>
+
+    <target name="deploy-weblogic7" depends="ear"
+        description="Deploy to Weblogic 7.0">
+        <copy toDir="${weblogic.home}/server/lib" file="${jdo.home}/lib/openaccess.jar" overwrite="true"/>
+
+        <copy toDir="${weblogic.deploy}" file="${build}/tut1sb.ear"/>
+    </target>
+
+    <target name="run-weblogic7" depends="compile"
+        description="Run the client against Weblogic 7.0">
+        <java classname="tut1.Main" fork="yes" failonerror="yes">
+            <sysproperty key="java.naming.factory.initial"
+                value="weblogic.jndi.WLInitialContextFactory"/>
+            <sysproperty key="java.naming.provider.url"
+                value="t3://localhost:7001"/>
+            <!-- sysproperty key="java.naming.security.principal" value="weblogic"  / -->
+            <!-- sysproperty key="java.naming.security.credentials" value="weblogic" / -->
+            <sysproperty key="weblogic.jndi.createIntermediateContexts" value="true"/>
+            <classpath refid="weblogic-client.path"/>
+            <classpath refid="cp"/>
+        </java>
+    </target>
+
+    <target name="deploy-jboss3" depends="ear"
+        description="Deploy application to JBoss 3.0">
+        <copy toDir="${jboss3.lib}" file="${jdo.home}/lib/openaccess.jar" overwrite="true"/>
+        <copy file="${etc}/mbean/tut1sb-service.xml" todir="${jboss3.deploy}" overwrite="true"/>
+        <copy toDir="${jboss3.deploy}" file="${build}/tut1sb.ear" overwrite="true"/>
+    </target>
+
+    <target name="run-jboss3" depends="compile"
+        description="Run the client against JBoss 3.0">
+        <java classname="tut1.Main" fork="yes" failonerror="yes">
+            <sysproperty key="java.naming.factory.initial"
+                value="org.jnp.interfaces.NamingContextFactory"/>
+            <sysproperty key="java.naming.provider.url"
+                value="jnp://localhost"/>
+            <sysproperty key="java.naming.provider.url.pkgs"
+                value="org.jboss.naming:org.jnp.interfaces"/>
+            <classpath refid="jboss3-client.path"/>
+            <classpath refid="cp"/>
+        </java>
+    </target>
+
+    <target name="run-jrun4" depends="compile"
+        description="Run the client against JRun4">
+        <java classname="tut1.Main" fork="yes" failonerror="yes">
+            <sysproperty key="java.naming.factory.initial"
+                value="jrun.naming.JRunContextFactory"/>
+            <sysproperty key="java.naming.provider.url"
+                value="localhost:2918"/>
+            <sysproperty key="java.naming.provider.url.pkgs"
+                value="jrun.naming"/>
+            <classpath refid="cp"/>
+        </java>
+    </target>
+
+    <target name="deploy-jrun4" depends="ejb"
+        description="Copy ejb-jar and other nec files to JRun4">
+        <echo>Remember to update jrun.policy for security permission.</echo>
+        <echo>Remember to update jrun.xml for service declaration.</echo>
+        <copy file="${jdo.lib}/openaccess.jar" todir="${jrun4.home}/servers/lib"/>
+        <copy file="${build}/tut1sb.jar" todir="${jrun4.home}/servers/samples"/>
+    </target>
+
+    <target name="deploy-was5" depends="ear-was5"
+        description="Deploy to WebSphere 5">
+        <echo>Install build/tut1sb.ear using the WebSphere admin console.</echo>
+    </target>
+
+    <target name="run-was5" depends="ear-was5"
+        description="Run the client against WebSphere 5.0">
+        <echo>Use the WebSphere launchClient tool to run the application.</echo>
+        <echo>You must use the installed ear file and not build/tut1sb.ear.</echo>
+    </target>
+
+</project>

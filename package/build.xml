@@ -1,0 +1,359 @@
+<!--
+Package up a Versant Open Access distribution.
+ -->
+<project name="package" default="package" basedir=".">
+
+    <import file="../common.xml"/>
+
+    <taskdef name="srcfileattr"
+            classname="com.versant.srcfileattr.SrcFileAttrTask">
+        <classpath>
+            <fileset file="lib/srcfileattr.jar"/>
+        </classpath>
+    </taskdef>
+
+    <target name="init">
+        <mkdir dir="build/package"/>
+        <available file="../remote" property="remote_available"/>
+        <available file="../cluster" property="cluster_available"/>
+        <available file="../jca" property="jca_available"/>
+    </target>
+
+    <target name="clean" description="Nuke our build dir" >
+        <delete dir="build"/>
+    </target>
+
+    <target name="clean-all" description="Nuke all subproject build dirs">
+        <ant dir=".." target="clean" />
+    </target>
+
+    <target name="package"
+            depends="lib,tools,javadoc,docs,demos,jca,bin,ant,plugins"
+            description="Create a distribution from current code">
+        <!-- Make sure all text files use CRLF for Windoze -->
+        <fixcrlf srcDir="build/package"
+            includes="**/*.bat,**/*.java,**/*.txt,**/*.jdo,**/*.xml,**/*.properties,**/*.jsp,**/*.tld,**/*.js,**/*.css"
+            eol="crlf"/>
+        <mkdir dir="build/package/license"/>
+    </target>
+
+    <target name="qpackage">
+        <property name="quick" value="true"/>
+        <ant target="package"/>
+    	<!-- Put in the JDBC drivers so that the demos will work. -->
+    	<copy todir="build/package/lib">
+    		<fileset dir="../jdbc/lib.jdbc" />
+    	</copy>
+    </target>
+
+    <target name="distribution"
+            description="Create a distribution for the web (no debug code)">
+        <condition property="debug-true">
+            <equals arg1="${debug}" arg2="true"/>
+        </condition>
+        <fail if="debug-true"
+            message="Debug is true. Invoke: ant distribution -Ddebug=false"/>
+        <antcall target="clean-all"/>
+        <antcall target="package"/>
+    	<copy todir="build/package/license">
+    		<fileset dir="license" includes="openaccess.license"/>
+    	</copy>
+        <antcall target="archives"/>
+    </target>
+
+    <target name="bin" depends="init" description="Create bin dir">
+        <mkdir dir="build/package/bin"/>
+        <copy todir="build/package/bin">
+            <fileset dir="bin"/>
+        </copy>
+    </target>
+
+    <target name="ant" depends="init"
+            description="Create ant dir">
+        <mkdir dir="build/package/ant"/>
+        <copy todir="build/package/ant">
+            <fileset dir="ant"/>
+        </copy>
+    </target>
+
+    <target name="compile" depends="init" description="Compile all sources">
+        <property name="nodeps" value="true"/>
+        <!-- These are in dependency order -->
+        <ant target="compile" dir="../engine"/>
+        <ant target="compile" dir="../vds"/>
+        <ant target="compile" dir="../ejbapi"/>
+        <ant target="compile" dir="../ejb"/>
+        <ant target="compile" dir="../jdbc"/>
+        <ant target="compile_remote"/>
+        <ant target="compile_cluster"/>
+        <ant target="compile_jca"/>
+        <ant target="compile" dir="../tools"/>
+        <ant target="compile" dir="../workbench"/>
+        <ant target="compile" dir="../plugins/eclipse"/>
+        <ant target="compile" dir="../plugins/eclipseTools"/>
+    </target>
+
+    <target name="q" depends="lib,tools,demos,jca,bin,ant,plugins">
+        <mkdir dir="build/package/license"/>
+        <copy file="../engine/etc/license/openaccess.license" todir="build/package/license"/>
+        <copy file="../jdbc/lib.jdbc/mysql-connector-java-3.0.9-stable-bin.jar" todir="build/package/lib"/>
+    </target>
+
+    <target name="compile_remote" if="remote_available">
+        <ant target="compile" dir="../remote"/>
+    </target>
+
+    <target name="compile_cluster" if="cluster_available">
+        <ant target="compile" dir="../cluster"/>
+    </target>
+
+    <target name="compile_jca" if="jca_available">
+        <ant target="compile" dir="../jca"/>
+    </target>
+
+    <target name="fillversion" depends="compile">
+        <mkdir dir="build/classes"/>
+        <srcfileattr todir="build/classes"
+                name="Versant Open Access ${version}"
+                shortname="VOA ${version}">
+            <fileset dir="../engine/build/classes"/>
+            <fileset dir="../ejbapi/build/classes"/>
+            <fileset dir="../ejb/build/classes"/>
+            <fileset dir="../jdbc/build/classes"/>
+            <fileset dir="../vds/build/classes"/>
+            <fileset dir="../tools/build/classes"/>
+            <fileset dir="../workbench/build/classes"/>
+            <fileset dir="../plugins/eclipse/build/classes"/>
+            <fileset dir="../plugins/eclipseTools/build/classes"/>
+            <fileset dir="../jca/build/classes"/>
+        </srcfileattr>
+        <ant target="fillversion_remote"/>
+        <ant target="fillversion_cluster"/>
+    </target>
+
+    <target name="fillversion_remote" if="remote_available">
+        <mkdir dir="build/classes"/>
+        <srcfileattr todir="build/classes"
+                name="Versant Open Access ${version}"
+                shortname="VOA ${version}">
+            <fileset dir="../remote/build/classes"/>
+        </srcfileattr>
+    </target>
+
+    <target name="fillversion_cluster" if="cluster_available">
+        <mkdir dir="build/classes"/>
+        <srcfileattr todir="build/classes"
+                name="Versant Open Access ${version}"
+                shortname="VOA ${version}">
+            <fileset dir="../cluster/build/classes"/>
+        </srcfileattr>
+    </target>
+
+    <target name="delete-license" depends="fillversion" unless="quick">
+        <delete>
+            <fileset dir="build/classes" includes="*.license"/>
+        </delete>
+    </target>
+
+    <target name="lib" depends="delete-license" description="Create lib dir" >
+        <mkdir dir="build/package/lib"/>
+        <jar jarfile="build/package/lib/openaccess.jar">
+            <fileset dir="build/classes"
+                excludes="config.properties,
+                com/versant/core/jdo/tools/workbench/**,
+                com/versant/core/jdo/tools/eclipse/**,
+                com/versant/core/jdo/tools/plugins/**"/>
+            <zipfileset src="../engine/lib/jdo.jar"/>
+            <zipfileset src="../engine/lib/bcel.jar"/>
+            <zipfileset src="../engine/lib/pizza.jar"/>
+            <zipfileset src="../vds/lib/versant-odbms.jar"/>
+            <zipfileset src="../jsr220/lib/jsr220xb.jar"/>
+        </jar>
+        <copy todir="build/package/lib">
+            <fileset dir="../engine/lib" includes="jdo.jar,jta.jar"/>
+            <fileset dir="../jsr220/lib" includes="activation.jar"/>
+            <fileset dir="../workbench/lib" includes="hsqldb.jar"/>
+            <fileset dir="lib" includes="xml-apis.jar,xercesImpl.jar"/>
+        </copy>
+    </target>
+
+    <target name="tools" depends="delete-license" description="Create tools dir" >
+        <mkdir dir="build/package/tools"/>
+        <jar jarfile="build/package/tools/openaccess-tools.jar">
+            <fileset dir="build/classes"
+                includes="config.properties,
+                com/versant/core/jdo/tools/workbench/**"/>
+            <zipfileset src="../engine/lib/jdo.jar"/>
+            <zipfileset src="../workbench/lib/config.jar"
+                excludes="log4j.properties"/>
+            <zipfileset src="../workbench/lib/eval.jar"/>
+            <zipfileset src="../workbench/lib/gui.jar"
+                excludes="log4j.properties,config.properties" />
+            <zipfileset src="../workbench/lib/jakarta-regexp-1.2.jar"/>
+            <zipfileset src="../workbench/lib/jdom.jar"/>
+            <zipfileset src="../workbench/lib/jgraph.jar"/>
+        </jar>
+        <ant target="tools_add_jars"/>
+    </target>
+
+    <target name="check_jars">
+        <available file="../workbench/lib/alloy.jar"  property="jars_available"/>
+    </target>
+
+    <target name="tools_add_jars" depends="check_jars" if="jars_available">
+        <mkdir dir="build/package/tools"/>
+        <jar jarfile="build/package/tools/openaccess-tools.jar" update="true" >
+            <zipfileset src="../workbench/lib/alloy.jar"/>
+            <zipfileset src="../workbench/lib/jcommon-0.8.8.jar"/>
+            <zipfileset src="../workbench/lib/jfreechart-0.9.13.jar"/>
+            <zipfileset src="../workbench/lib/velocity-dep-1.3.1.jar"/>
+            <zipfileset src="../workbench/lib/bsh-1.2b7.jar"/>
+        </jar>
+        <copy todir="build/package/templates">
+            <fileset dir="../workbench/templates"/>
+        </copy>
+    </target>
+
+    <target name="src" depends="init" unless="quick"
+            description="Create src dir" >
+        <mkdir dir="build/package/src"/>
+        <copy todir="build/package/src">
+            <fileset dir="../ejbapi/src"/>
+        </copy>
+        <unjar src="lib/jdosrc.jar" dest="build/package/src"/>
+        <delete dir="build/package/src/META-INF"/>
+    </target>
+
+    <target name="docs" depends="init" unless="quick"
+            description="Create docs dir with manual" >
+        <ant dir="../docs" target="all"/>
+        <mkdir dir="build/package/docs"/>
+        <copy todir="build/package/docs">
+            <fileset dir="../docs/build/manual-html"/>
+            <fileset dir="../docs/build" includes="manual.pdf"/>
+            <fileset dir="../docs" includes="LICENSE_*.txt"/>
+        </copy>
+        <copy todir="build/package" overwrite="true" >
+            <fileset dir="../docs" includes="CHANGELOG.txt,README.txt,README_EJB3.txt,README_SOURCE.txt"/>
+        </copy>
+        <replace file="build/package/README.txt">
+            <replacefilter token="@JDO.VERSION@" value="${version}"/>
+            <replacefilter token="@JDO.VERSION.DATE@" value="${TODAY}"/>
+        </replace>
+    </target>
+
+    <target name="javadoc" depends="src" unless="quick"
+            description="Create javadoc in docs/api" >
+        <mkdir dir="build/package/docs/api"/>
+        <javadoc destdir="build/package/docs/api"
+            packagenames="com.versant.*,javax.jdo.*"
+            defaultexcludes="yes"
+            failonerror="true"
+            Windowtitle="Versant Open Access ${version}"
+            Footer="(c)2005 &lt;a href=&quot;http://www.versant.com&quot;&gt;Versant, Inc.&lt;/a&gt;">
+            <fileset dir="build/package/src"/>
+        </javadoc>
+    </target>
+
+    <target name="demos" depends="init" unless="quick"
+            description="Create demos dir" >
+        <mkdir dir="build/package/demos"/>
+        <copy todir="build/package/demos" includeemptydirs="false">
+            <fileset dir="demos">
+                <patternset>
+                    <include name="tut1/**"/>
+                    <include name="testcenter/**"/>
+                    <include name="tut1sb-jca/**"/>
+                    <include name="junit/**"/>
+                    <include name="legacydb/**"/>
+                    <include name="parentchild/**"/>
+                    <include name="processlog/**"/>
+                    <include name="hsqldb/**"/>
+                    <include name="interfaces/**"/>
+                    <include name="college/**"/>
+                    <include name="customtypes/**"/>
+                    <include name="externalization/**"/>
+                    <include name="xmlbinding-jibx/**"/>
+                    <include name="graph/**"/>
+                    <include name="aggregates/**"/>
+                    <include name="attachdetach/**"/>
+                    <include name="inheritance/**"/>
+                    <include name="batchprocess/**"/>
+                    <include name="enums/**"/>
+                    <include name="ejb3/**"/>
+                    <include name="embedded/**"/>
+<!--                    <include name="eclipse_workspace/**"/>-->
+                    <exclude name="**/*.license,**/*.df*,**/build/**,**/*.sh,**/*.bat"/>
+                </patternset>
+            </fileset>
+        </copy>
+        <delete>
+            <fileset dir="build/package/demos"
+                includes="**/*.license,**/*.df*,**/build/**,**/build,**/*.tpr,**/*.tws,**/*.iml,**/*.ipr,**/*.iws,**/classes/**,**/classes,**/*.jdolog,**/*.jdoperf"/>
+        </delete>
+        <delete dir="build/package/demos/tut1/build"/>
+        <delete dir="build/package/demos/testcenter/build"/>
+        <delete dir="build/package/demos/testcenter/webapp/WEB-INF/classes"/>
+        <delete>
+            <fileset dir="build/package/demos/testcenter/webapp/WEB-INF/lib"
+                includes="openaccess.jar,jdo.jar,jta.jar,pg*.jar"/>
+            <fileset dir="build/package/demos/testcenter"
+                includes="testcenter.war,testcenter-gui.jar,main.sql"/>
+        </delete>
+        <delete dir="build/package/demos/tut1sb-jca/build"/>
+        <delete dir="build/package/demos/junit/build"/>
+        <delete dir="build/package/demos/legacydb/build"/>
+        <delete dir="build/package/demos/parentchild/build"/>
+        <delete dir="build/package/demos/processlog/build"/>
+        <delete dir="build/package/demos/interfaces/build"/>
+        <delete dir="build/package/demos/customtypes/build"/>
+        <delete dir="build/package/demos/externalization/build"/>
+        <delete dir="build/package/demos/xmlbinding-jibx/build"/>
+        <delete dir="build/package/demos/graph/build"/>
+        <delete dir="build/package/demos/inheritance/build"/>
+        <delete dir="build/package/demos/aggregates/build"/>
+        <delete dir="build/package/demos/attachdetach/build"/>
+        <delete dir="build/package/demos/batchprocess/build"/>
+        <delete dir="build/package/demos/enums/build"/>
+        <delete dir="build/package/demos/embedded/build"/>
+        <delete dir="build/package/demos/eclipse_workspace/build"/>
+        <delete dir="build/package/demos/college/build"/>
+        <delete dir="build/package/demos/college/web/WEB-INF/work"/>
+        <delete dir="build/package/demos/college/web/WEB-INF/classes"/>
+        <mkdir dir="build/package/demos/college/web/WEB-INF/lib"/>
+        <delete>
+            <fileset dir="build/package/demos/college/web/WEB-INF/lib"
+                includes="*.jar"/>
+        </delete>
+    </target>
+
+    <target name="jca" if="jca_available"  depends="init" description="Package JCA adapter">
+        <mkdir dir="build/package/jca"/>
+        <ant dir="../jca" target="package" />
+        <copy todir="build/package/jca">
+            <fileset dir="../jca/build/package"/>
+        </copy>
+    </target>
+
+    <target name="plugins" depends="init" description="Create plugins dir">
+        <mkdir dir="build/package/plugins/"/>
+        <ant dir="../plugins/eclipse" target="package" />
+        <copy todir="build/package/plugins/">
+            <fileset dir="../plugins/eclipse/build/package"/>
+        </copy>
+        <mkdir dir="build/package/plugins/eclipseTools"/>
+        <ant dir="../plugins/eclipseTools" target="package" />
+        <copy todir="build/package/plugins/eclipseTools">
+            <fileset dir="../plugins/eclipseTools/build/package"/>
+        </copy>
+    </target>
+
+    <target name="archives"
+            description="Create zip file for whatever is in build/package">
+        <delete file="build/openaccess-${version}.zip"/>
+        <zip zipfile="build/openaccess-${version}.zip">
+            <zipfileset dir="build/package" prefix="openaccess-${version}"/>
+        </zip>
+    </target>
+
+</project>

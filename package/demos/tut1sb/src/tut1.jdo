@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jdo>
+    <package name="tut1.model">
+        <class name="Item"/>
+        <class name="Category"/>
+        <class name="Customer"/>
+        <class name="Order">
+            <field name="lines">
+                <collection element-type="OrderLine">
+                    <extension vendor-name="versant" key="inverse" value="order"/>
+                </collection>
+            </field>
+        </class>
+        <class name="OrderLine">
+            <extension vendor-name="versant" key="delete-orphans" value="true"/>
+        </class>
+    </package>
+</jdo>
+

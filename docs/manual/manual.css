@@ -1,0 +1,235 @@
+BODY {
+    font-family: Helvetica;
+}
+
+BODY ADDRESS {
+	line-height: 1.3;
+	margin: .6em 0;
+}
+
+BODY BLOCKQUOTE {
+	margin-top: .75em;
+	line-height: 1.5;
+	margin-bottom: .75em;
+}
+
+HTML BODY {
+	margin: 1em 1em 1em 1em;
+	line-height: 1.2;
+}
+
+.LEGALNOTICE {
+	font-size: small;
+	font-variant: small-caps;
+}
+
+BODY DIV {
+	margin: 0;
+}
+
+DL {
+	margin: .8em 0;
+	line-height: 1.2;
+}
+
+BODY FORM {
+	margin: .6em 0;
+}
+
+H1, H2, H3, H4, H5, H6,
+DIV.EXAMPLE P B,
+.QUESTION,
+DIV.TABLE P B,
+DIV.TOC P B,
+DIV.FIGURE P B,
+DIV.PROCEDURE P B {
+	color: #666699;
+}
+
+BODY H1 {
+	margin: .8em 0 0 -4%;
+	line-height: 1.3;
+}
+
+BODY H2 {
+	margin: .8em 0 0 -4%;
+	line-height: 1.3;
+	background-color: #F0F0FF;
+}
+
+BODY H3 {
+	margin: .8em 0 0 -3%;
+	line-height: 1.3;
+}
+
+BODY H4 {
+	margin: .8em 0 0 -3%;
+	line-height: 1.3;
+}
+
+BODY H5 {
+	margin: .8em 0 0 -2%;
+	line-height: 1.3;
+}
+
+BODY H6 {
+	margin: .8em 0 0 -1%;
+	line-height: 1.3;
+}
+
+BODY HR {
+	margin: .6em
+}
+
+BODY IMG.NAVHEADER {
+	margin: 0 0 0 -4%;
+}
+
+OL {
+	margin: 0 0 0 5%;
+	line-height: 1.2;
+}
+
+BODY P {
+	margin: .6em 0;
+	line-height: 1.2;
+}
+
+BODY PRE {
+	margin: .75em 0;
+	line-height: 1.0;
+	color: #461b7e;
+}
+
+BODY TD {
+	line-height: 1.2
+}
+
+BODY TH {
+	line-height: 1.2;
+}
+
+TH {
+	background-color: #666699;
+	color: #FFFFFF;
+	font-weight: bold;
+}
+
+TD {
+	background-color: #F0F0FF;
+	font-size: 90%;
+}
+
+DIV.calloutlist TD,
+DIV.calloutlist TD P {
+	background-color: #FFFFFF;
+	font-size: 90%;
+    margin: 0 0 0 0;
+}
+
+div.navheader th,
+div.navfooter th {
+    background-color: white;
+    color: black;
+    font-weight: normal;
+    font-size: 100%;
+}
+
+div.navheader td,
+div.navfooter td {
+    background-color: white;
+    color: black;
+    font-size: 100%;
+}
+
+UL, BODY DIR, BODY MENU {
+	margin: 0 0 0 5%;
+	line-height: 1.2;
+}
+
+HTML {
+	margin: 0;
+	padding: 0;
+}
+
+
+.FILENAME {
+	color: #007a00;
+}
+
+BODY H1, BODY H2, BODY H3, BODY H4, BODY H5, BODY H6 {
+	margin-left: 0
+}
+
+.GUIMENU, .GUIMENUITEM, .GUISUBMENU,
+.GUILABEL, .INTERFACE, .GUIBUTTON,
+.SHORTCUT, .SHORTCUT .KEYCAP {
+	background-color: #F0F0F0;
+}
+
+.ACCEL {
+	background-color: #F0F0F0;
+	text-decoration: underline;
+}
+
+.PROGRAMLISTING {
+    background-color: #F0F0F0;
+    border: thin solid gray;
+    color: black;
+    font-family: monospace;
+    margin: 1ex;
+    padding: .6ex;
+}
+
+p.releaseinfo {
+    font-size: 80%;
+    line-height: 1.0;
+}
+
+h1.title {
+    font-size: 100%;
+    line-height: 1.0;
+    margin: 0 0 0 0;
+}
+
+p.copyright {
+    font-size: 80%;
+    line-height: 1.0;
+}
+
+div.toc {
+    font-size: 90%;
+    font-weight: bold;
+}
+
+div.indexdiv {
+    font-size: 90%;
+}
+
+div.toc dl {
+    line-height: 1.1;
+    margin: 0 0 0 0;
+}
+
+div.toc dd {
+    margin: 0.25em 0 1em 1em; 
+}
+
+div.toc dd dl dd {
+    margin: 0 0 0 1em;
+}
+
+div.toc dl dd dl dt {
+    font-size: 90%;
+    font-weight: normal;
+}
+
+div.toc a {
+    color: #6265CD;
+    text-decoration: none;
+}
+
+div.toc a:hover {
+    color: black;
+}
+

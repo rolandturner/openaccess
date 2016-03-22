@@ -1,0 +1,53 @@
+<project name="InstallEclipse" default="install_eclipse_plugin" basedir=".">
+    <description>
+	    Install the Versant Open Access enhancement plugin 
+	    and the Versant Open Access Tools into eclipse.
+    </description>
+
+    <!-- set global properties for this installation -->
+    <property file="install.properties"/>
+    <property name="voajdo_dir" location="../../"/>
+    <property name="voajdo_lib_dir" location="${voajdo_dir}/lib"/>
+    <property name="voajdo_tools_dir" location="${voajdo_dir}/tools"/>
+    <property name="voajdo_eclipse_plugins_dir" location="${voajdo_dir}/plugins/eclipseTools"/>
+    <property name="voajdo_license_dir" location="${voajdo_dir}/license"/>
+    <property name="eclipse_plugins_dir" location="${eclipse_dir}/plugins"/>
+
+    <target name="check_eclipse_plugins_dir">
+        <available file="${eclipse_plugins_dir}" property="found_eclipse_plugins_dir"/>
+    </target>
+
+    <target name="check_eclipse_ok"
+        depends="check_eclipse_plugins_dir"
+        unless="found_eclipse_plugins_dir" >
+        <echo message="Eclipse dir does not seem to be valid '${eclipse_dir}'"/>
+        <echo message="Please edit install.properties"/>
+        <fail message="Eclipse dir does not seem to be valid. Please edit install.properties" />
+    </target>
+
+    <target name="install_eclipse_plugin" depends="check_eclipse_ok">
+        <copy todir="${eclipse_plugins_dir}/com.versant.voa_@ECLIPSE.TOOLS.VERSION@"
+            overwrite="true"
+            includeEmptyDirs="true">
+            <fileset dir="${voajdo_eclipse_plugins_dir}/com.versant.voa_@ECLIPSE.TOOLS.VERSION@"/>
+        </copy>
+        <copy todir="${eclipse_plugins_dir}/com.versant.voa_@ECLIPSE.TOOLS.VERSION@/lib"
+            overwrite="true">
+            <fileset dir="${voajdo_lib_dir}">
+                <include name="openaccess.jar"/>
+                <include name="jta.jar"/>
+                <include name="jdo.jar"/>
+                <include name="xercesImpl.jar"/>
+                <include name="xml-apis.jar"/>
+                <include name="activation.jar"/>
+            </fileset>
+            <fileset dir="${voajdo_tools_dir}">
+                <include name="openaccess-tools.jar"/>
+            </fileset>
+        </copy>
+        <echo message=""/>
+        <echo message="Pluging installed please restart eclipse."/>
+    </target>
+</project>
+
+

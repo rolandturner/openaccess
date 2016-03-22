@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE ejb-jar PUBLIC
+    "-//Sun Microsystems, Inc.//DTD Enterprise JavaBeans 2.0//EN"
+    "http://java.sun.com/dtd/ejb-jar_2_0.dtd">
+
+<ejb-jar id="ejb-jar_ID">
+    <enterprise-beans>
+        <session id="Session_1">
+            <display-name>VersantTut1</display-name>
+            <ejb-name>Tut1</ejb-name>
+            <home>tut1.Tut1Home</home>
+            <remote>tut1.Tut1</remote>
+            <ejb-class>tut1.Tut1EJB</ejb-class>
+            <session-type>Stateless</session-type>
+            <transaction-type>Container</transaction-type>
+            <resource-ref id="ResourceRef_1">
+                <description>OpenAccesss JCA Connector</description>
+                <res-ref-name>jdo/jdo_tut1sb_jca</res-ref-name>
+                <res-type>javax.jdo.PersistenceManagerFactory</res-type>
+                <res-auth>Application</res-auth>
+                <res-sharing-scope>Shareable</res-sharing-scope>
+            </resource-ref>
+        </session>
+    </enterprise-beans>
+
+    <assembly-descriptor id="AssemblyDescriptor_1">
+        <container-transaction id="MethodTransaction_1">
+            <method id="MethodElement_1">
+                <ejb-name>Tut1</ejb-name>
+                <method-intf>Remote</method-intf>
+                <method-name>*</method-name>
+            </method>
+            <trans-attribute>Required</trans-attribute>
+        </container-transaction>
+    </assembly-descriptor>
+
+</ejb-jar>

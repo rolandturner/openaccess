@@ -1,0 +1,51 @@
+<project name="jca" default="compile" basedir=".">
+
+    <import file="../common.xml"/>
+
+    <path id="cp.path">
+        <path location="../engine/build/classes"/>
+        <fileset dir="../engine/lib" includes="**/*.jar"/>
+        <fileset dir="lib" includes="**/*.jar"/>
+    </path>
+
+    <target name="init">
+        <mkdir dir="build/classes"/>
+    </target>
+
+    <target name="clean">
+        <delete dir="build"/>
+    </target>
+
+    <target name="compile-deps" depends="init" unless="nodeps">
+        <ant target="compile" dir="../engine" />
+    </target>
+
+    <target name="compile" depends="compile-deps" description="Compile all sources">
+        <javac srcdir="src" destdir="build/classes"
+            source="1.3"
+            target="1.3"
+            compiler="modern"
+            debug="on"
+            optimize="${javac.optimize}"
+            debuglevel="${javac.debuglevel}">
+            <classpath>
+                <path refid="cp.path"/>
+            </classpath>
+        </javac>
+    </target>
+
+    <target name="package">
+        <mkdir dir="build/META-INF" />
+        <mkdir dir="build/package" />
+        <filter token="JDO.VERSION" value="${version}"/>
+        <copy file="etc/ra.xml" toDir="build/META-INF" overwrite="true" filtering="true" />
+        <copy file="etc/weblogic-ra.xml" toDir="build/META-INF" />
+        <copy file="etc/ra-borland.xml" toDir="build/META-INF" />
+        <jar jarfile="build/package/openaccess.rar" >
+            <fileset dir="build" includes="META-INF/*"/>
+        </jar>
+        <copy todir="build/package" file="etc/openaccess-ds.xml"/>
+        <copy todir="build/package" file="docs/README.txt"/>
+	</target>
+
+</project>

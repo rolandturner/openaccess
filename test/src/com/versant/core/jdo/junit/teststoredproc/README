@@ -1,0 +1,5 @@
+To run these tests against oracle you must first import the oracle dump.
+log in as oracle
+execute folling command to import:
+command     username/password
+./imp       system/oracle

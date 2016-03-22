@@ -1,0 +1,72 @@
+<!--
+Performance tuning tutorial. This tutorial demonstrates how to use
+some of JDO Genies most important performance tuning options. It provides
+the examples used in the performance tuning chapter of the manual.
+$Id: build.xml,v 1.1 2005/03/08 08:31:44 david Exp $
+-->
+
+<project name="tut2" default="compile" basedir=".">
+
+    <property name="src" value="src"/>
+    <property name="build" value="build"/>
+    <property name="build.classes" value="${build}/classes"/>
+    <property name="jdo.project" value="versant.properties"/>
+    <property name="jdo.home" value="../.."/>
+    <property name="jdo.license" value="../../license"/>
+    <property name="jdo.lib" value="../../lib"/>
+    <property name="jdo.tools" value="../../tools"/>
+
+    <path id="cp">
+        <pathelement path="${src}"/>
+        <pathelement path="${build.classes}"/>
+        <pathelement path="${jdo.license}"/>
+        <fileset dir="${jdo.lib}" includes="**/*.jar"/>
+    </path>
+
+    <target name="clean"
+        description="Get rid of all generated files">
+        <delete dir="${build}"/>
+        <mkdir dir="${build.classes}"/>
+    </target>
+
+    <target name="init">
+        <mkdir dir="${build.classes}"/>
+        <copy file="${jdo.project}" todir="${build.classes}"/>
+        <!-- Define JDO Genie tasks (jdo-xxx) -->
+        <taskdef resource="versant.tasks">
+            <classpath>
+                <path refid="cp"/>
+                <fileset dir="${jdo.tools}" includes="**/*.jar"/>
+            </classpath>
+        </taskdef>
+    </target>
+
+    <target name="compile" depends="init"
+        description="Compile and enhance all Java sources">
+        <!--        <dependset>-->
+        <!-- Delete the classes if the JDO meta data has been changed.
+             They need to be recompiled and enhanced. -->
+        <!--            <srcfileset dir="${src}" includes="**/*.jdo"/>-->
+        <!--            <targetfileset dir="${build.classes}" includes="**/*.class"/>-->
+        <!--        </dependset>-->
+        <javac srcdir="${src}" destdir="${build.classes}" classpathref="cp"/>
+        <jdo-enhance outputdir="${build.classes}">
+            <persistentaware dir="${build.classes}"/>
+        </jdo-enhance>
+    </target>
+
+    <target name="create-db" depends="compile"
+        description="Re-create database schema and insert test data">
+        <jdo-create-db
+            outputdir="${build}"
+            droptables="*"
+            createtables="*"/>
+        <java classname="tut2.InsertTestData" classpathref="cp" fork="true"/>
+    </target>
+
+    <target name="run" depends="compile"
+        description="Run the application">
+        <java classname="tut2.Main" classpathref="cp" fork="true"/>
+    </target>
+
+</project>

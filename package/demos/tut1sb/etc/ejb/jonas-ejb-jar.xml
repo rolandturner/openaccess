@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE jonas-ejb-jar PUBLIC "-//ObjectWeb//DTD JOnAS 2.4//EN" "http://www.objectweb.org/jonas/dtds/jonas-ejb-jar_2_4.dtd">
+
+<jonas-ejb-jar>
+  <jonas-session>
+    <ejb-name>Tut1</ejb-name>
+    <jndi-name>Tut1</jndi-name>
+	<jonas-resource>
+      <res-ref-name>jdo/tut1sb</res-ref-name>
+      <jndi-name>jdo_tut1sb</jndi-name>
+    </jonas-resource>
+  </jonas-session>
+</jonas-ejb-jar>

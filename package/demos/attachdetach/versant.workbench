@@ -1,0 +1,5 @@
+# Workbench properties (Not used at run-time)
+versant.workbench.projectDescription=attachdetach
+versant.workbench.srcPath=src
+versant.workbench.classpath.0=src
+versant.workbench.classpath.1=build/classes

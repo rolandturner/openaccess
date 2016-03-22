@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<!DOCTYPE struts-config PUBLIC
+          "-//Apache Software Foundation//DTD Struts Configuration 1.1//EN"
+          "http://jakarta.apache.org/struts/dtds/struts-config_1_1.dtd">
+
+<struts-config>
+
+    <!-- ======================================== Form Bean Definitions -->
+
+    <form-beans>
+
+        <!--Capture login data  -->
+        <form-bean
+            name="loginForm"
+            type="com.versant.testcenter.web.pub.LoginForm"/>
+
+        <!--Capture student data -->
+        <form-bean
+            name="studentForm"
+            type="com.versant.testcenter.web.student.StudentForm"/>
+
+        <!-- Capture selected exams  -->
+        <form-bean
+            name="examListForm"
+            type="com.versant.testcenter.web.exam.ExamListForm"/>
+
+        <!-- Capture exam data  -->
+        <form-bean
+            name="examForm"
+            type="com.versant.testcenter.web.exam.ExamForm"/>
+
+        <!-- Capture exam search data  -->
+        <form-bean
+            name="examSearchForm"
+            type="com.versant.testcenter.web.exam.ExamForm"/>
+
+    </form-beans>
+
+    <!-- ================================= Global Exception Definitions -->
+
+    <global-exceptions>
+
+        <!-- sample exception handler
+
+        <exception
+
+            key="expired.password"
+
+            type="app.ExpiredPasswordException"
+
+            path="/changePassword.jsp"/>
+
+        end sample -->
+
+    </global-exceptions>
+
+    <!-- =================================== Global Forward Definitions -->
+
+    <global-forwards>
+
+        <forward
+            name="login"
+            redirect="yes"
+            path="/public/Login.do"/>
+
+        <forward
+            name="welcome"
+            path="/user/Welcome.do"/>
+
+        <forward
+            name="register"
+            path="/public/Register.do"/>
+
+    </global-forwards>
+
+    <!-- =================================== Action Mapping Definitions -->
+
+    <action-mappings>
+
+        <!-- Public actions        -->
+        <action
+            path="/public/Login"
+            type="org.apache.struts.actions.ForwardAction"
+            parameter="/WEB-INF/pages/public/Login.jsp"/>
+
+        <action
+            path="/public/LoginSubmit"
+            scope="request"
+            name="loginForm"
+            type="com.versant.testcenter.web.pub.LoginSubmitAction"
+            input="/WEB-INF/pages/public/Login.jsp">
+            <forward name="success" path="/user/Welcome.do" redirect="true"/>
+        </action>
+
+        <action
+            path="/public/LogoutSubmit"
+            type="com.versant.testcenter.web.pub.LogoutSubmitAction">
+            <forward name="success" path="/user/Welcome.do" redirect="true"/>
+        </action>
+
+        <action
+            path="/public/Register"
+            type="org.apache.struts.actions.ForwardAction"
+            parameter="/WEB-INF/pages/public/Register.jsp"/>
+
+        <action
+            path="/public/RegisterSubmit"
+            scope="request"
+            name="studentForm"
+            type="com.versant.testcenter.web.pub.RegisterSubmitAction"
+            input="/WEB-INF/pages/public/Register.jsp">
+            <forward name="success" path="/user/Welcome.do" redirect="true"/>
+        </action>
+
+        <!-- System user actions       -->
+        <action
+            path="/user/Welcome"
+            type="com.versant.testcenter.web.user.WelcomeAction">
+            <forward name="admin" path="/admin/Welcome.do" redirect="true"/>
+            <forward name="student" path="/student/Welcome.do" redirect="true"/>
+        </action>
+
+        <!-- Student actions  -->
+        <action
+            path="/student/Welcome"
+            type="org.apache.struts.actions.ForwardAction"
+            parameter="/WEB-INF/pages/student/Welcome.jsp"/>
+
+        <action
+            path="/student/ExamDeleteSubmit"
+            name="examListForm"
+            scope="request"
+            type="com.versant.testcenter.web.student.ExamDeleteSubmitAction">
+            <forward name="success" path="/student/Welcome.do" redirect="true"/>
+        </action>
+
+        <action
+            path="/student/ExamSearchSubmit"
+            name="examSearchForm"
+            validate="false"
+            scope="request"
+            type="com.versant.testcenter.web.exam.ExamSearchSubmitAction">
+            <forward name="success" path="/WEB-INF/pages/student/Welcome.jsp"/>
+        </action>
+
+        <action
+            path="/student/ExamAddSubmit"
+            name="examListForm"
+            scope="request"
+            type="com.versant.testcenter.web.student.ExamAddSubmitAction">
+            <forward name="success" path="/student/Welcome.do" redirect="true"/>
+        </action>
+
+        <!-- Administrator actions -->
+        <action
+            path="/admin/Welcome"
+            type="org.apache.struts.actions.ForwardAction"
+            parameter="/WEB-INF/pages/admin/Welcome.jsp"/>
+
+        <action
+            path="/admin/Exam"
+            type="com.versant.testcenter.web.exam.ExamAction">
+            <forward name="success" path="/WEB-INF/pages/admin/Exam.jsp"/>
+        </action>
+
+        <action
+            path="/admin/ExamSubmit"
+            name="examForm"
+            scope="request"
+            validate="true"
+            type="com.versant.testcenter.web.exam.ExamSubmitAction"
+            input="/WEB-INF/pages/admin/Exam.jsp">
+            <forward name="success" path="/admin/ExamSearchSubmit.do" redirect="true"/>
+        </action>
+
+        <action
+            path="/admin/ExamSearchSubmit"
+            name="examSearchForm"
+            validate="false"
+            scope="request"
+            type="com.versant.testcenter.web.exam.ExamSearchSubmitAction">
+            <forward name="success" path="/WEB-INF/pages/admin/Welcome.jsp"/>
+        </action>
+
+    </action-mappings>
+
+
+
+
+
+    <!-- ===================================== Controller Configuration -->
+
+    <controller nocache="true"
+        processorClass="com.versant.testcenter.web.MyRequestProcessor"/>
+
+
+
+    <!-- ================================ Message Resources Definitions -->
+
+    <message-resources parameter="com.versant.testcenter.web.application"/>
+
+    <!-- ======================================= Plug Ins Configuration -->
+
+    <plug-in className="org.apache.struts.validator.ValidatorPlugIn">
+        <set-property
+            property="pathnames"
+            value="/WEB-INF/validator-rules.xml,/WEB-INF/validation.xml"/>
+    </plug-in>
+
+    <plug-in className="com.versant.testcenter.web.JDOPlugIn"/>
+
+</struts-config>
+

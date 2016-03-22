@@ -1,0 +1,32 @@
+# Workbench properties (Not used at run-time)
+versant.workbench.classpath.0=src
+versant.workbench.classpath.1=web/WEB-INF/classes
+versant.workbench.antRunTarget=run
+
+# Open Access Class Diagrams
+versant.workbench.diagram.count=3
+
+versant.workbench.diagram0.name=Classes
+versant.workbench.diagram0.legend=645,325
+versant.workbench.diagram0.general=13,N,Y
+versant.workbench.diagram0.class=Y,N,N,N,N,Y,N,Y,N,N,N,N,N,N,N,N,N
+versant.workbench.diagram0.field=Y,Y,N,N,N,N
+versant.workbench.diagram0.class.count=4
+versant.workbench.diagram0.class0=model.Module,430,55
+versant.workbench.diagram0.class1=model.Registration,154,23
+versant.workbench.diagram0.class2=model.Student,12,37
+versant.workbench.diagram0.class3=model.Subject,300,83
+
+versant.workbench.diagram1.name=Diagram 2
+versant.workbench.diagram1.legend=600,459
+versant.workbench.diagram1.general=13,Y,Y
+versant.workbench.diagram1.class=Y,N,Y,N,N,Y,N,Y,N,N,N,N,N,N,N,N,N
+versant.workbench.diagram1.field=Y,Y,N,N,N,N
+versant.workbench.diagram1.class.count=0
+
+versant.workbench.diagram2.name=Diagram 3
+versant.workbench.diagram2.legend=600,459
+versant.workbench.diagram2.general=13,Y,Y
+versant.workbench.diagram2.class=Y,N,Y,N,N,Y,N,Y,N,N,N,N,N,N,N,N,N
+versant.workbench.diagram2.field=Y,Y,N,N,N,N
+versant.workbench.diagram2.class.count=0

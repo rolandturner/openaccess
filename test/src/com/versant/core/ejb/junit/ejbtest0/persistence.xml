@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-manager>
+    <name>mycontext</name>
+    <provider>com.versant.core.jdo.BootstrapPMF</provider>
+    <class>com.versant.core.ejb.junit.ejbtest0.model.Employee</class>
+    <class>com.versant.core.ejb.junit.ejbtest0.model.EmployeeWithKeyGen</class>
+    <class>com.versant.core.ejb.junit.ejbtest0.model.EmployeeWithReference</class>
+    <class>com.versant.core.ejb.junit.ejbtest0.model.Address</class>
+    <class>com.versant.core.ejb.junit.ejbtest0.model.ClassWithCompPK</class>
+    <class>com.versant.core.ejb.junit.ejbtest0.model.Cat</class>
+    <class>com.versant.core.ejb.junit.ejbtest0.model.Dog</class>
+    <class>com.versant.core.ejb.junit.ejbtest0.model.Animal</class>
+    <class>com.versant.core.ejb.junit.ejbtest0.model.Pet</class>
+    <class>com.versant.core.ejb.junit.ejbtest0.model.Rottweiler</class>
+    <class>com.versant.core.ejb.junit.ejbtest0.model.WienerDog</class>
+    <class>com.versant.core.ejb.junit.ejbtest0.model.FarmAnimal</class>
+    <class>com.versant.core.ejb.junit.ejbtest0.model.Cow</class>
+    <class>com.versant.core.ejb.junit.ejbtest0.model.Sheep</class>
+    <class>com.versant.core.ejb.junit.ejbtest0.model.BlackSheep</class>
+    <class>com.versant.core.ejb.junit.ejbtest0.model.WoolBag</class>
+    <class>com.versant.core.ejb.junit.ejbtest0.model.TableGen</class>
+    <properties>
+        <property name="javax.jdo.option.ConnectionDriverName" value="@DRIVER@"/>
+        <property name="javax.jdo.option.ConnectionUserName" value="@USER@"/>
+        <property name="javax.jdo.option.ConnectionPassword" value="@PASSWORD@"/>
+        <property name="javax.jdo.option.ConnectionURL" value="@URL@"/>
+        <property name="versant.properties" value="@PROPERTIES@"/>
+        <property name="versant.hyperdrive" value="@HYPERDRIVE@"/>
+    </properties>
+</entity-manager>

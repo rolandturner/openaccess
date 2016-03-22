@@ -1,0 +1,210 @@
+<project basedir="." default="compile" name="websphere51">
+
+    <property file="common.properties"/>
+
+    <!-- ========== Executable Targets ======================================== -->
+    <target name="init" description="Initialize environment">
+
+        <!-- Define the where we can find the j2ee.jar -->
+        <property name="websphere.lib.dir" location="${websphere.studio.home}/wstools/eclipse/plugins/com.ibm.etools.j2ee.core_5.1.2/runtime"/>
+
+        <property name="project.file.name" value="${project.file.name}"/>
+        <property name="jdo.home" value="../../"/>
+
+
+        <property name="build.dir" value="${basedir}/build"/>
+        <property name="build.classes.dir" value="${build.dir}/classes"/>
+        <property name="build.client.dir" value="${build.dir}/client"/>
+        <property name="build.ejb.dir" value="${build.dir}/ejb"/>
+        <property name="build.ear.dir" value="${build.dir}/ear"/>
+        <property name="src.dir" value="${basedir}/src"/>
+        <property name="etc.dir" value="${basedir}/etc"/>
+        <property name="doc.dir" value="${basedir}/doc"/>
+        <property name="doc.api.dir" value="${doc.dir}/api"/>
+        <property name="lib.dir" value="${basedir}/lib"/>
+        <property name="dist.dir" value="${build.dir}/dist"/>
+        <property name="build.jdo.dir" value="${build.dir}/jdo"/>
+        <property name="jdo.project" value="${project.file.name}"/>
+        <property name="jdo.license" value="${jdo.home}/license"/>
+        <property name="jdo.license.file" value="${jdo.license}/openaccess.license"/>
+        <property name="build.compiler" value="modern"/>
+        <property name="build.dir" value="build"/>
+
+        <path id="websphere.path">
+            <fileset dir="${websphere.lib.dir}">
+                <include name="**/*.jar"/>
+            </fileset>
+        </path>
+
+        <path id="cp">
+            <pathelement path="${src.dir}"/>
+            <pathelement path="${build.classes.dir}"/>
+            <pathelement path="${jdo.license}"/>
+            <fileset dir="${jdo.home}/lib" includes="**/*.jar"/>
+        </path>
+
+        <mkdir dir="${build.classes.dir}"/>
+        <copy file="${basedir}/${jdo.project}" todir="${build.classes.dir}"/>
+        <taskdef resource="jdogenie.tasks">
+            <classpath>
+                <path refid="cp"/>
+                <fileset dir="${jdo.home}/tools" includes="**/*.jar"/>
+            </classpath>
+        </taskdef>
+    </target>
+
+
+    <target name="clean" description="Wipeout all generated files"
+        depends="init">
+        <delete dir="${build.dir}"/>
+        <delete dir="${doc.api.dir}"/>
+    </target>
+
+
+    <target name="compile" description="Compile source"
+        depends="init">
+        <dependset>
+            <!-- Delete the classes if the JDO meta data has been changed.
+            They need to be recompiled and enhanced. -->
+            <srcfileset dir="${src.dir}/tut1" includes="**/*.jdo"/>
+            <targetfileset dir="${build.classes.dir}" includes="tut1/**/*.class"/>
+        </dependset>
+        <javac srcdir="${src.dir}" destdir="${build.classes.dir}" debug="true">
+            <classpath>
+                <path refid="cp"/>
+                <path refid="websphere.path"/>
+            </classpath>
+        </javac>
+        <jdo-enhance outputDir="${build.classes.dir}">
+            <persistentaware dir="${build.classes.dir}"/>
+        </jdo-enhance>
+        <copy todir="${build.classes.dir}">
+            <fileset dir="${src.dir}">
+                <include name="**/*"/>
+            </fileset>
+        </copy>
+
+    </target>
+
+
+    <target name="ejb" description="Create the EJB jar file"
+        depends="compile">
+        <mkdir dir="${dist.dir}"/>
+        <mkdir dir="${build.ejb.dir}"/>
+        <delete includeemptydirs="true">
+            <fileset dir="${build.ejb.dir}" includes="**/*"/>
+        </delete>
+        <copy todir="${build.ejb.dir}">
+            <fileset dir="${build.classes.dir}">
+                <include name="**/*"/>
+            </fileset>
+        </copy>
+        <!-- Copy the license file to the ejb -->
+        <copy file="${jdo.license.file}" todir="${build.ejb.dir}" overwrite="true"/>
+        <mkdir dir="${build.ejb.dir}/META-INF"/>
+        <copy todir="${build.ejb.dir}/META-INF">
+            <fileset dir="${etc.dir}/ejb">
+                <include name="ejb-jar.xml"/>
+                <include name="ibm-ejb-jar-bnd.xmi"/>
+            </fileset>
+            <fileset dir="${etc.dir}/ejb/websphere">
+                <include name="MANIFEST.MF"/>
+            </fileset>
+        </copy>
+        <copy file="${project.file.name}" tofile="${build.ejb.dir}/META-INF/versant.properties"/>
+        <copy todir="${build.ejb.dir}">
+            <fileset dir="${src.dir}" includes="**/*.jdo"/>
+        </copy>
+        <zip zipfile="${dist.dir}/tut1sb.jar">
+            <fileset dir="." includes="META-INF/"/>
+            <fileset dir="${build.ejb.dir}"/>
+        </zip>
+    </target>
+
+
+    <target name="client" description="Create the Client jar file"
+        depends="compile">
+        <mkdir dir="${dist.dir}"/>
+        <mkdir dir="${build.client.dir}"/>
+        <copy todir="${build.client.dir}">
+            <fileset dir="${build.classes.dir}">
+                <exclude name="**/Tut1*"/>
+            </fileset>
+        </copy>
+        <mkdir dir="${build.client.dir}/META-INF"/>
+        <copy todir="${build.client.dir}/META-INF">
+            <fileset dir="${etc.dir}/client">
+                <include name="ibm-application-client-bnd.xmi"/>
+                <include name="application-client.xml"/>
+                <include name="MANIFEST.MF"/>
+            </fileset>
+        </copy>
+        <zip zipfile="${dist.dir}/tut1client.jar">
+            <fileset dir="." includes="META-INF/"/>
+            <fileset dir="${build.client.dir}"/>
+        </zip>
+    </target>
+
+
+    <target name="jca" description="Create the JCA rar file"
+        depends="init">
+        <property name="jca.tmp.dir" value="${build.dir}/rar_tmp"/>
+        <mkdir dir="${jca.tmp.dir}"/>
+        <unjar src="${jdo.home}/jca/openaccess.rar" dest="${jca.tmp.dir}"/>
+        <delete includeemptydirs="true">
+            <fileset dir="${jca.tmp.dir}/META-INF/" includes="ra-borland.xml"/>
+            <fileset dir="${jca.tmp.dir}/META-INF/" includes="weblogic-ra.xml"/>
+        </delete>
+        <copy todir="${jca.tmp.dir}">
+            <fileset dir="${jdo.home}/lib">
+                <exclude name="jdo.jar"/>
+                <exclude name="xercesImpl.jar"/>
+                <exclude name="xml-apis.jar"/>
+                <exclude name="jta.jar"/>
+            </fileset>
+        </copy>
+        <copy file="${jdo.license.file}" todir="${jca.tmp.dir}" overwrite="true"/>
+        <mkdir dir="${dist.dir}"/>
+        <jar destfile="${dist.dir}/openaccess.rar">
+            <fileset dir="${jca.tmp.dir}"/>
+        </jar>
+    </target>
+
+
+    <target name="ear" description="Create the Application ear file"
+        depends="ejb,jca,client">
+        <mkdir dir="${build.ear.dir}"/>
+        <delete includeemptydirs="true">
+            <fileset dir="${build.ear.dir}" includes="**/*"/>
+        </delete>
+        <mkdir dir="${build.ear.dir}/META-INF"/>
+        <copy file="${dist.dir}/tut1sb.jar" todir="${build.ear.dir}"/>
+        <copy file="${dist.dir}/tut1client.jar" todir="${build.ear.dir}"/>
+        <copy file="${dist.dir}/openaccess.rar" todir="${build.ear.dir}"/>
+        <copy todir="${build.ear.dir}/META-INF">
+            <fileset dir="${etc.dir}/ear/websphere/" includes="**/*"/>
+        </copy>
+        <copy todir="${build.ear.dir}">
+            <fileset dir="${jdo.home}/lib">
+                <include name="jdo.jar"/>
+            </fileset>
+        </copy>
+        <mkdir dir="${build.ear.dir}/license"/>
+        <copy file="${jdo.license.file}" todir="${build.ear.dir}/license"/>
+        <jar jarfile="${dist.dir}/tut1sb-jca.ear"
+            basedir="${build.ear.dir}"/>
+
+    </target>
+
+
+    <target name="create-db" description="Re-create database schema"
+        depends="init">
+        <mkdir dir="${build.dir}"/>
+        <jdo-create-db
+            outputdir="${build.dir}"
+            droptables="*"
+            createtables="*"/>
+    </target>
+
+
+</project>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jdo>
+    <package name="jibxdemo.model">
+        <class name="Group">
+            <field name="users">
+                <collection element-type="User">
+                    <extension vendor-name="versant" key="inverse" value="groups"/>
+                </collection>
+            </field>
+        </class>
+        <class name="User">
+            <field name="groups">
+                <collection element-type="Group"/>
+            </field>
+        </class>
+    </package>
+</jdo>
+

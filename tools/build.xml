@@ -1,0 +1,47 @@
+<!--
+All the tools except the Workbench and plugins (enhancer, schema generation,
+database copy etc.).
+-->
+<project name="tools" default="compile" basedir=".">
+
+    <import file="../common.xml"/>
+
+    <path id="cp.path">
+        <path location="../engine/build/classes"/>
+        <path location="../jdbc/build/classes"/>
+        <path location="../vds/build/classes"/>
+        <fileset dir="../engine/lib" includes="**/*.jar"/>
+    </path>
+
+    <target name="init">
+        <mkdir dir="build/classes"/>
+    </target>
+
+    <target name="clean">
+        <delete dir="build"/>
+    </target>
+
+    <target name="compile-deps" depends="init" unless="nodeps">
+        <ant target="compile" dir="../engine" />
+        <ant target="compile" dir="../jdbc" />
+        <ant target="compile" dir="../vds" />
+    </target>
+
+    <target name="compile" depends="compile-deps" description="Compile all sources">
+        <copy todir="build/classes">
+            <fileset dir="src" includes="*.tasks"/>
+        </copy>
+        <javac srcdir="src" destdir="build/classes"
+            source="1.3"
+            target="1.3"
+            compiler="modern"
+            debug="on"
+            optimize="${javac.optimize}"
+            debuglevel="${javac.debuglevel}">
+            <classpath>
+                <path refid="cp.path"/>
+            </classpath>
+        </javac>
+    </target>
+
+</project>

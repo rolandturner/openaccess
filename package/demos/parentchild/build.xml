@@ -1,0 +1,96 @@
+<!--
+
+Tutorial showing how to map a parent-child one-to-many relationship where the
+child table primary key columns include a foreign key reference to the
+parent table. There are two possible parent tables (classes) in this
+example.
+
+create table parent_a (
+    ida INTEGER not null,
+    idb INTEGER not null,
+    nme VARCHAR(255),
+    constraint pk_parent primary key (ida, idb)
+);
+
+create table parent_b (
+    ida INTEGER not null,
+    idb INTEGER not null,
+    nme VARCHAR(255),
+    constraint pk_parent primary key (ida, idb)
+);
+
+create table child (
+    ida INTEGER not null,
+    idb INTEGER not null,
+    idc INTEGER not null,
+    nme VARCHAR(255),
+    constraint pk_child primary key (ida, idb, idc)
+);
+
+$Id: build.xml,v 1.1 2005/03/08 08:31:43 david Exp $
+-->
+
+<project name="parentchild" default="compile" basedir=".">
+
+    <property name="src" value="src"/>
+    <property name="build" value="build"/>
+    <property name="build.classes" value="${build}/classes"/>
+    <property name="jdo.project" value="versant.properties"/>
+    <property name="jdo.home" value="../.."/>
+    <property name="jdo.license" value="${jdo.home}/license"/>
+    <property name="jdo.lib" value="${jdo.home}/lib"/>
+    <property name="jdo.tools" value="${jdo.home}/tools"/>
+
+    <path id="cp">
+        <pathelement path="${src}"/>
+        <pathelement path="${build.classes}"/>
+        <pathelement path="${jdo.license}"/>
+        <fileset dir="${jdo.lib}" includes="**/*.jar"/>
+    </path>
+
+    <target name="clean"
+        description="Get rid of all generated files">
+        <delete dir="${build}"/>
+        <mkdir dir="${build.classes}"/>
+    </target>
+
+    <target name="init">
+        <mkdir dir="${build.classes}"/>
+        <copy file="${jdo.project}" todir="${build.classes}"/>
+        <!-- Define JDO Genie tasks (jdo-xxx) -->
+        <taskdef resource="versant.tasks">
+            <classpath>
+                <path refid="cp"/>
+                <fileset dir="${jdo.tools}" includes="**/*.jar"/>
+            </classpath>
+        </taskdef>
+    </target>
+
+    <target name="compile" depends="init"
+        description="Compile and enhance all Java sources">
+        <dependset>
+            <!-- Delete the classes if the JDO meta data has been changed.
+                 They need to be recompiled and enhanced. -->
+            <srcfileset dir="${src}" includes="**/*.jdo"/>
+            <targetfileset dir="${build.classes}" includes="**/*.class"/>
+        </dependset>
+        <javac srcdir="${src}" destdir="${build.classes}" classpathref="cp"/>
+        <jdo-enhance outputdir="${build.classes}">
+            <persistentaware dir="${build.classes}"/>
+        </jdo-enhance>
+    </target>
+
+    <target name="create-db" depends="compile"
+        description="Re-create database schema">
+        <jdo-create-db
+            outputdir="${build}"
+            droptables="*"
+            createtables="*"/>
+    </target>
+
+    <target name="run" depends="compile"
+        description="Run the application">
+        <java classname="Main" classpathref="cp" fork="true"/>
+    </target>
+
+</project>

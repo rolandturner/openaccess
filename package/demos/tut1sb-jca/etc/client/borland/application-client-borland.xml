@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+    <!DOCTYPE application-client PUBLIC "-//Borland Software Corporation//DTD J2EE Application Client 1.3//EN"
+    "http://www.borland.com/devsupport/appserver/dtds/application-client_1_3-borland.dtd">
+
+<application-client>
+    <ejb-ref>
+        <ejb-ref-name>ejb/Tut1</ejb-ref-name>
+        <jndi-name>tut1/Tut1</jndi-name>
+    </ejb-ref>
+</application-client>

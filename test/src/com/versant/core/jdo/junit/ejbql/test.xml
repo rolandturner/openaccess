@@ -1,0 +1,11 @@
+<project name="jdo" default="default">
+
+    <target name="default"
+        description="Flat inheritance">
+        <copy file="src/com/versant/core/jdo/junit/ejbql/test.jdogenie"
+            tofile="build/test.jdogenie" filtering="true"
+            overwrite="true"/>
+    </target>
+
+</project>
+

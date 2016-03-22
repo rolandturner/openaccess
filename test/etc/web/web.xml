@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!DOCTYPE web-app
+    PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+    "http://java.sun.com/dtd/web-app_2_3.dtd">
+
+<web-app>
+
+    <display-name>VOA test</display-name>
+
+    <servlet>
+        <servlet-name>PMFServerServlet</servlet-name>
+        <servlet-class>com.versant.core.jdo.remote.http.PMFServerServlet</servlet-class>
+        <init-param>
+            <param-name>properties-resource</param-name>
+            <param-value>test.jdogenie</param-value>
+        </init-param>
+        <init-param>
+            <param-name>versant.remoteAccess</param-name>
+            <param-value></param-value>
+        </init-param>
+        <load-on-startup>0</load-on-startup>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>PMFServerServlet</servlet-name>
+        <url-pattern>/pmf</url-pattern>
+    </servlet-mapping>
+
+</web-app>

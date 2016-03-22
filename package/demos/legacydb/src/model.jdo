@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jdo>
+    <package name="model">
+        <class name="Branch" identity-type="application" objectid-class="Branch$ID">
+            <field name="branchNo" primary-key="true">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-type" value="SMALLINT"/>
+                </extension>
+            </field>
+            <field name="name" null-value="exception">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-length" value="30"/>
+                </extension>
+            </field>
+            <field name="country">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-column-name" value="country_code"/>
+                </extension>
+            </field>
+            <field name="countryCode">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-column-name" value="country_code"/>
+                    <extension vendor-name="versant" key="jdbc-length" value="2"/>
+                </extension>
+            </field>
+        </class>
+        <class name="Item" identity-type="application" objectid-class="Item$ID">
+            <field name="branchNo" primary-key="true">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-type" value="SMALLINT"/>
+                </extension>
+            </field>
+            <field name="itemCode" primary-key="true">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-length" value="6"/>
+                </extension>
+            </field>
+            <field name="branch">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-column-name" value="branch_no"/>
+                </extension>
+            </field>
+            <field name="description" null-value="exception">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-length" value="30"/>
+                </extension>
+            </field>
+        </class>
+        <class name="Order" identity-type="application" objectid-class="Order$ID">
+            <field name="branchNo" primary-key="true">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-type" value="SMALLINT"/>
+                </extension>
+            </field>
+            <field name="orderNo" primary-key="true"/>
+            <field name="branch">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-column-name" value="branch_no"/>
+                </extension>
+            </field>
+            <field name="lines">
+                <collection element-type="OrderLine">
+                    <extension vendor-name="versant" key="inverse" value="order">
+                        <extension vendor-name="versant" key="jdbc-index" value="{no}"/>
+                    </extension>
+                    <extension vendor-name="versant" key="ordering" value="lineNo ascending"/>
+                </collection>
+                <extension vendor-name="versant" key="dependent" value="true"/>
+            </field>
+            <field name="supplier">
+                <extension vendor-name="versant" key="jdbc-ref" value="branchNo">
+                    <extension vendor-name="versant" key="jdbc-column">
+                        <extension vendor-name="versant" key="jdbc-column-name" value="branch_no"/>
+                    </extension>
+                </extension>
+                <extension vendor-name="versant" key="jdbc-ref" value="supplierNo"/>
+            </field>
+            <field name="orderDate">
+                <extension vendor-name="versant" key="autoset" value="created"/>
+            </field>
+        </class>
+        <class name="OrderLine" identity-type="application" objectid-class="OrderLine$ID">
+            <field name="branchNo" primary-key="true">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-type" value="SMALLINT"/>
+                </extension>
+            </field>
+            <field name="orderNo" primary-key="true"/>
+            <field name="lineNo" primary-key="true">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-type" value="SMALLINT"/>
+                </extension>
+            </field>
+            <field name="branch">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-column-name" value="branch_no"/>
+                </extension>
+            </field>
+            <field name="item">
+                <extension vendor-name="versant" key="jdbc-ref" value="branchNo">
+                    <extension vendor-name="versant" key="jdbc-column">
+                        <extension vendor-name="versant" key="jdbc-column-name" value="branch_no"/>
+                    </extension>
+                </extension>
+                <extension vendor-name="versant" key="jdbc-ref" value="itemCode"/>
+            </field>
+            <field name="order">
+                <extension vendor-name="versant" key="jdbc-ref" value="branchNo">
+                    <extension vendor-name="versant" key="jdbc-column">
+                        <extension vendor-name="versant" key="jdbc-column-name" value="branch_no"/>
+                    </extension>
+                </extension>
+                <extension vendor-name="versant" key="jdbc-ref" value="orderNo">
+                    <extension vendor-name="versant" key="jdbc-column">
+                        <extension vendor-name="versant" key="jdbc-column-name" value="order_no"/>
+                    </extension>
+                </extension>
+            </field>
+            <field name="qty" null-value="exception">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-type" value="SMALLINT"/>
+                </extension>
+            </field>
+        </class>
+        <class name="Supplier" identity-type="application" objectid-class="Supplier$ID">
+            <field name="branchNo" primary-key="true">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-type" value="SMALLINT"/>
+                </extension>
+            </field>
+            <field name="supplierNo" primary-key="true">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-type" value="SMALLINT"/>
+                </extension>
+            </field>
+            <field name="branch">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-column-name" value="branch_no"/>
+                </extension>
+            </field>
+            <field name="name" null-value="exception">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-length" value="30"/>
+                </extension>
+            </field>
+        </class>
+        <class name="Country" objectid-class="Country$ID" identity-type="application">
+            <field name="code" primary-key="true">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-length" value="2"/>
+                </extension>
+            </field>
+            <field name="name" null-value="exception">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-length" value="40"/>
+                </extension>
+            </field>
+        </class>
+    </package>
+</jdo>
+

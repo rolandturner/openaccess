@@ -1,0 +1,496 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<xsd:element name="comment" type="xsd:string" />
+	<!--
+		Top-level element defines entity and embeddable mappings, named queries
+		and named id generators. Defines a default package for classnames
+		in this mapping.
+	-->
+	<xsd:element name="entity-mappings">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="package" type="xsd:string" minOccurs="0" />
+				<xsd:element name="default-access" type="access-type" default="PROPERTY" minOccurs="0" />
+				<xsd:element name="default-cascade" type="cascade-type" minOccurs="0" maxOccurs="3" />
+				<xsd:element name="embeddable-superclass" type="embeddable-superclass" maxOccurs="unbounded" minOccurs="0" />
+				<xsd:element name="entity" type="entity" maxOccurs="unbounded" minOccurs="0" />
+				<xsd:element name="embeddable" type="embeddable" maxOccurs="unbounded" minOccurs="0" />
+				<xsd:element name="query" type="query" maxOccurs="unbounded" minOccurs="0" />
+				<xsd:element name="native-query" type="native-query" maxOccurs="unbounded" minOccurs="0" />
+				<xsd:element name="sequence-generator" type="sequence-generator" maxOccurs="unbounded" minOccurs="0" />
+				<xsd:element name="table-generator" type="table-generator" maxOccurs="unbounded" minOccurs="0" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:complexType name="mapping">
+		<xsd:sequence>
+			<xsd:element name="class-name" type="xsd:string" />
+			<xsd:element name="access" type="access-type" default="PROPERTY" minOccurs="0" />
+			<xsd:choice>
+				<xsd:element name="embedded-id" type="xsd:string" />
+				<xsd:sequence>
+					<xsd:element name="id-class" type="xsd:string" minOccurs="0" />
+					<xsd:element name="id" type="id" maxOccurs="unbounded" minOccurs="0" />
+				</xsd:sequence>
+			</xsd:choice>
+			<xsd:element name="version" type="version" minOccurs="0" />
+			<xsd:element name="basic" type="basic" maxOccurs="unbounded" minOccurs="0" />
+			<xsd:element name="lob" type="lob" maxOccurs="unbounded" minOccurs="0" />
+			<xsd:element name="embedded" type="embedded" maxOccurs="unbounded" minOccurs="0" />
+			<xsd:element name="one-to-one" type="one-to-one" maxOccurs="unbounded" minOccurs="0" />
+			<xsd:element name="many-to-one" type="many-to-one" maxOccurs="unbounded" minOccurs="0" />
+			<xsd:element name="one-to-many" type="one-to-many" maxOccurs="unbounded" minOccurs="0" />
+			<xsd:element name="many-to-many" type="many-to-many" maxOccurs="unbounded" minOccurs="0" />
+			<xsd:element name="transient" type="xsd:string" maxOccurs="unbounded" minOccurs="0" />
+		</xsd:sequence>
+	</xsd:complexType>
+	<!--
+		Defines table, inheritance, attribute and association mappings
+		for an entity class.
+	-->
+	<xsd:complexType name="entity">
+		<xsd:complexContent>
+			<xsd:extension base="mapping">
+				<xsd:sequence>
+					<xsd:element name="name" type="xsd:string" minOccurs="0" />
+					<xsd:element name="inheritance-strategy" type="inheritance-type" minOccurs="0" />
+					<xsd:element name="table" type="table" minOccurs="0" />
+					<xsd:element name="secondary-table" type="secondary-table" maxOccurs="unbounded" minOccurs="0" />
+					<xsd:element name="attribute-override" type="attribute-override" maxOccurs="unbounded" minOccurs="0" />
+					<xsd:element name="entity-listener" type="xsd:string" minOccurs="0" />
+					<xsd:element name="pre-persist" type="xsd:string" minOccurs="0" />
+					<xsd:element name="post-persist" type="xsd:string" minOccurs="0" />
+					<xsd:element name="pre-remove" type="xsd:string" minOccurs="0" />
+					<xsd:element name="post-remove" type="xsd:string" minOccurs="0" />
+					<xsd:element name="pre-update" type="xsd:string" minOccurs="0" />
+					<xsd:element name="post-update" type="xsd:string" minOccurs="0" />
+					<xsd:element name="post-load" type="xsd:string" minOccurs="0" />
+					<xsd:choice>
+						<xsd:sequence>
+							<xsd:element name="discriminator-column" type="discriminator-column" minOccurs="0" />
+							<xsd:element name="discriminator-type" type="discriminator-type" minOccurs="0" />
+							<xsd:element name="discriminator-value" type="xsd:string" minOccurs="0" />
+						</xsd:sequence>
+						<xsd:element name="primary-key-join-column" type="primary-key-join-column" minOccurs="0" maxOccurs="unbounded" />
+					</xsd:choice>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<!-- Class name pattern -->
+	<xsd:simpleType name="class-name">
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="([a-zA-Z_](\w)*\.)*[a-zA-Z_](\w)*" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!--
+		Declares a secondary table for an entity, and defines attribute
+		mappings to columns of that secondary table.
+	-->
+	<xsd:complexType name="secondary-table">
+		<xsd:sequence>
+			<xsd:element name="name" type="xsd:string" />
+			<xsd:element name="schema" type="xsd:string" minOccurs="0" />
+			<xsd:element name="catalog" type="xsd:string" minOccurs="0" />
+			<xsd:element name="primary-key-join-column" type="primary-key-join-column" minOccurs="0" maxOccurs="unbounded" />
+			<xsd:element name="unique-constraint" type="unique-constraint" minOccurs="0" maxOccurs="unbounded" />
+		</xsd:sequence>
+	</xsd:complexType>
+	<!--
+		Defines default attribute mappings for an embeddable superclass.
+	-->
+	<xsd:complexType name="embeddable-superclass">
+		<xsd:complexContent>
+			<xsd:extension base="mapping"></xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<!--
+		Defines default attribute mappings for an embeddable class.
+	-->
+	<xsd:complexType name="embeddable">
+		<xsd:sequence>
+			<xsd:element name="class-name" type="xsd:string" />
+			<xsd:element name="access" type="access-type" default="PROPERTY" minOccurs="0" />
+			<xsd:element name="basic" type="basic" maxOccurs="unbounded" minOccurs="0" />
+			<xsd:element name="lob" type="lob" maxOccurs="unbounded" minOccurs="0" />
+			<xsd:element name="transient" type="xsd:string" maxOccurs="unbounded" minOccurs="0" />
+		</xsd:sequence>
+	</xsd:complexType>
+	<!--
+		Declares a primary key attribute and, optionally, a generation strategy.
+	-->
+	<xsd:complexType name="id">
+		<xsd:sequence>
+			<xsd:element name="attribute" type="xsd:string" />
+			<xsd:element name="generate" type="generator-type" minOccurs="0" />
+			<xsd:element name="generator" type="xsd:string" minOccurs="0" />
+			<xsd:element name="column" type="column" minOccurs="0" />
+		</xsd:sequence>
+	</xsd:complexType>
+	<!--
+		Declares a version attribute.
+	-->
+	<xsd:complexType name="version">
+		<xsd:sequence>
+			<xsd:element name="attribute" type="xsd:string" />
+			<xsd:element name="column" type="column" minOccurs="0" />
+		</xsd:sequence>
+	</xsd:complexType>
+	<!--
+		Declares a mapping for a large object attribute.
+	-->
+	<xsd:complexType name="lob">
+		<xsd:sequence>
+			<xsd:element name="attribute" type="xsd:string" />
+			<xsd:element name="fetch" type="fetch-type" default="LAZY" minOccurs="0" />
+			<xsd:element name="optional" type="xsd:boolean" default="true" minOccurs="0" />
+			<xsd:element name="lob-type" type="lob-type" default="BLOB" minOccurs="0" />
+			<xsd:element name="column" type="column" minOccurs="0" />
+		</xsd:sequence>
+	</xsd:complexType>
+	<!--
+		Declares an attribute of an embeddable type, and allows overriding and
+		addition of attribute mappings.
+	-->
+	<xsd:complexType name="embedded">
+		<xsd:sequence>
+			<xsd:element name="attribute" type="xsd:string" />
+			<xsd:element name="attribute-override" type="attribute-override" maxOccurs="unbounded" minOccurs="0" />
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	<xsd:complexType name="attribute-override">
+		<xsd:sequence>
+			<xsd:element name="name" type="xsd:string" />
+			<xsd:element name="column" type="column" minOccurs="0" />
+		</xsd:sequence>
+	</xsd:complexType>
+	<!--
+		Declares a mapping for a basic attribute.
+	-->
+	<xsd:complexType name="basic">
+		<xsd:sequence>
+			<xsd:element name="attribute" type="xsd:string" />
+			<xsd:element name="fetch" type="fetch-type" default="EAGER" minOccurs="0" />
+			<xsd:element name="optional" type="xsd:boolean" default="true" minOccurs="0" />
+			<xsd:element name="temporal-type" type="temporal-type" default="NONE" minOccurs="0" />
+			<xsd:element name="column" type="column" minOccurs="0" />
+		</xsd:sequence>
+	</xsd:complexType>
+	<!--
+		Declares a one-to-one association mapping to a foreign key column,
+		a primary key column, or an inverse one-to-one association.
+	-->
+	<xsd:complexType name="one-to-one">
+		<xsd:sequence>
+			<xsd:element name="attribute" type="xsd:string" />
+			<xsd:element name="target-entity" type="xsd:string" minOccurs="0" />
+			<xsd:element name="cascade" type="cascade-type" minOccurs="0" maxOccurs="3" />
+			<xsd:element name="fetch" type="fetch-type" default="EAGER" minOccurs="0" />
+			<xsd:element name="optional" type="xsd:boolean" default="true" minOccurs="0" />
+			<xsd:choice>
+				<xsd:element name="mapped-by" type="xsd:string" minOccurs="0" />
+				<xsd:element name="join-column" type="join-column" minOccurs="0" maxOccurs="unbounded" />
+				<xsd:element name="primary-key-join-column" type="primary-key-join-column" minOccurs="0" maxOccurs="unbounded" />
+				<!-- xsd:element name="join-table" type="join-table" minOccurs="0" /-->
+			</xsd:choice>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!--
+		Declares a many-to-one association mapping to a foreign key column.
+	-->
+	<xsd:complexType name="many-to-one">
+		<xsd:sequence>
+			<xsd:element name="attribute" type="xsd:string" />
+			<xsd:element name="target-entity" type="xsd:string" minOccurs="0" />
+			<xsd:element name="cascade" type="cascade-type" minOccurs="0" maxOccurs="3" />
+			<xsd:element name="fetch" type="fetch-type" default="EAGER" minOccurs="0" />
+			<xsd:element name="optional" type="xsd:boolean" default="true" minOccurs="0" />
+			<xsd:choice>
+				<xsd:element name="join-column" type="join-column" minOccurs="0" maxOccurs="unbounded" />
+				<!-- xsd:element name="join-table" type="join-table" minOccurs="0" /-->
+			</xsd:choice>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!--
+		Declares a one-to-many association mapping to an association join table or
+		an inverse many-to-one association.
+	-->
+	<xsd:complexType name="one-to-many">
+		<xsd:sequence>
+			<xsd:element name="attribute" type="xsd:string" />
+			<xsd:element name="target-entity" type="xsd:string" minOccurs="0" />
+			<xsd:element name="cascade" type="cascade-type" minOccurs="0" maxOccurs="3" />
+			<xsd:element name="fetch" type="fetch-type" default="LAZY" minOccurs="0" />
+			<xsd:element name="map-key" type="xsd:string" minOccurs="0" />
+			<xsd:element name="order-by" type="xsd:string" minOccurs="0" />
+			<xsd:choice>
+				<xsd:element name="mapped-by" type="xsd:string" minOccurs="0" />
+				<xsd:element name="join-table" type="join-table" minOccurs="0" />
+			</xsd:choice>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!--
+		Declares a many-to-many association mapping to a join table or an
+		inverse many-to-many join table.
+	-->
+	<xsd:complexType name="many-to-many">
+		<xsd:sequence>
+			<xsd:element name="attribute" type="xsd:string" />
+			<xsd:element name="target-entity" type="xsd:string" minOccurs="0" />
+			<xsd:element name="cascade" type="cascade-type" minOccurs="0" maxOccurs="3" />
+			<xsd:element name="fetch" type="fetch-type" default="LAZY" minOccurs="0" />
+			<xsd:element name="map-key" type="xsd:string" minOccurs="0" />
+			<xsd:element name="order-by" type="xsd:string" minOccurs="0" />
+			<xsd:choice>
+				<xsd:element name="mapped-by" type="xsd:string" minOccurs="0" />
+				<xsd:element name="join-table" type="join-table" minOccurs="0" />
+			</xsd:choice>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!--
+		Defines the type discriminator column for a SINGLE_TABLE mapping strategy.
+	-->
+	<xsd:complexType name="discriminator-column">
+		<xsd:sequence>
+			<xsd:element name="name" type="xsd:string" minOccurs="0" />
+			<xsd:element name="length" type="xsd:integer" minOccurs="0" />
+			<xsd:element name="column-definition" type="xsd:string" minOccurs="0" />
+		</xsd:sequence>
+	</xsd:complexType>
+	<!--
+		Defines a mapped column.
+	-->
+	<xsd:complexType name="column">
+		<xsd:sequence>
+			<xsd:element name="name" type="xsd:string" minOccurs="0" />
+			<xsd:element name="secondary-table" type="xsd:string" minOccurs="0" />
+			<xsd:element name="unique" type="xsd:boolean" default="false" minOccurs="0" />
+			<xsd:element name="nullable" type="xsd:boolean" default="true" minOccurs="0" />
+			<xsd:element name="length" type="xsd:integer" minOccurs="0" />
+			<xsd:element name="precision" type="xsd:integer" minOccurs="0" />
+			<xsd:element name="scale" type="xsd:integer" minOccurs="0" />
+			<xsd:element name="insertable" type="xsd:boolean" default="true" minOccurs="0" />
+			<xsd:element name="updatable" type="xsd:boolean" default="true" minOccurs="0" />
+			<xsd:element name="column-definition" type="xsd:string" minOccurs="0" />
+		</xsd:sequence>
+	</xsd:complexType>
+	<!--
+		Defines a join table for an association mapping, and the columns
+		used to join to and from that table.
+	-->
+	<xsd:complexType name="join-table">
+		<xsd:sequence>
+			<xsd:element name="name" type="xsd:string" minOccurs="0" />
+			<xsd:element name="schema" type="xsd:string" minOccurs="0" />
+			<xsd:element name="catalog" type="xsd:string" minOccurs="0" />
+			<xsd:element name="inverse-join-column" type="join-column" maxOccurs="unbounded" />
+			<xsd:element name="join-column" type="join-column" maxOccurs="unbounded" />
+		</xsd:sequence>
+	</xsd:complexType>
+	<!--
+		Defines a join condition from a named column of the current table
+		to the referenced column of another table.
+	-->
+	<xsd:complexType name="join-column">
+		<xsd:sequence>
+			<xsd:element name="name" type="xsd:string" minOccurs="0" />
+			<xsd:element name="referenced-column-name" type="xsd:string" minOccurs="0" />
+			<xsd:element name="secondary-table" type="xsd:string" minOccurs="0" />
+			<xsd:element name="unique" type="xsd:boolean" default="false" minOccurs="0" />
+			<xsd:element name="nullable" type="xsd:boolean" default="true" minOccurs="0" />
+			<xsd:element name="insertable" type="xsd:boolean" default="true" minOccurs="0" />
+			<xsd:element name="updatable" type="xsd:boolean" default="true" minOccurs="0" />
+			<xsd:element name="column-definition" type="xsd:string" minOccurs="0" />
+		</xsd:sequence>
+	</xsd:complexType>
+	<!--
+		Defines the join condition from the primary key column of the
+		current table to the primary key column of another table.
+	-->
+	<xsd:complexType name="primary-key-join-column">
+		<xsd:sequence>
+			<xsd:element name="name" type="xsd:string" minOccurs="0" />
+			<xsd:element name="referenced-column-name" type="xsd:string" minOccurs="0" />
+			<xsd:element name="column-definition" type="xsd:string" minOccurs="0" />
+		</xsd:sequence>
+	</xsd:complexType>
+	<!--
+		Declares a named native EJB QL query.
+	-->
+	<xsd:complexType name="query">
+		<xsd:sequence>
+			<xsd:element name="name" type="xsd:string" />
+			<xsd:element name="query-string" type="xsd:string" />
+		</xsd:sequence>
+	</xsd:complexType>
+	<!--
+		Declares a named native SQL query.
+	-->
+	<xsd:complexType name="native-query">
+		<xsd:sequence>
+			<xsd:element name="name" type="xsd:string" />
+			<xsd:element name="query-string" type="xsd:string" />
+			<xsd:choice>
+				<xsd:element name="result-class" type="xsd:string" />
+				<xsd:element name="result-set-mapping" type="result-set-mapping" />
+			</xsd:choice>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!--
+		Defines metadata for a native SQL query result set.
+	-->
+	<xsd:complexType name="result-set-mapping">
+		<xsd:sequence>
+			<xsd:element name="name" minOccurs="0" />
+			<xsd:element name="entity-result" type="entity-result" minOccurs="0" maxOccurs="unbounded" />
+			<xsd:element name="column-result" type="xsd:string" minOccurs="0" maxOccurs="unbounded" />
+		</xsd:sequence>
+	</xsd:complexType>
+	<!--
+		Maps column aliases of a native SQL query result set to attributes
+		of an entity class.
+	-->
+	<xsd:complexType name="entity-result">
+		<xsd:sequence>
+			<xsd:element name="entity-class" type="xsd:string" />
+			<xsd:element name="discriminator-column" type="xsd:string" minOccurs="0" />
+			<xsd:element name="field-result" type="field-result" minOccurs="0" maxOccurs="unbounded" />
+		</xsd:sequence>
+	</xsd:complexType>
+	<!--
+		Maps a result set column alias to an attribute name.
+	-->
+	<xsd:complexType name="field-result">
+		<xsd:sequence>
+			<xsd:element name="name" type="xsd:string" />
+			<xsd:element name="column" type="xsd:string" />
+		</xsd:sequence>
+	</xsd:complexType>
+	<!--
+		Specifies a unique constraint.
+	-->
+	<xsd:complexType name="unique-constraint">
+		<xsd:sequence>
+			<xsd:element name="column-name" type="xsd:string" maxOccurs="unbounded" />
+		</xsd:sequence>
+	</xsd:complexType>
+	<!--
+		Defines a named table-based id generator.
+	-->
+	<xsd:complexType name="table-generator">
+		<xsd:sequence>
+			<xsd:element name="name" type="xsd:string" />
+			<xsd:element name="table" type="table" minOccurs="0" />
+			<xsd:element name="pk-column-name" type="xsd:string" minOccurs="0" />
+			<xsd:element name="pk-column-value" type="xsd:string" minOccurs="0" />
+			<xsd:element name="value-column-name" type="xsd:string" minOccurs="0" />
+			<xsd:element name="initial-value" type="xsd:integer" default="0" minOccurs="0" />
+			<xsd:element name="allocation-size" type="xsd:integer" default="50" minOccurs="0" />
+		</xsd:sequence>
+	</xsd:complexType>
+	<!--
+		Defines a mapped table.
+	-->
+	<xsd:complexType name="table">
+		<xsd:sequence>
+			<xsd:element name="name" type="xsd:string" minOccurs="0" />
+			<xsd:element name="schema" type="xsd:string" minOccurs="0" />
+			<xsd:element name="catalog" type="xsd:string" minOccurs="0" />
+			<xsd:element name="unique-constraint" type="unique-constraint" minOccurs="0" maxOccurs="unbounded" />
+		</xsd:sequence>
+	</xsd:complexType>
+	<!--
+		Defines a named sequence-based id generator.
+	-->
+	<xsd:complexType name="sequence-generator">
+		<xsd:sequence>
+			<xsd:element name="name" type="xsd:string" />
+			<xsd:element name="sequence-name" type="xsd:string" minOccurs="0" />
+			<xsd:element name="initial-value" type="xsd:integer" default="0" minOccurs="0" />
+			<xsd:element name="allocation-size" type="xsd:integer" default="50" minOccurs="0" />
+		</xsd:sequence>
+	</xsd:complexType>
+	<!--
+		Enumeration of attribute access types.
+	-->
+	<xsd:simpleType name="access-type">
+		<xsd:restriction base="xsd:NCName">
+			<xsd:enumeration value="PROPERTY" />
+			<xsd:enumeration value="FIELD" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!--
+		Enumeration of fetch types.
+	-->
+	<xsd:simpleType name="fetch-type">
+		<xsd:restriction base="xsd:NCName">
+			<xsd:enumeration value="LAZY" />
+			<xsd:enumeration value="EAGER" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!--
+		Enumeration of LOB types.
+	-->
+	<xsd:simpleType name="lob-type">
+		<xsd:restriction base="xsd:NCName">
+			<xsd:enumeration value="BLOB" />
+			<xsd:enumeration value="CLOB" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!--
+		Enumeration of discriminator column types.
+	-->
+	<xsd:simpleType name="discriminator-type">
+		<xsd:restriction base="xsd:NCName">
+			<xsd:enumeration value="STRING" />
+			<xsd:enumeration value="CHAR" />
+			<xsd:enumeration value="INTEGER" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!--
+		Enumeration of temporal types.
+	-->
+	<xsd:simpleType name="temporal-type">
+		<xsd:restriction base="xsd:NCName">
+			<xsd:enumeration value="DATE" />
+			<xsd:enumeration value="TIME" />
+			<xsd:enumeration value="TIMESTAMP" />
+			<xsd:enumeration value="NONE" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!--
+		Enumeration of cascade styles, specified as, e.g.
+				<cascade><persist/><merge/></cascade>
+	-->
+	<xsd:simpleType name="cascade-type">
+		<xsd:restriction base="xsd:NCName">
+			<xsd:enumeration value="ALL" />
+			<xsd:enumeration value="PERSIST" />
+			<xsd:enumeration value="MERGE" />
+			<xsd:enumeration value="REMOVE" />
+			<xsd:enumeration value="REFRESH" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!--
+		Enumeration of inheritance types.
+	-->
+	<xsd:simpleType name="inheritance-type">
+		<xsd:restriction base="xsd:NCName">
+			<xsd:enumeration value="SINGLE_TABLE" />
+			<xsd:enumeration value="JOINED" />
+			<xsd:enumeration value="TABLE_PER_CLASS" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!--
+		Enumeration of generator types.
+	-->
+	<xsd:simpleType name="generator-type">
+		<xsd:restriction base="xsd:NCName">
+			<xsd:enumeration value="TABLE" />
+			<xsd:enumeration value="SEQUENCE" />
+			<xsd:enumeration value="IDENTITY" />
+			<xsd:enumeration value="AUTO" />
+			<xsd:enumeration value="NONE" />
+		</xsd:restriction>
+	</xsd:simpleType>
+</xsd:schema>

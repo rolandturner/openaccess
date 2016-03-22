@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin
+    id="Versant"
+    name="%name"
+    version="@ECLIPSE.VERSION@"
+    provider-name="Versant Inc"
+    class="com.versant.core.jdo.tools.eclipse.VersantPlugin">
+
+    <runtime>
+        <library name="voa-eclipse.jar"/>
+        <library name="lib/openaccess.jar"/>
+        <library name="lib/jta.jar"/>
+        <library name="lib/activation.jar"/>
+    </runtime>
+
+    <requires>
+        <import plugin="org.eclipse.jdt"/>
+        <import plugin="org.eclipse.jdt.core"/>
+        <import plugin="org.eclipse.jdt.launching"/>
+        <import plugin="org.eclipse.jdt.ui"/>
+        <import plugin="org.eclipse.core.resources"/>
+        <import plugin="org.eclipse.core.runtime"/>
+        <import plugin="org.eclipse.ui"/>
+        <import plugin="org.apache.ant"/>
+        <import plugin="org.apache.xerces" optional="true"/>
+    </requires>
+
+    <extension
+        point="org.eclipse.jdt.core.classpathContainerInitializer">
+        <classpathContainerInitializer
+            class="com.versant.core.jdo.tools.eclipse.JDOClasspathContainerInitializer"
+            id="JDO_CONTAINER">
+        </classpathContainerInitializer>
+    </extension>
+
+    <extension
+        id="VersantId"
+        name="Versant_Project_Properties"
+        point="org.eclipse.ui.propertyPages">
+        <page
+            objectClass="org.eclipse.core.resources.IProject"
+            adaptable="true"
+            name="Versant OpenAccess Properties"
+            class="com.versant.core.jdo.tools.eclipse.VersantPropertyPage"
+            id="com.versant.core.jdo.tools.eclipse.VersantPropertyPage">
+            <filter
+                name="nature"
+                value="Versant.jdoNature">
+            </filter>
+        </page>
+    </extension>
+
+    <extension
+        id="jdoNature"
+        name="Versant Nature"
+        point="org.eclipse.core.resources.natures">
+        <requires-nature
+            id="org.eclipse.jdt.core.javanature">
+        </requires-nature>
+        <runtime>
+            <run
+                class="com.versant.core.jdo.tools.eclipse.nature.JDONature">
+            </run>
+        </runtime>
+    </extension>
+
+    <extension
+        point="org.eclipse.ui.popupMenus">
+        <objectContribution
+            objectClass="org.eclipse.jdt.core.IJavaProject"
+            id="Versant.EngineMenu">
+            <menu
+                label="Versant OpenAccess"
+                path="additions"
+                id="Versant.Project">
+                <separator
+                    name="Versant.group1">
+                </separator>
+                <separator
+                    name="Versant.group2">
+                </separator>
+            </menu>
+        </objectContribution>
+        <objectContribution
+            objectClass="org.eclipse.jdt.core.IJavaProject"
+            id="Versant.JavaProjects">
+            <visibility>
+                <not>
+                    <objectState
+                        name="nature"
+                        value="Versant.jdoNature">
+                    </objectState>
+                </not>
+            </visibility>
+
+            <action
+                label="Add JDO Nature"
+                class="com.versant.core.jdo.tools.eclipse.AddJDONature"
+                enablesFor="1"
+                menubarPath="Versant.Project/group1"
+                id="Versant.AddNature">
+            </action>
+        </objectContribution>
+        <objectContribution
+            objectClass="org.eclipse.jdt.core.IJavaProject"
+            id="Versant.projects.removeNature">
+            <visibility>
+                <objectState
+                    name="nature"
+                    value="Versant.jdoNature">
+                </objectState>
+            </visibility>
+            <action
+                label="Remove JDO Nature"
+                class="com.versant.core.jdo.tools.eclipse.RemoveJDONature"
+                menubarPath="Versant.Project/group1"
+                enablesFor="1"
+                id="Versant.RemoveJDONature">
+            </action>
+        </objectContribution>
+        <objectContribution
+            objectClass="org.eclipse.jdt.core.IJavaProject"
+            id="Versant.projects.enhance">
+            <visibility>
+                <objectState
+                    name="nature"
+                    value="Versant.jdoNature">
+                </objectState>
+            </visibility>
+            <action
+                label="Enhance classes"
+                class="com.versant.core.jdo.tools.eclipse.EnhancePopupAction"
+                menubarPath="Versant.Project/group1"
+                enablesFor="1"
+                id="Versant.projects.enhanceTask">
+            </action>
+        </objectContribution>
+    </extension>
+
+    <extension point="org.eclipse.ui.actionSets">
+        <actionSet
+            id="openaccess-actionset"
+            label="Versant">
+            <action id="enhanceAction"
+                menubarPath="project/build"
+                label="JDO Enhance"
+                tooltip="Enhance persistenct project classes"
+                class="com.versant.core.jdo.tools.eclipse.EnhanceAction"
+                enablesFor="1">
+                <enablement>
+                    <objectState
+                        name="projectNature"
+                        value="Versant.jdoNature"/>
+                </enablement>
+            </action>
+        </actionSet>
+    </extension>
+
+    <extension
+         point="org.eclipse.jdt.core.classpathContainerInitializer">
+      <classpathContainerInitializer
+            class="com.versant.core.jdo.tools.eclipse.JDOClasspathContainerInitializer"
+            id="Versant.projects.enhanceTask.JDO_CONTAINER">
+      </classpathContainerInitializer>
+   </extension>
+
+    <extension
+        id="EnhancerBuilder"
+        name="JDOEclipseEnhanceBuilder"
+        point="org.eclipse.core.resources.builders">
+        <builder>
+            <run
+                class="com.versant.core.jdo.tools.eclipse.EnhancerBuilder">
+            </run>
+        </builder>
+    </extension>
+
+</plugin>

@@ -1,0 +1,86 @@
+<!--
+The core JDO and EJB 3 persistence implementation.
+-->
+<project name="engine" default="compile" basedir=".">
+
+    <import file="../common.xml"/>
+
+    <path id="cp.path">
+        <fileset dir="lib" includes="**/*.jar"/>
+    </path>
+
+    <target name="init">
+        <mkdir dir="build/java"/>
+        <mkdir dir="build/classes"/>
+    </target>
+
+    <target name="clean">
+        <delete dir="build"/>
+    </target>
+
+    <target name="javacc-compile" depends="init"
+        description="Generate the JavaCC parser for JDOQL">
+        <mkdir dir="build/java/com/versant/core/jdo/query"/>
+        <javacc target="src/com/versant/core/jdo/query/JDOQLParser.jj"
+            javacchome="javacc"
+            debugparser="false"
+            outputdirectory="build/java/com/versant/core/jdo/query/"/>
+    </target>
+
+    <target name="pre-compile">
+        <script language="beanshell"> <![CDATA[
+        java.util.GregorianCalendar c = new GregorianCalendar();
+        c.set(java.util.Calendar.HOUR_OF_DAY, 0);
+        c.set(java.util.Calendar.MINUTE, 0);
+        c.set(java.util.Calendar.SECOND, 0);
+        c.set(java.util.Calendar.MILLISECOND, 0);
+	    project.setNewProperty("long-date", "" + c.getTimeInMillis());
+        ]]>
+        </script>
+        <!-- Dont generate a new Debug.java if we dont need to. -->
+        <property file="build/build.properties" prefix="old"/>
+        <condition property="skip-debug-java">
+            <and>
+                <equals arg1="${old.long-date}" arg2="${long-date}"/>
+                <equals arg1="${old.debug}" arg2="${debug}"/>
+                <equals arg1="${old.version}" arg2="${version}"/>
+            </and>
+        </condition>
+    </target>
+
+    <target name="generate-debug-java" depends="pre-compile" unless="skip-debug-java">
+        <echo file="build/build.properties">
+            long-date=${long-date}
+            debug=${debug}
+            version=${version}
+        </echo>
+        <filter token="DEBUG.FLAG" value="${debug}"/>
+        <filter token="DEBUG.DATE" value="${long-date}"/>
+        <filter token="DEBUG.VERSION" value="${version}"/>
+        <mkdir dir="build/java/com/versant/core/common"/>
+        <copy file="etc/Debug.txt"
+            tofile="build/java/com/versant/core/common/Debug.java"
+            filtering="true"
+            overwrite="true"/>
+    </target>
+
+    <target name="compile" depends="javacc-compile,generate-debug-java"
+            description="Compile all sources">
+        <copy todir="build/classes">
+            <fileset dir="src" includes="*.properties"/>
+            <fileset file="etc/license/openaccess.license"/>
+        </copy>
+        <javac srcdir="build/java;src" destdir="build/classes"
+            source="1.3"
+            target="1.3"
+            compiler="modern"
+            debug="on"
+            optimize="${javac.optimize}"
+            debuglevel="${javac.debuglevel}">
+            <classpath>
+                <path refid="cp.path"/>
+            </classpath>
+        </javac>
+    </target>
+
+</project>

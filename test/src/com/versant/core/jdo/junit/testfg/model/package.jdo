@@ -1,0 +1,417 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE jdo PUBLIC "-//Sun Microsystems, Inc.//DTD Java Data Objects Metadata 1.0//EN" "http://java.sun.com/dtd/jdo_1_0.dtd.bla">
+
+<!--wrong tag is spec, but it must still work-->
+<jdo>
+    <package name="com.versant.core.jdo.junit.testfg.model">
+        <class name="A">
+            <extension vendor-name="versant" key="fetch-group" value="testFG_A1">
+                <extension vendor-name="versant" key="field-name" value="b">
+                    <extension vendor-name="versant" key="next-fetch-group" value="testFG_A1" />
+                    <extension vendor-name="versant" key="jdbc-use-join" value="inner" />
+                </extension>
+                <extension vendor-name="versant" key="field-name" value="e">
+                    <extension vendor-name="versant" key="next-fetch-group" value="testFG_A1" />
+                    <extension vendor-name="versant" key="jdbc-use-join" value="inner" />
+                </extension>
+                <extension vendor-name="versant" key="field-name" value="aString" />
+            </extension>
+            <field name="e" />
+            <field name="b" />
+        </class>
+        <class name="B">
+            <extension vendor-name="versant" key="fetch-group" value="testFG_A1">
+                <extension vendor-name="versant" key="field-name" value="c">
+                    <extension vendor-name="versant" key="next-fetch-group" value="testFG_A1" />
+                </extension>
+                <extension vendor-name="versant" key="field-name" value="bString" />
+            </extension>
+        </class>
+        <class name="C">
+            <extension vendor-name="versant" key="fetch-group" value="testFG_A1">
+                <extension vendor-name="versant" key="field-name" value="d">
+                    <extension vendor-name="versant" key="next-fetch-group" value="testFG_A1" />
+                </extension>
+                <extension vendor-name="versant" key="field-name" value="cString" />
+            </extension>
+        </class>
+        <class name="D">
+            <extension vendor-name="versant" key="fetch-group" value="testFG_A1">
+                <extension vendor-name="versant" key="field-name" value="dString" />
+            </extension>
+        </class>
+        <class name="E">
+            <extension vendor-name="versant" key="fetch-group" value="testFG_A1">
+                <extension vendor-name="versant" key="field-name" value="eString" />
+            </extension>
+        </class>
+        <class name="Base">
+            <extension vendor-name="versant" key="fetch-group" value="testFG_A2">
+                <extension vendor-name="versant" key="field-name" value="base" />
+            </extension>
+            <extension vendor-name="versant" key="fetch-group" value="new2">
+                <extension vendor-name="versant" key="field-name" value="base" />
+            </extension>
+        </class>
+        <class name="SubA" persistence-capable-superclass="Base">
+            <extension vendor-name="versant" key="fetch-group" value="testFG_A2">
+                <extension vendor-name="versant" key="field-name" value="aBaseRef">
+                    <extension vendor-name="versant" key="next-fetch-group" value="testFG_A2" />
+                </extension>
+                <extension vendor-name="versant" key="field-name" value="base" />
+                <extension vendor-name="versant" key="field-name" value="subA" />
+            </extension>
+        </class>
+        <class name="SubB" persistence-capable-superclass="Base">
+            <extension vendor-name="versant" key="fetch-group" value="testFG_A2">
+                <extension vendor-name="versant" key="field-name" value="bBaseRef">
+                    <extension vendor-name="versant" key="next-fetch-group" value="testFG_A2" />
+                </extension>
+                <extension vendor-name="versant" key="field-name" value="base" />
+                <extension vendor-name="versant" key="field-name" value="subB" />
+            </extension>
+            <extension vendor-name="versant" key="fetch-group" value="new2">
+                <extension vendor-name="versant" key="field-name" value="bBaseRef" />
+                <extension vendor-name="versant" key="field-name" value="subB" />
+            </extension>
+        </class>
+        <class name="SubAA" persistence-capable-superclass="SubA" />
+        <class name="SubAB" persistence-capable-superclass="SubA" />
+        <class name="SubBA" persistence-capable-superclass="SubB" />
+        <class name="SubBB" persistence-capable-superclass="SubB" />
+        <class name="Order">
+            <extension vendor-name="versant" key="fetch-group" value="testFGL3">
+                <extension vendor-name="versant" key="field-name" value="orderItems">
+                    <extension vendor-name="versant" key="next-fetch-group" value="testFGL3" />
+                </extension>
+                <extension vendor-name="versant" key="field-name" value="val" />
+                <extension vendor-name="versant" key="field-name" value="ordering" />
+                <extension vendor-name="versant" key="field-name" value="longVal" />
+            </extension>
+            <extension vendor-name="versant" key="fetch-group" value="test1">
+                <extension vendor-name="versant" key="field-name" value="orderItems">
+                    <extension vendor-name="versant" key="next-fetch-group" value="test1" />
+                </extension>
+                <extension vendor-name="versant" key="field-name" value="val" />
+                <extension vendor-name="versant" key="field-name" value="longVal" />
+            </extension>
+            <extension vendor-name="versant" key="fetch-group" value="test2">
+                <extension vendor-name="versant" key="field-name" value="orderItems">
+                    <extension vendor-name="versant" key="next-fetch-group" value="test2" />
+                </extension>
+                <extension vendor-name="versant" key="field-name" value="val" />
+                <extension vendor-name="versant" key="field-name" value="longVal" />
+            </extension>
+            <field name="orderItems">
+                <collection element-type="OrderItem">
+                    <extension vendor-name="versant" key="ordering" value="order ascending" />
+                </collection>
+            </field>
+            <extension vendor-name="versant" key="fetch-group" value="orderItems1">
+                <extension vendor-name="versant" key="field-name" value="orderItems" />
+            </extension>
+            <extension vendor-name="versant" key="fetch-group" value="all">
+                <extension vendor-name="versant" key="field-name" value="longVal" />
+                <extension vendor-name="versant" key="field-name" value="orderItems" />
+                <extension vendor-name="versant" key="field-name" value="ordering" />
+                <extension vendor-name="versant" key="field-name" value="val" />
+            </extension>
+        </class>
+        <class name="OrderItem">
+            <extension vendor-name="versant" key="fetch-group" value="testFGL3">
+                <extension vendor-name="versant" key="field-name" value="productions" />
+                <extension vendor-name="versant" key="field-name" value="val" />
+                <extension vendor-name="versant" key="field-name" value="order" />
+                <extension vendor-name="versant" key="field-name" value="longVal" />
+                <extension vendor-name="versant" key="field-name" value="parentLongVal" />
+            </extension>
+            <extension vendor-name="versant" key="fetch-group" value="test1">
+                <extension vendor-name="versant" key="field-name" value="stringList" />
+                <extension vendor-name="versant" key="field-name" value="val" />
+                <extension vendor-name="versant" key="field-name" value="longVal" />
+                <extension vendor-name="versant" key="field-name" value="parentLongVal" />
+            </extension>
+            <extension vendor-name="versant" key="fetch-group" value="test2">
+                <extension vendor-name="versant" key="field-name" value="stringList" />
+                <extension vendor-name="versant" key="field-name" value="productions" />
+                <extension vendor-name="versant" key="field-name" value="val" />
+                <extension vendor-name="versant" key="field-name" value="longVal" />
+                <extension vendor-name="versant" key="field-name" value="parentLongVal" />
+            </extension>
+            <field name="productions">
+                <collection element-type="Production">
+                    <extension vendor-name="versant" key="ordering" value="val2 ascending" />
+                </collection>
+            </field>
+            <field name="stringList">
+                <collection element-type="java.lang.String" />
+            </field>
+        </class>
+        <class name="Production" />
+        <class name="OrderFK">
+            <extension vendor-name="versant" key="fetch-group" value="testFGL3">
+                <extension vendor-name="versant" key="field-name" value="orderItems">
+                    <extension vendor-name="versant" key="next-fetch-group" value="testFGL3" />
+                </extension>
+                <extension vendor-name="versant" key="field-name" value="val" />
+            </extension>
+            <extension vendor-name="versant" key="fetch-group" value="test2">
+                <extension vendor-name="versant" key="field-name" value="orderItems">
+                    <extension vendor-name="versant" key="next-fetch-group" value="test2" />
+                </extension>
+                <extension vendor-name="versant" key="field-name" value="val" />
+                <extension vendor-name="versant" key="field-name" value="longVal" />
+                <extension vendor-name="versant" key="field-name" value="ordVal" />
+            </extension>
+            <field name="orderItems">
+                <collection element-type="OrderItemFK">
+                    <extension vendor-name="versant" key="inverse" value="order" />
+                    <extension vendor-name="versant" key="ordering" value="ordVal ascending" />
+                </collection>
+                <extension vendor-name="versant" key="fetch-group" value="all" />
+            </field>
+            <extension vendor-name="versant" key="fetch-group" value="all">
+                <extension vendor-name="versant" key="field-name" value="longVal" />
+                <extension vendor-name="versant" key="field-name" value="ordVal" />
+                <extension vendor-name="versant" key="field-name" value="orderItems" />
+                <extension vendor-name="versant" key="field-name" value="val" />
+                <extension vendor-name="versant" key="field-name" value="refAB" />
+                <extension vendor-name="versant" key="field-name" value="refBC" />
+            </extension>
+        </class>
+        <class name="OrderItemFK">
+            <extension vendor-name="versant" key="fetch-group" value="testFGL3">
+                <extension vendor-name="versant" key="field-name" value="productions" />
+            </extension>
+            <extension vendor-name="versant" key="fetch-group" value="test2">
+                <extension vendor-name="versant" key="field-name" value="productions">
+                    <extension vendor-name="versant" key="next-fetch-group" value="test2" />
+                </extension>
+                <extension vendor-name="versant" key="field-name" value="longVal" />
+                <extension vendor-name="versant" key="field-name" value="parentLongVal" />
+                <extension vendor-name="versant" key="field-name" value="ordVal" />
+            </extension>
+            <field name="productions">
+                <collection element-type="ProductionFK">
+                    <extension vendor-name="versant" key="inverse" value="owner" />
+                    <extension vendor-name="versant" key="ordering" value="ordVal ascending" />
+                </collection>
+            </field>
+        </class>
+        <class name="ProductionFK">
+            <extension vendor-name="versant" key="fetch-group" value="test2">
+                <extension vendor-name="versant" key="field-name" value="parentLongVal" />
+                <extension vendor-name="versant" key="field-name" value="val" />
+                <extension vendor-name="versant" key="field-name" value="ordVal" />
+            </extension>
+        </class>
+        <class name="MapModel">
+            <field name="stringOrderMap">
+                <map key-type="java.lang.String" value-type="Order" />
+            </field>
+            <field name="orderOrderMap">
+                <map key-type="Order" value-type="Order" />
+            </field>
+            <field name="stringStringMap">
+                <map key-type="java.lang.String" value-type="java.lang.String" />
+            </field>
+            <field name="orderStringMap">
+                <map key-type="Order" value-type="java.lang.String" />
+            </field>
+            <extension vendor-name="versant" key="fetch-group" value="testFGL3">
+                <extension vendor-name="versant" key="field-name" value="stringOrderMap">
+                    <extension vendor-name="versant" key="next-fetch-group" value="testFGL3" />
+                </extension>
+                <extension vendor-name="versant" key="field-name" value="ordering" />
+                <extension vendor-name="versant" key="field-name" value="val" />
+            </extension>
+            <extension vendor-name="versant" key="fetch-group" value="testFGL4">
+                <extension vendor-name="versant" key="field-name" value="orderStringMap">
+                    <extension vendor-name="versant" key="next-key-fetch-group" value="testFGL3" />
+                </extension>
+                <extension vendor-name="versant" key="field-name" value="ordering" />
+                <extension vendor-name="versant" key="field-name" value="val" />
+            </extension>
+            <extension vendor-name="versant" key="fetch-group" value="testFGL5">
+                <extension vendor-name="versant" key="field-name" value="orderOrderMap">
+                    <extension vendor-name="versant" key="next-key-fetch-group" value="testFGL3" />
+                    <extension vendor-name="versant" key="next-fetch-group" value="testFGL3" />
+                </extension>
+                <extension vendor-name="versant" key="field-name" value="stringStringMap" />
+                <extension vendor-name="versant" key="field-name" value="ordering" />
+                <extension vendor-name="versant" key="field-name" value="val" />
+            </extension>
+            <extension vendor-name="versant" key="fetch-group" value="testFGL1">
+                <extension vendor-name="versant" key="field-name" value="stringStringMap" />
+                <extension vendor-name="versant" key="field-name" value="ordering" />
+            </extension>
+            <extension vendor-name="versant" key="fetch-group" value="testFG2">
+                <extension vendor-name="versant" key="field-name" value="orderOrderMap">
+                    <extension vendor-name="versant" key="next-fetch-group" value="testFGL3" />
+                    <extension vendor-name="versant" key="next-key-fetch-group" value="testFGL3" />
+                </extension>
+                <extension vendor-name="versant" key="field-name" value="ordering" />
+            </extension>
+        </class>
+        <class name="Recursive">
+            <field name="recFkList">
+                <collection element-type="Recursive">
+                    <extension vendor-name="versant" key="inverse" value="parent" />
+                    <extension vendor-name="versant" key="ordering" value="val ascending" />
+                </collection>
+            </field>
+            <field name="recList">
+                <collection element-type="Recursive">
+                    <extension vendor-name="versant" key="ordering" value="val ascending" />
+                </collection>
+            </field>
+            <field name="recFkSet">
+                <collection element-type="Recursive">
+                    <extension vendor-name="versant" key="inverse" value="parentSet" />
+                    <extension vendor-name="versant" key="ordering" value="val ascending" />
+                </collection>
+            </field>
+            <field name="recSet">
+                <collection element-type="Recursive">
+                    <!--                    <extension vendor-name="jdogenie" key="ordering" value="val ascending" />-->
+                </collection>
+            </field>
+            <extension vendor-name="versant" key="fetch-group" value="test1">
+                <extension vendor-name="versant" key="field-name" value="ord" />
+                <extension vendor-name="versant" key="field-name" value="val" />
+                <extension vendor-name="versant" key="field-name" value="recList">
+                    <extension vendor-name="versant" key="next-fetch-group" value="test1" />
+                </extension>
+            </extension>
+            <extension vendor-name="versant" key="fetch-group" value="test11">
+                <extension vendor-name="versant" key="field-name" value="ord" />
+                <extension vendor-name="versant" key="field-name" value="val" />
+                <extension vendor-name="versant" key="field-name" value="tStamp" />
+                <extension vendor-name="versant" key="field-name" value="parentTStamp" />
+                <extension vendor-name="versant" key="field-name" value="recSet">
+                    <extension vendor-name="versant" key="next-fetch-group" value="test11" />
+                </extension>
+            </extension>
+            <extension vendor-name="versant" key="fetch-group" value="test2">
+                <extension vendor-name="versant" key="field-name" value="ord" />
+                <extension vendor-name="versant" key="field-name" value="val" />
+                <extension vendor-name="versant" key="field-name" value="recFkList">
+                    <extension vendor-name="versant" key="next-fetch-group" value="test2" />
+                </extension>
+            </extension>
+            <extension vendor-name="versant" key="fetch-group" value="test22">
+                <extension vendor-name="versant" key="field-name" value="ord" />
+                <extension vendor-name="versant" key="field-name" value="val" />
+                <extension vendor-name="versant" key="field-name" value="tStamp" />
+                <extension vendor-name="versant" key="field-name" value="parentTStamp" />
+                <extension vendor-name="versant" key="field-name" value="recFkSet">
+                    <extension vendor-name="versant" key="next-fetch-group" value="test22" />
+                </extension>
+            </extension>
+        </class>
+        <class name="InherA">
+            <field name="stringListA">
+                <collection element-type="java.lang.String">
+                    <extension vendor-name="versant" key="ordering" value="this ascending" />
+                </collection>
+            </field>
+            <field name="inherAList">
+                <collection element-type="InherA">
+                    <extension vendor-name="versant" key="ordering" value="order ascending" />
+                </collection>
+            </field>
+            <extension vendor-name="versant" key="fetch-group" value="testInher1">
+                <extension vendor-name="versant" key="field-name" value="order" />
+                <extension vendor-name="versant" key="field-name" value="stringListA" />
+            </extension>
+            <extension vendor-name="versant" key="fetch-group" value="testInher2">
+                <extension vendor-name="versant" key="field-name" value="order" />
+                <extension vendor-name="versant" key="field-name" value="stringListA" />
+                <extension vendor-name="versant" key="field-name" value="inherAList">
+                    <extension vendor-name="versant" key="next-fetch-group" value="testInher1" />
+                </extension>
+            </extension>
+        </class>
+        <class name="InherB" persistence-capable-superclass="InherA">
+            <field name="stringListB">
+                <collection element-type="java.lang.String">
+                    <extension vendor-name="versant" key="ordering" value="this ascending" />
+                </collection>
+            </field>
+            <extension vendor-name="versant" key="fetch-group" value="testInher1">
+                <extension vendor-name="versant" key="field-name" value="stringListB" />
+            </extension>
+            <extension vendor-name="versant" key="fetch-group" value="testInher2">
+                <extension vendor-name="versant" key="field-name" value="stringListB" />
+            </extension>
+        </class>
+        <class name="InherC" persistence-capable-superclass="InherB">
+            <field name="stringListC">
+                <collection element-type="java.lang.String">
+                    <extension vendor-name="versant" key="ordering" value="this ascending" />
+                </collection>
+            </field>
+            <extension vendor-name="versant" key="fetch-group" value="testInher1">
+                <extension vendor-name="versant" key="field-name" value="stringListC" />
+            </extension>
+            <extension vendor-name="versant" key="fetch-group" value="testInher2">
+                <extension vendor-name="versant" key="field-name" value="stringListC" />
+            </extension>
+        </class>
+        <class name="RefA">
+            <extension vendor-name="versant" key="fetch-group" value="testRef1">
+                <extension vendor-name="versant" key="field-name" value="refAB">
+                    <extension vendor-name="versant" key="next-fetch-group" value="testRef1" />
+                </extension>
+                <extension vendor-name="versant" key="field-name" value="refAD">
+                    <extension vendor-name="versant" key="next-fetch-group" value="testRef1" />
+                </extension>
+            </extension>
+        </class>
+        <class name="RefAB">
+            <extension vendor-name="versant" key="fetch-group" value="testRef1">
+                <extension vendor-name="versant" key="field-name" value="refBC">
+                    <extension vendor-name="versant" key="next-fetch-group" value="testRef1" />
+                </extension>
+            </extension>
+        </class>
+        <class name="RefBC">
+            <extension vendor-name="versant" key="fetch-group" value="testRef1">
+                <extension vendor-name="versant" key="field-name" value="val" />
+                <extension vendor-name="versant" key="field-name" value="order" />
+            </extension>
+        </class>
+        <class name="RefAD">
+            <field name="stringListAD">
+                <collection element-type="java.lang.String">
+                    <extension vendor-name="versant" key="ordering" value="this ascending" />
+                </collection>
+            </field>
+            <extension vendor-name="versant" key="fetch-group" value="testRef1">
+                <extension vendor-name="versant" key="field-name" value="stringListAD" />
+                <extension vendor-name="versant" key="field-name" value="val" />
+            </extension>
+        </class>
+        <class name="TestA">
+            <extension vendor-name="versant" key="fetch-group" value="fg1">
+                <extension vendor-name="versant" key="field-name" value="int1" />
+            </extension>
+            <field name="int2">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-column-name" value="int2x" />
+                </extension>
+            </field>
+            <field name="int1">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-column-name" value="int1x" />
+                </extension>
+            </field>
+            <field name="int3">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-column-name" value="int3x" />
+                </extension>
+            </field>
+        </class>
+    </package>
+</jdo>
+

@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<!DOCTYPE struts-config PUBLIC
+          "-//Apache Software Foundation//DTD Struts Configuration 1.1//EN"
+          "http://jakarta.apache.org/struts/dtds/struts-config_1_1.dtd">
+
+<struts-config>
+
+    <!-- ========== Form Bean Definitions =================================== -->
+
+    <form-beans>
+
+        <form-bean name="pageForm"
+            type="petstore.www.PageForm"/>
+        <!--
+        <form-bean name="pageForm"
+            type="org.apache.struts.action.DynaActionForm">
+            <form-property name="parent" type="java.lang.String" />
+            <form-property name="start" type="java.lang.String" />
+            <form-property name="count" type="java.lang.String" />
+            <form-property name="page" type="petstore.model.Page" />
+        </form-bean>
+         -->
+
+        <form-bean name="cartForm"
+            type="petstore.www.CartForm" />
+        <!--
+            type="org.apache.struts.action.DynaActionForm">
+            <form-property name="cartItem" type="petstore.model.CartItem[]" />
+        </form-bean> -->
+
+        <form-bean name="userForm"
+            type="org.apache.struts.action.DynaActionForm">
+            <form-property name="login" type="java.lang.String" />
+            <form-property name="password" type="java.lang.String" />
+            <form-property name="password1" type="java.lang.String" />
+            <form-property name="requestURL" type="java.lang.String" />
+        </form-bean>
+
+        <form-bean name="customerForm"
+            type="petstore.www.CustomerForm"/>
+
+        <form-bean name="orderForm"
+            type="petstore.www.OrderForm"/>
+
+    </form-beans>
+
+    <global-forwards>
+        <forward name="login"         path="/user.do?reqCode=showLoginPage"/>
+        <forward name="catalog"         path="/catalog.do?reqCode=showCatalog"/>
+    </global-forwards>
+
+    <action-mappings>
+        <action path="/catalog"
+            name="pageForm"
+            scope="request"
+            type="petstore.www.CatalogAction"
+            validate="false"
+            parameter="reqCode">
+
+
+            <forward name="productPage" path="product_page.def"/>
+            <forward name="catalogPage" path="petstore.def"/>
+            <forward name="itemPage" path="item_page.def"/>
+            <forward name="itemDetailsPage" path="item_details_page.def"/>
+        </action>
+
+
+        <action path="/cart"
+            name="cartForm"
+            type="petstore.www.CartAction"
+            validate="false"
+            parameter="reqCode">
+
+
+            <forward name="cartPage" path="cart_page.def"/>
+        </action>
+
+
+        <action path="/user"
+            name="userForm"
+            type="petstore.www.UserAction"
+            validate="false"
+            parameter="reqCode">
+
+
+            <forward name="editCustomer" path="/customer.do?reqCode=editCustomer"/>
+            <forward name="loginPage" path="login_page.def"/>
+        </action>
+
+        <action path="/customer"
+            name="customerForm"
+            type="petstore.www.CustomerAction"
+            validate="false"
+            parameter="reqCode" >
+
+            <set-property property="roles" value="customer"/>
+            <forward name="customerPage" path="customer_page.def"/>
+
+        </action>
+
+
+        <action path="/order"
+            name="orderForm"
+            type="petstore.www.CheckoutAction"
+            validate="true"
+            parameter="reqCode" >
+
+            <set-property property="roles" value="customer"/>
+            <forward name="orderPage" path="order_page.def"/>
+            <forward name="orderSubmittedPage" path="order_submitted.def"/>
+
+        </action>
+
+    </action-mappings>
+
+    <controller processorClass="petstore.www.RequestProcessor"/>
+    <!-- ========== Message Resources Definitions =========================== -->
+
+    <message-resources parameter="petstore.Resources"/>
+
+</struts-config>

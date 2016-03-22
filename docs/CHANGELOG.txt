@@ -1,0 +1,2171 @@
+Versant Open Access @JDO.VERSION@ (@JDO.VERSION.DATE@)
+
+http://www.versant.com/opensource
+http://www.eclipse.org/proposals/eclipse-jsr220-orm/index.html
+
+Change log
+----------
+4.0.2 (14 December 2005)
+Bug Fixes:
+    * [OA-168] - Serialization with remote pm's on deleting instances with vds
+    * [OA-181] - Enhanced classes in hierarchies is not initialised correctly
+                 which leaves some fields like 'jdoInheritedFieldCount' in a 
+                 inconsistent state.
+    * [OA-187] - Instances marked for deletion with the 'retainvalues'
+                 property set to 'true' does not get rolled back properly if
+                 the tx is rolledback.
+    * [OA-188] - NPE when deleting an instance with an embedded reference
+                 that is marked as dependent
+    * [OA-192] - Creation of RemotePersistenceManagerFactory via JDOHelper
+                 fails
+    * [OA-193] - DirtyLifecycleListener isn't called
+    * [OA-196] - VOA JDO 4.0.1 tries to create a table twice while this
+                 working fine with VOA 4.0.0beta8 or lower
+    * [OA-199] - replacing StateManager isn't synchronized correctly
+    * [OA-202] - Columns created in base class of an embedded only subclass.
+    * [OA-205] - ColumnExp with a NULL selectexp causes the alias algorith to
+                 break.
+    * [OA-209] - The merge operation of 'ExistExp' for 'OR' exps is ignoring
+                 the 'subselectJoinExp' and therefore conditions are lost
+                  with the merge
+    * [OA-212] - Embedded-only classes is still processed as if table/columns
+                 must be created for it. This causes a name generation
+                 conflict.
+    * [OA-213] - Embedded classes is not attached/detached
+    * [OA-217] - processlog demo uses old
+                 com.versant.core.server.perf.PerfEvent class
+
+4.0.1 (2 November 2005)
+Bug Fixes:
+    * [OA-157] - NPE while attempting to access a reference to an 
+                 interface stored in the VDS 7.0.1.
+    * [OA-173] - Comments no longer present in the sql file generated for 
+                 postgres
+    * [OA-174] - or'ed and ()'ed operators doesn't work in query setFilter() 
+                 with VDS
+    * [OA-179] - setFetchSize fails sometimes on MySQL
+    * [OA-186] - Only the pk's are read from a Stored procs instead of all the 
+                 mappable columns.
+    * [OA-190] - Opening any project with Versant as database in the 
+                 Workbench causes java.lang.ClassCastException.
+
+4.0.0 (17 October 2005)
+Bug Fixes:
+    * [OA-117] - Documentation bug: MBean should not appear in chapter 16
+    * [OA-153] - Eclipse plugin enhancer does not work
+    * [OA-154] - Nullpointer using horizontal mapping
+    * [OA-161] - Some queries fail on DB2
+    * [OA-162] - Bug with attaching references fields that was never detached or set
+    * [OA-163] - Serialization issue with using hyperdrive and vds backend. 
+                 HyperdriveFactoryHierarchy is not serializable
+    * [OA-164] - L2 cache is broken in 4.0
+    * [OA-165] - Sybase does not work with 4.0
+    * [OA-171] - Classes with id fields of type char was not serialized correctly 
+                 for remote pm
+
+4.0.0beta9 (06 October 2005)
+Bug Fixes:
+    * [OA-72] - JTA throws "An illegal attempt to use multiple resources that
+                have only one-phase capability has occurred within a global transaction."
+    * [OA-73] - Detach losing references
+    * [OA-79] - Connection password ignored with VDS 7.0
+    * [OA-99] - Fix testcenter demo's to keep the server alive
+    * [OA-101] - A query using setUnique(true) does not returns a newly created
+                 instances where it should
+    * [OA-104] - The embedded-only extension does not honour the value attribute.
+    * [OA-107] - ArrayIndexOutOfBoundsException exception when executing named
+                 query more than once.
+    * [OA-111] - Getting duplicated query result if multiple "OR" terms are
+                 given and indexes is used at the server side.
+    * [OA-112] - Reference fields was fetched as if in default fetch group if
+                 'refsInDefaultFetchGroup' was set
+    * [OA-115] - DATASTORE_ERROR(Invalid Password specified) is thrown for a user
+                 added with dbuser and supplied the correct password.
+    * [OA-119] - JDOQL : parameter.contains(variable) raise exception
+                 javax.jdo.JDOFatalInternalException: not implemented (leftSibling == null)
+    * [OA-124] - Using VDS, references, collections and maps are included in
+                 default fetch group by default (incorrect behavior)
+    * [OA-134] - Fields of type java.util.Date are stored incorrectly in VDS
+    * [OA-135] - jdo_keygen gets locked by multiple threads leading to
+                 connection timeout
+    * [OA-138] - A filter conaining something like (this.field.startsWith())
+                 crash the client applicaition
+    * [OA-139] - Sub class joins not done correctly done for a inheritance
+                 hierarchy with a no-class-id discriminator and a vertical mapping
+    * [OA-148] - Query using custom fetch group in subclass does not fetch
+                 jdo_version
+    * [OA-149] - JDOFatalInternalException updating an instance with an
+                 'externalizer' field using vds backend
+    * [OA-150] - Assertion failed error when clicking the add class button
+                 using eclipse 3.1
+    * [OA-151] - Repeatedly executing the same query leaks memory
+
+** New Feature
+    * [OA-4] - Complete JDO 2 lifecycle listener support
+    * [OA-53] - Support XA transactions down to JDBC driver level in app server
+    * [OA-67] - JDO 2 simple identity support
+
+4.0.0beta8 (25 July 2005)
+Bug Fixes:
+* [OA-52] - JCA bug: The pm not 'cleaned' between transactions which
+            results in stale data in LocalPmCache.This causes optimistic locking 
+            failures for next tx.
+* [OA-76] - VDS SchemaTool ClassCastException
+* [OA-77] - Horizontally mapped subclass fails to persist some
+            fields from superclass
+* [OA-78] - Enhancer problem with class hierarchies
+
+New Feature:
+* [OA-70] - add support for Column.unique annotation
+* [OA-86] - Add support for XATransactions for jca adapter
+* [OA-87] - Add feature to support external DataSource that supplies already 
+            enlisted connections
+			    
+
+4.0.0beta7 (15 July 2005)
+Bug Fixes:
+* [OA-3] -  EclipseTools plugin does not work on Eclipse newer than 3.1.0RC1
+* [OA-7] -  Enhancer fails on some JDK 1.5 code using generics in a local var
+* [OA-44] - Bug with skipping results in a jdoql query with a oneToMany join for collection field
+* [OA-50] - SchemaMigration can't cope with double fieldnames
+* [OA-56] - The type of reference fields is not correctly determined for inheritance hierarchies
+* [OA-63] - Horizontal mapped fields in sub-class displaying '?' in Workbench after focus lost.
+* [OA-64] - Classes that have their 'embedded-only' flag set to true,
+            must not display a 'pk' field in the Workbench
+* [OA-75] - Fixed the handling of ConnectionFactoryName/2 property for jndi datasources
+
+Enhanments:
+* [OA-43] - Update ejb3 api and implementation to public review draft
+* [OA-49] - Fix the fetchspec creation for point fetches of collection fields to lazily
+
+
+
+
+4.0.0beta6 (28th June 2005)
+* Implemented JDO 2 interfaces from Apache
+  (http://svn.apache.org/repos/asf/incubator/jdo/trunk/api20).
+* Unimplemented JDO 2 API calls either throw not implemented exceptions or
+  or do nothing depending on the call. Old Versant extensions that match
+  new JDO 2 API calls have been removed.
+* Added new graph fetching code.
+
+4.0.0beta5 (26th June 2005)
+* Removed System.out from remote client keepalive ping thread.
+* Fixed bug with server socket for TCP remote access not being closed on
+  PMF.close().
+* Fixed bug with clearing the local PM cache that caused performance problems
+  with PMs managing large numbers of instances accross transactions (thanks
+  Nortel).
+* Documented horizontal mapping in the manual.
+* Fixed NPE with horizontally mapped base classes with reference fields on
+  databases using constraints (forums 1609).
+* Fixed Enhancer bug with super.clone() method and jdk1.5.
+* Fixed ClassCastException bug with projection queries returning a single
+  projection and the level 2 cache in use (i.e. optimistic tx).
+* Fixed NPE in when generating hyperdrive classes for horizontal mapping.
+* Added embedded-only extension for persistent classes that are always
+  embedded in other persistent classes. This solves issues with key generators
+  attempting to initialize for non-existent tables and so on.
+
+4.0.0beta4
+* Fixed bug in persisting new circular referenced instances with a post insert
+  keygenerator.
+* Added support to map array types for maps and collections. Primitive arrays
+  can be specified as either 'byte[]' or '[B' etc.
+  
+4.0.0beta3 (22nd April 2005)
+* Added JCA adapter to open source release. It was always supposed to be in
+  but we missed it.
+* Fixed bug with EJB 3 preview classes being left out of the openaccess.jar
+  in packaging.
+* Minimum value for versant.remote.tcp.clientTimeoutSecs and
+  versant.remote.http.clientTimeoutSecs is now 10 seconds.
+* The PMFServerServlet for remote access over HTTP now closes the PMF on
+  destroy if it created it. Inactive clients are also cleaned up.
+* If the PMFServerServlet starts the PMF then the TCP PMF Server will not
+  be started by default. It can be explicitly enabled with by adding
+  'versant.remoteAccess=socket' to versant.properties.
+* The 4.0.0 series of releases will only work with version 7.0 of Versant
+  ODBMS.
+
+4.0.0beta2 (19 April 2005)
+* This is our first Open Source release under the Eclipse banner:
+* This release includes alpha level support for the EJB 3 persistence
+  EntityManager and EJBQL. See README_EJB3.txt for more information.
+* Source code is available. See README_SOURCE.txt for more information.
+* Added support for horizontal mapping.
+* Fixed many small bugs with the Eclipse Tools plugin.
+* Hyperdrive has been disabled in this release due to a last minute bug.
+
+4.0.0beta1 (31 March 2005)
+* This is the first beta of our next major release (4.0.0).
+* Restored JDK 1.3.1 support for JDBC.
+* Added embedded mapping.
+* Remote PMFs no longer use RMI and are much faster.
+* Added support for HTTP as a transport for remote PMFs.
+* Added support for data compression for remote PMFs.
+* The level 2 cache is faster and more memory efficient.
+* Added a new Eclipse plugin with live E/R diagrams and most other features
+  from the standalone Workbench.
+* Clustering is not available in this release (will be restored soon).
+* Remote access does not work with JDK 1.3.1 (will be fixed soon).
+* This beta release has been tested on MySQL, Oracle, MS SQL, Postgres and
+  Versant ODBMS.
+
+3.2.14 (20 March 2005)
+* Fixed code merge problem that caused the JCA adapter to fail in some
+  environments.
+
+3.2.13 (14 March 2005)
+* Added xor -> xr as reserved word for MySQL.
+* Fixed detach & attach with externalizers
+* Fixed query cast bug (forum 1377).
+* Fixed bugs with variables in projection(result) queries.
+* Reduced memory usage during enhancment.
+* Added documentation on using our JCA adapter with WSAD.
+* Fixed bug with read locks being held during an optimistic tx on
+  Versant ODBMS.
+
+3.2.12 (21 February 2005)
+* Fixed bug with instances being removed from the level 2 cache causing
+  an internal exception in some cases.
+* Fixed bug in processing of parallel collection fetching.
+* Fixed stackoverflow when building the class reference graph.
+* Fixed bug with generated SQL in eager fetching (forums 1425).
+
+3.2.11 (16 February 2005)
+* Fixed sql query where in certain instances a column would have a wrong
+  table alias.
+* Fixed a performance issue with removing instances from the cache.
+* Fixed bugs in stored procedure support.
+* Fixed bug where extra queries was generated for
+  'VersantPersistenceManager.versantDetachCopy' if the collection that was
+  passed in was obtained from a query.
+* Fixed problems with Borland app server and added it to the manual.
+* Fixed 'getClassMetaData called on unresolved oid' bug.
+* Fixed bug with application identity field with key generator not being
+  automatically filled when touched if javax.option.Multithreaded=true.
+
+3.2.10 (7 February 2005)
+* Fixed rare NPE with level 2 cache and direct SQL queries (forum 1415).
+* Postgres SERIAL columns are now supported.
+* Fixed memory leak with JDOQL queries (forum 1403).
+* Fixed problem with optimistic version information returned null in certain
+  instances.
+* Fixed problem with the {auto} field of the oneToMany collections that was
+  not considered when constraints was generated.
+* Fixed problem in JCA where pm's was not returned to the pool in certain
+  scenario's(forum 1381).
+* Fixed classloader issue with JCA (forum 1385).
+* Added support for postgres 8.
+* Changed persistent class load order to solve initializer problem.
+* Got the JCA adapter working with Borland app server.
+
+3.2.9 (17 January 2004)
+* Added SQL IN list support to improve performance when deleting lots of
+  objects.
+* Added zero scale to NUMERIC on Informix eg. NUMERIC(19,0).
+* Fixed concurrent update miss in attach with application identity and
+  hyperdrive disabled.
+* Fixed bug with deleting instances involved in 1-to-many relationships mapped
+  using an inverse foreign key column (forums thread 1345).
+* Fixed bug with enhancer and String[][] and other multidimensional array
+  fields.
+
+3.2.8 (17 December 2004)
+* Fixed rare NPE with retrieving data from a cachable query.
+* Fixed rollback for transient-transaction fields.
+* Update Microsoft SQL support to allow nullable foreign keys.
+* Added method VersantPersistenceManager.getOptimisticLockingValue to provide
+  version info for an instance.
+* Fixed NPE with direct SQL queries marked as cacheble (forums 1315).
+* Fixed NPE with direct SQL queries with checking for collection/map fields
+  (forum 1295).
+* Added support to alias columns for Result queries. These aliases can then
+  be used in order/grouping expressions (forum 1285).
+* Added enums demo showing how to persist JDK 1.5 enum fields using
+  Externalizers.
+* Added getters for imports, variables and other fields to VersantQuery
+  (forums 1308).
+* Fixed NPE with retrieving direct SQL query results from cache.
+* Fixed bug with key generators being initalized for subclasses using vertical
+  inheritance. This caused failing SQL to be generated during startup.
+* Fixed several bugs with the query editor in the Workbench.
+* Fixed bug with sql generation which resulted in select list being in
+  wrong order in some rare cases.
+* Now more useful message when adding a field to a fetch group and the field
+  does not exist.
+* Fixed ArrayIndexOutOfBoundsException when a object is detached with more than
+  four FG's (forums 1292).
+
+3.2.7 (23rd November 2004)
+* Fixed detach bug with some List fields.
+* Fixed bug with Workbench not saving Externalizer class names properly.
+* Workbench schema view now automatically refreshes when activated.
+* Fixed bug with JDBC type mappings not using defaults properly (forums 1279).
+* It is no longer necessary to specify the element type for collections when
+  using VDS. If the element-type is speficied then any interface type is
+  valid, not just persistent interfaces in the project.
+* Fixed bug with detach fetching extra objects.
+* Fixed NPE with database copy tool.
+* Added 'keys' as a reserved word for MySQL (replaced by 'kys').
+* Fixed bug with enhancer attempting to add a default constructor to
+  non-persistent classes in some cases.
+
+3.2.6 (17 November 2004)
+* Added support for collections of interfaces for VDS.
+* Added license key to disable enhancer and Workbench for OEM runtime only
+  licenses.
+* Fixed bug with doing parallel fetch in an inheritance hierarchy.
+* Fixed NPE when doing a count on a cached query result when there is no data.
+* Fixed NPE when fetching query results if a parallel fetch was done on the firt row
+  and composite application primary key was used.
+* Fixed excessive memory use problem when persisting large objects on VDS.
+* Got rid of printStackTrace in log downloader when it is shutdown.
+
+3.2.5 (10 November 2004)
+* Added support for javax.jdo.option.Multithreaded=true for applications that
+  need to have multiple threads using the same PM and managed instances.
+* Fixed bug with using parallel fetch with maxRows option set where the first
+  two queries are combined into one. Now if maxRows is set then this
+  optimization is not used.
+* Fixed bug with Workbench and changing a relationship from a one-to-many to a
+  many-to-many.
+* Fixed bug with doing parallel fetch in inheritance hierarchy.
+
+3.2.4 (3 November 2004)
+* Fixed stackoverflow with attach/detach in managed environment.
+* Fixed bug in random access queries (forums 1228).
+* Fixed bug with joining to wrong table with orderby expressions in queries.
+* Fields of types that are not persistent that have
+  persistence-modifier="persistent" in the meta data are now serialized by
+  default.
+* Fixed some problems with reverse engineering and link tables as well as
+  table and column names containing spaces.
+
+3.2.3 (29 October 2004)
+* Fixed NPE in when reading collection and interface reference types for vds.
+* Fixed problem reading system tables on db2/AS400.
+
+3.2.2 (26 October 2004)
+* Fixed NPE in workbench when changing a field to many-to-many.
+* Isolated .bat file calls with selocal/endlocal to avoid any side 
+  effects (eg: dir change).
+* Fixed bug with Workbench removing empty string properties.
+* Fixed bug with workbench always prompting to save changes.
+* Fixed bug with renaming subclass pk for vertical inheritance and
+  application identity with only one pk column (forums 1211).
+* Fixed performance problem with parsing meta data for a model with many
+  packages.
+
+3.2.1 (22nd October 2004)
+* Fixed bug with joining for superclass fields in the SQL 
+  generated for some JDOQL queries (forums thread  1207).
+* Fixed bug with projection queries with empty results.
+* Fixed NPE for Versant ODBMS when accessing certain interface fields.
+* Added support for declaring empty FetchGroup.
+* Added support for named SQL queries in the meta data.
+* Added Workbench support for editing named SQL queries.
+* Revamped Workbench query editor.
+
+3.2.0 (18th October 2004)
+* Fixed case of properties in JCA ra.xml for JBoss.
+
+3.2.0rc6 (15th October 2004)
+* Fixed memory leak with Versant ODBMS.
+* Fixed problem with primary key column ordering and direct SQL queries 
+  returning persistent instances.
+* Fixed various issues with DB2 on AS400.
+* Fixed rare bug with detaching references to instances that are not in the
+  local PM cache.
+
+3.2.0rc5 (14th October 2004)
+* Fix adding new object to attach collection when using app Id and inheritance
+  (forums thread 1113).
+* Importing classes into the workbench from wizard will automatically identify
+  inheritance hierarchies.
+* Heirachies where each class has at most one subclass can be mapped using
+  flat inheritance with no discriminator column. All rows are considered
+  instances of the leaf class of the heirachy.
+* Fixed some bugs with the local PM cache.
+* Direct SQL queries on inheritance heirachies now work properly.
+* Fixed funny repainting bug when adding classes in the Workbench on Windows.
+
+3.2.0rc4 (13th October 2004)
+* Fixed bug with detaching an instance with a reference to a base class when
+  the reference instance is a subclass.
+* Added cacheable override flag to VersantQuery to control caching of results.
+* Added support for SQL as a query language.
+* Documented stored procedure support.
+* Fixed memory leak in local PM cache.
+* Fixed bug with Workbench not being able to open new projects.
+
+3.2.0rc3 (12th October 2004)
+* Fixed bug with Enterprise license not unlocking all features.
+* Fixed bug with jdo-create-db task attempting to drop tables in different
+  schemas on Oracle.
+
+3.2.0rc2 (11th October 2004)
+* Fixed bug in WB when adding element types that are in a subpackage of
+  containing class. eg: a.b.C has collection containing a.b.d.E.
+* Fixed bug with Workbench not setting properties on embedded beans (e.g. key
+  generators).
+* Fixed bug with application identity and remote PMs.
+* Fixed problems with remote PMs and VDS.
+* JDK 1.5.0 is supported again.
+* Fixed bug with value column in link table for an unordered collection
+  sometimes allowing nulls. This caused schema problems on MsSQL and Sybase.
+* Transaction.setRetainValues can now be called in a transaction.
+* Fixed bug with removing a null value from a Map not working.
+* Fixed bug with the Workbench taking a long time to browse and open projects
+  in directories with many files.
+
+3.2.0rc1 (6th October 2004)
+* Added support for SortedSet and SortedMap fields.
+* Null values are now allowed in Lists and Maps.
+* The loadFetchGroup method on VersantPM now accepts an Object parameter
+  instead of PersistenceCapable. The object must be PC but this should not
+  have got into the signature.
+* Fixed workbench bug when adding class to the persist order on the class
+  properties popup on the grid view.
+* Added getFilter method to VersantQuery.
+* Added new artwork.
+* Added null value support for maps.
+* Fixed bug with persistent aware classes not being enhanced.
+* fixed NPE in reverse engineering collections.
+* fixed field names not saving in reverse engineering.
+* Fixed jdo files dropping from project.
+* Can now specify project file when starting workbench
+  eg: ./workbench.sh myproject/versant.properties.
+* Worked on performance and memory usage in workbench.
+* Vertical inheritance and stored procedure support require an ENTERPRISE
+  license.
+
+3.2.0beta9 (29th September 2004)
+* Added methods to evict data from the level 2 cache after commit to
+  VersantPersistenceManager. These are useful when using container managed
+  transactions and direct JDBC.
+* Added "; commit" option to the versant.initSQL property to commit the
+  connection after executing the SQL.
+* Fixed sql generation for queries using a candidate collection as a paramater.
+* Fixed auto-enhance for eclipse plugin.
+* Fixed bug with Workbench losing paths from classpath on save.
+* Fixed bug with Workbench saving some classname properties incorrectly.
+* Fields of different subclasses using flat inheritance can now share the same column.
+* Fixed bugs with constraints not being generated in some cases (e.g. unidirectional
+  one-to-many).
+* Fixed workbench bug when removing .jdo files from project.
+* Updated workbench.sh so it will work on Solaris.
+* Workbench will automatically specify the persistence super class and default
+  mapping strategy for subclasses when added.
+* All pk fields included in detached instance (Even is not in fg).
+* Added more descriptive error message when trying the detach a classes not
+  enhanced with the detach option on true.
+
+3.2.0beta8 (27th September 2004)
+* Fixed some bugs in the Workbench related to the new property names and
+  separate .workbench file.
+* Fixed bug with SCOs not being deleted out of Versant ODBMS.
+* Fixed problems with Eclipse plugin caused by repackaging.
+* Fixed bug with enhancer and abstract base classes.
+* FIxed NPE with converters and columns with nulls when used with hyperdrive.
+* Fixed bugs with one-to-many without back reference support in Workbench.
+
+3.2.0beta7 (20th September 2004)
+* Remote PMs and hyperdrive together are not working on Versant ODBMS in this
+  release. There is no problem with JDBC or with Versant ODBMS and hyperdrive
+  and local PMs.
+* JDK 1.5 is not supported in this release.
+* Lots of things have changed since the last public JDO Genie beta. There is a
+  appendix explaining how to upgrade in the manual. Upgrading is mostly
+  automatic if you open your old project in the Workbench.
+* All Versant Open Access configuration properties now start with "versant.".
+  The old property names are still recognized.
+* The vendor-name attribute of extensions in the .jdo meta data is now
+  "versant" instead of "jdogenie". The old vendor-name is still recognized.
+* Workbench specific properties are now stored in a separate file with the
+  same name as your project file but an extension of .workbench.
+* The Workbench will prompt to convert old .jdogenie project files and meta
+  data when an old project is opened. The new project file will be named
+  versant.properties. Workbench specific properties are split out into
+  versant.workbench.
+* The Workbench will preserve comments and unrecognized properties in the
+  project (.properties) file.
+* Ant tasks now use a nested classpath element properly.
+* The Ant tasks look for versant.properties as the project file by default.
+* The enhancer no longer tries to load the JDBC driver so this does not have
+  to be on the classpath.
+* The Eclipse plugin is now called openaccess.1.0.1 and configuration and
+  installation has been simplified.
+* The MBean (for app server integration) has been replaced by a JCA adapter.
+  This is in the jca directory of the distribution.
+* Inverse foreign key or one-to-many relationships no longer require a back
+  reference in the element-type class of the collection.
+* Stored procedures are supported on Oracle. Other databases have not been
+  tested but may work. There is nothing in the manual about this yet. Contact
+  jdo-support@versant.com if you want to use this feature.
+* Fixed bug with abstract base classes and the enhancer.
+* Improved SQL generation for some collection fetch queries.
+
+3.2.0beta6 (3rd September 2004)
+* Changed name from JDO Genie to Versant Open Access.
+* Changed base package to com.versant.core.
+* Added support for Versant Object Database (VDS).
+* Added shallow attach (only the objects in 'detached' Collection are
+  attached).
+* Added JCA adapter.
+* Added Object/interface references on VDS.
+* Added collections of any persistent class support on VDS.
+* Added externalization (serialization) for VDS and JDBC. This makes it
+  possible to convert any object type to another for storage.
+* Hyperdrive classes now work with VDS.
+* The Workbench supports VDS as a database type.
+* Added PC[], String[], Integer[] etc field support.
+* Added JDBC stored proc and direct SQL support.
+* Added JDBC 1-to-many without back reference in the model.
+
+3.2.0beta5 (20th August 2004)
+* Improved error messages in some places.
+
+3.2.0beta4
+* This release requires a JDK 1.4 or newer VM. Future releases will restore
+  support for JDK 1.3.1.
+* Added support for using weak and strong references in the local PM cache.
+  See the local cache management chapter in the manual for information on
+  how to use this feature and why it is useful.
+* Manually evicting an instance from the local PM cache using one of the
+  PM.evictXXX methods will now change its reference type to a weak reference
+  as well as changing it to the hollow state.
+* Added support for Oracle 10g.
+* Added support for String discriminator column values.
+* Added support for using fully qualified and unqualified (no package) class
+  names as discriminator column values as an optional default.
+* Added support for non-primitive arrays (String[], PC[], Locale[], Integer[]
+  etc.).
+* Added support for Microsoft sqlserver types: NVarchar, nchar and ntext.
+* Added schema migration bean (forum 1091).
+* Fixed error (Expected "value" attribute for jdbc-class-id) when changing
+  'jdbc-class-id' column name.
+* Fixed creating index for vertical inheritance mapping (forum 1045).
+* Fixed NegativeArraySizeException when doing size() on certain queries.
+* Fixed JTA problem in managed environment. For distributed transaction
+  XAResource.end(TMSUSPEND) followed by XAResource.end(TMSUCCESS) is
+  called under wl81. This resulted in a
+  'javax.transaction.xa.XAException: Unable to commit unexpected state:'
+  'javax.transaction.xa.XAException: Unable to commit unexpected state:'
+* Fixed NPE for autoinc keygen (forum 1067).
+* Fixed NPE on Field properties dialog when using Grid view.
+* File dialog to add jars to the classpath in the new project wizard now
+  working properly.
+* Fixed ArrayIndexOutOfBounds exception with model consistency check and
+  vertical inheritance.
+* Error messages generated during schema creation now include the failing SQL
+  statement.
+* Super class fetch groups are now included in attach/detach graph (forum
+  1084).
+* Fixed bug when cloning PersistenceCapable classes.
+* Fixed bug when serializing PersistenceCapable classes when they are in a
+  hierarchy.
+* Application identity columns are no longer selected more than once when
+  retrieving instances and in queries.
+
+3.2.0beta3
+* Changed database drive className to a editable property in 'New Project
+  Wizard'.
+* Removed the license folder from the classpath container for the Eclipse
+  plugin.
+* Fixed unique index support for MS SQL Server in schema migration (forum
+  thread 994).
+* Updated ant task for 'schema migration' to support 'checkExtraColumns'.
+* Fixed depency on java 1.4 vm.
+
+3.2.0beta2 (28th June 2004)
+Started changeover to Versant Inc.
+
+3.2.0beta1 (18th June 2004)
+* Added vertical inheritance with and without a descriminator column. You can
+  mix vertical and flat inheritance in the same heirachy.
+* Added preview support for JDO 2 attach/detach (demos/attachdetach).
+* Added preview support for JDO 2 projections, aggregates, group by and having
+* in JDOQL queries (demos/aggregates).
+* Added preview support for JDO 2 named queries in the meta data
+  (demos/aggregates).
+* Fixed bug with the ignoreCache setting on a Query created from another Query
+  with PM.newQuery(Object) being reset to the current PM setting instead of
+  using the value from the source Query.
+* There are some problems with vertical inheritance and Informix, SAPDB,
+  Firebird, Interbase, Pointbase and DB2 in this release. They will be
+  resolved shortly.
+
+3.0.0 (8 June 2004)
+* Added XML binding with JiBX demo. JiBX is a fast, flexible, free XML binding
+  framework (http://jibx.sourceforge.net/).
+* Added graph walking demo. This demonstrates different ways to fetch a graph
+  of objects efficiently (e.g. using a recursive fetch group and the bound
+  query option to generate one SQL query per level).
+* Renamed JDOGenieCacheListener to JDOGenieClusterTransport to better reflect
+  its function. Several other classes involved with clustering have also
+  changed. The changes are small so porting user written cache listeners is
+  simple.
+* Added Cache Management chapter to the manual explaining how to manage
+  instances in the local per-PM cache, how the level 2 cache works and how to
+  setup clustering.
+* Fixed bug the lock schema option in the Workbench not setting link table
+  names and generating link table XML for the inverse side of a many-to-many
+  relationship.
+* Fixed bug with some recursive fetch groups fetching a deep graph of objects
+  using our parallel SQL query support to generate one query per level.
+
+3.0.0beta15 (27 May 2004)
+* Fixed bug with query results still being accessable after Query.close and
+  Query.closeAll.
+* Fixed bug with queries like "var.collection.contains(this.field)"
+  (forums 944).
+* Added "position" -> "pos" as a reserved word for Hypersonic.
+* Fixed query bug with navigated boolean field 'filter = "person.boolValue"'
+  (forums 933).
+* Fixed query bug with using unbound variable with an 'or'. Example:
+   "address.street == 'literal' || unboundVar.person == this".
+* Added checkModelConsistency method to JDOGeniePersistenceManager to detect
+  problems with one-to-many and many-to-many relationships (e.g. adding to one
+  side of a many-to-many and not the other).
+* Added checkModelConsistencyOnCommit property to JDOGeniePM and
+  JDOGeniePersistenceManagerFactory to automatically call
+  checkModelConsistency as part of commit. This is slow so only enable it
+  during development and testing.
+* The checkModelConstencyOnCommit property on JDOGeniePMF can be toggled in
+  "File | Property Properties" in the Workbench.
+* Fixed bug with managed one-to-many relationships with an instance on the
+  many side being moved to a different instance on the one side be left as
+  part of both collections.
+* Fixed bug with persisting graphs of instances using a post-insert key
+  generator (e.g. AUTOINC).
+* Workbench.bat and hypersonic.bat now work with JAVA_HOME containing spaces
+  and with jar filenames in the lib directory that contain spaces.
+
+3.0.0beta14 (13 May 2004)
+* Added support for unmanaged one-to-many and many-to-many relationships (i.e.
+  you complete the relationship in your code instead of JDO Genie doing it).
+  This makes transient instances behave in exactly the same way as persistent
+  instances.
+* By default one-to-many's (inverse foreign key collection) are managed (same
+  as previous releases) many-to-many's are not (different to previous
+  releases). You can change the default (File|Project
+  Properties|Datastore/General Settings).
+* Fixed bug with extra brackets breaking some JDOQL queries.
+* Fixed bug with deeply nest this expresions using the wrong table.
+* Added support for javax.jdo.option.ConnectionURL etc.
+* The Workbench will automatically convert a minimal properties file (perhaps
+  from another vendor or a book) into a full .jdogenie project. Just copy the
+  properties file to a .jdogenie file and open it in the Workbench. All you
+  have to to is setup the project classpath and add at least one .jdo resource.
+* Subqueries are more aggresively converted into joins (fixes forums 913) and
+  improves performance of some other queries.
+* Added tree browser for selecting classes in the Workbench (e.g. converters,
+  key generators, log downloaders etc).
+
+3.0.0beta13 (7 May 2004)
+* Removed obfuscation for all za.co.hemtech.jdo classes. Third party libraries
+  we use are still obfuscated to avoid conflicts with different versions in
+  deployed applications. This fixes a bug with EJB apps using key generators
+  failing.
+* Fixed problem with workbench.bat when JDO Genie is installed under a
+  directory  with spaces.
+
+3.0.0beta12 (6 May 2004)
+* Added support for JDOQL unbound variables.
+* Fixed bug with DATE columns failing on DB2 (forums thread 912).
+* Fixed Eclipse plugin enhancer bug (forums thread 911).
+* The Eclipse plugin now works with Eclipse 3.0M8 as well as Eclipse 2.
+* Fixed redeployment bug with some EJB applications on JRun 4.
+* Fixed many small bugs with the reverse engineering view in the Workbench.
+* Fixed bug with the persist order sorting on commit that sometimes disabled
+  the new persist-after extension.
+
+3.0.0beta11 (30 April 2004)
+* Fixed unique constraint violation bug when using vector fields.
+* Fixed enhancer bug with the wrong superclass constructor being invoked
+  for persistent classes with non-pc superclasses (excluding Object).
+* Fixed bug where an inner join was used to join to tables used as part of the
+  ordering statement instead of an outer join. This could cause valid query
+  results to be dropped (forums thread 886).
+* Fixed bug with incorrect SQL being generated for queries with nested
+  contains(variable) clauses (forums thread 898).
+* Added a 'persist-after' option to control persist ordering relative to other
+  classes.
+* Fixed bug with the JDBC connection pool sometimes allowing the number of
+  active connections to exceed maxActive.
+* Fixed datastore transaction deadlock bug by adding reserved setting to
+  the JDBC connection pool to reserve connections for primary key generation
+  (forums thread 758).
+* Fixed bug with JDOQL filters involving ! and brackets producing bad SQL.
+* Fixed bug with duplicate constraint names sometimes being generated for
+  Informix 7. The fix may change the names of some of the constraints in
+  automatically generated schemas.
+
+3.0.0beta10 (26 April 2004)
+* Added reverse engineering tool to generate Java files from database tables
+  to the Workbench.
+* Fixed bug with Map.containsKey(variable) testing against the value of the
+  map instead of the key (forums thread 888).
+* Added support for using the jdbc-do-not-create-table extension on link
+  tables for collections and maps.
+* Fixed NPE for .jdogenie files with no JDBC driver or URL specified.
+* Added support for single quoted Strings e.g. 'abc' in JDOQL (JDO 2 feature).
+* Fixed 'RandomAccess' query bug with the query params not being set
+  (forums 874).
+* Fixed "Cross dependency found in OUTER JOIN" problem with MySQL. This fix
+  will also improve the performance of some queries on other databases
+  (forums 869).
+* Fixed bug with the countStarOnSize query option returning incorrect results
+  with SELECT DISTINCT queries on MySQL (forums 889, end of thread).
+* Added hasIdentity(pc) method to JDOGeniePersistenceManager.
+* Fixed slow memory leak on Query instances when using Query.closeAll.
+* Fixed very slow memory leak for very long running read-only transactions.
+* Added "action" as reserved word for Firebird and Interbase (replaced with
+  "actn").
+* Added SCO support for java.bean.Encoder/Decoder. Call
+  JDOGeniePersistenceManagerFactory.registerSCOPersistenceDelegates(Encoder)
+  on your encoder before encoding a graph of managed JDO instances.
+* Disabled 'JDO Genie: Created RMI registry on port...' messages on startup
+  if event logging level is 'errors' or 'none' or System.out logging has
+  been disabled.
+
+3.0.0beta9 (23 March 2004)
+* Fixed bug "null value not supported" when doing "PM.getObjectById()".
+* Enabled batch processing and prepared statement pooling for Cache object
+  database.
+* Fixed bug with wrong query results being closed in some cases.
+* Added setDaemon to log downloader thread so VM will exit properly.
+* Fixed bug with "row not found" exceptions sometimes being hidden when shared
+  columns are used.
+* Improved incremental error reporting support in thr Workbench.
+* Added missing college.jdogenie to college demo.
+
+3.0.0beta8 (15 March 2004)
+* Added support for Cache object database using JDBC.
+* Added support for peristing fields of any type using custom Java
+  type mappings.
+* Added very simple support for custom types that can be easily converted
+  to/from java.lang.String or byte[].
+* Added customtypes demo for custom data types.
+* Upgraded from JavaGroups to JGroups 2.2.1. This solves some startup issues
+  with a JDO Genie cluster.
+* Optimized PM.refreshAll(Collection) calls where the collection is the result
+  of a JDOQL query. All instances returned by the query a refreshed in a
+  single operation without rexecuting the query. This feature improves
+  performance when the level 2 cache is disabled or remote PMs are used.
+* Added incremental error reporting in the Workbench tree view. Class and
+  field nodes with errors are overpainted with a red cross. This feature is
+  still under development and some errors are not trapped.
+* Hyperdrive classes are now disabled in the Workbench by default for faster
+  startup time for the internal JDO Genie server. This can be controlled
+  through File|Workbench Settings.
+* SQL executed in the Workbench now run in the background and can be
+  cancelled.
+* Added support for existing .jdo meta data files to the new project wizard.
+* Fixed bug with JDOObjectNotFoundException not always being thrown for
+  non-existant prefetched instances using shared columns.
+* Fixed some problems with synthetic flag on methods added by the enhancer.
+* Fixed bug that prevented persisting a class with no fields.
+* Fixed bug with some table names being generated with incorrect case when
+  classes are mapped to mixed case table names.
+* Fixed bug with Workbench sometimes putting .jdo meta data for many-to-many
+  collections in the wrong place (outside of the collection element).
+
+3.0.0beta7 (03 March 2004)
+* Put in missing college demo.
+
+3.0.0beta6 (03 March 2004)
+* Enabled insert and update batching for Hypersonic.
+* Updated hsqldb.jar to version 1.7.2 RC2.
+* Added college demo. This is a simple JSP based web app to demonstrate
+  performance tuning. A presentation explaining what was done will be
+  on www.jdogenie.com in the next day or so.
+
+3.0.0beta5 (03 March 2004)
+* Fixed NPE when using 'cacheAll' strategy for a persistent class.
+
+3.0.0beta4 (01 March 2004)
+* Renamed parallelCollectionFetch query property to bounded and improved
+  the explanation in the manual on how/when to use it. Removed the PMF
+  wide setting to control it. It should never be enabled by default.
+* Added support for bounded fetching of individual instances navigated
+  in code or retrieved with pm.getObjectById.
+* Added support for jikes compiler.
+* Fixed 'checkOverride() synthetic' compilerError.
+* Fixed bugs related to new project wizard in workbench.
+
+3.0.0beta3 (27 February 2004)
+* Fixed broken new project wizard.
+* Fixed NPE/ClassCast when editing mappings for newly added classes.
+* Fixed NPE when adding a new fetch group.
+* Fixed many smaller workbench bugs.
+* Fixed some problems with parallel queries. This feature is now enabled
+  by default.
+
+3.0.0beta2 (26 February 2004)
+* Fixed NPE bug introduced at the last momemnt for JDK 1.5 generics.
+
+3.0.0beta (25 February 2004)
+* Added many features to the tree view in the Workbench. It is now the
+  primary mapping edit view.
+* The field property dialogs have all been redone. They all show editable
+  E/R diagrams of the tables and columns involved. One-to-many and many-to-many
+  relationships are now very easy to setup.
+* Added plugin for Eclipse 2.x (see plugins/eclipse).
+* Added information on existing database tables and columns to the Workbench.
+  Dropdowns for tables and columns now show the existing schema if available.
+* Added support for JDK 1.5 generics. This is available when running under
+  JDK 1.5. No need to specify element-type, key-type and value-type for
+  generic collections and maps. The Workbench runs under JDK 1.5.
+* Added support for 'Collection param' parameters in JDOQL queries to
+  generate SQL IN lists.
+* Upgraded to JDO 1.0.1 (from JDO 1.0). An exception is now thrown if a PM
+  is closed with an active transaction (no rollback). You can revert to the
+  old behaviour (automatic rollback) using File | Project Properties.
+* Added support for fetching collection fields with parallel queries. This
+  solves then N+1 database calls problem for collection fields. This feature
+  is disabled by default. It will be enabled by default in the next beta.
+* Added support for persistent interfaces and interface and java.lang.Object
+  field references. These are mapped so queries through them can be fully
+  evaluated in SQL (unlike other implementations).
+* Added support for class casts in JDOQL queries. Use this to query through
+  interface and object references.
+* Added demo of persistent interfaces and interface references in
+  demos/interfaces.
+* All demos now use Hypersonic by default. Run hypersonic.bat or .sh in
+  the root of the distribution to start a Hypersonic server for the demos.
+* Tut1 in demos/tut1 is now a Swing GUI application.
+* Added support for the validate flag on PM.getObjectById. If this is false
+  then hollow instances will be returned if possible.
+* Added support for JDOQL implicit downcasts using a variable type that
+  is a subclass of the element-type of the collection.
+* The level 2 cache can now be enabled even if the server started with it
+  disabled.
+* Added new project wizard to the Workbench to help setup new projects.
+* Added support for monitoring a cluster of JDO Genie servers in the Workbench
+  management console.
+* Added code completion to the SQL query editor. You can control-SPACE to
+  get context sensitive popups of table and column names (even works with
+  table aliases).
+* Added a 'meta data wizard' to the Workbench. Click the meta data indicator
+  on the toolbar to activate it. It will help fix common problems (e.g. not
+  specifying element-type for a collection field).
+* Code completion is now available in the JDOQL ordering fields on the field
+  property forms.
+* Schema migration now only checks that indexes and constraints are equivalent
+  and does not insist on the same name.
+* Schema migration now handles Oracle synonyms properly.
+* Fixed bug in JDOQL filters with 'collection.contains(param)' where the
+  collection element-type is a class with a composite primary key.
+
+2.2.6 (28 April 2004)
+* Fixed bug when using a JDO Query iterator with 'randomAccess=true'. The query
+  params was not set.
+* Fixed unique constraint violation bug with using vector fields.
+* Fixed enhancer bug with calling wrong constructor in super class.
+* Fixed 'checkOverride() synthetic' compilerError.
+
+2.2.5 (04 March 2004)
+* Added support for jikes compiler.
+* Fixed 'checkOverride() synthetic' compilerError.
+
+2.2.4 (20 February 2004)
+* Added support for Hypersonic SQL (version 1.7.2 RC1 or newer).
+* Fixed NPE with schema migration on database with no tables.
+* java.util.Date fields can now be used as primary keys.
+* Fixed bug with stepping through enhanced class files in the debugger in
+  Eclipse 3.
+* Added suport for enhancing class files compiled for JDK 1.5.
+* Fixed query cache bug where query cache was utilised after a flush.
+* Fixed bug when using PM transaction methods in a mixed managed/unmanaged
+  environment (e.g. web tier and EJB tier PM access).
+
+2.2.3 (23 January 2004)
+* Fixed 'build.xml does not exist' when creating a new project. This was
+  previously fixed and broken again in this release.
+
+2.2.2 (20 January 2004)
+* Fixed bug with some one-to-many (inverse) relationships not being properly
+  represented on class diagrams.
+
+2.2.1 (16 January 2004)
+* All text edit areas in the Workbench are now much faster. In particular
+  the SQL schema and migration script editors are no longer slow.
+* All text areas now support many IntelliJ IDEA key mappings (e.g. to comment
+  out, to indent, find, replace, undo, redo etc.).
+* Fixed rare bug with damaged PM being returned from the PM pool.
+* Fixed rare NPE when removing data from the local cache for datastore
+  transactions.
+* The background Thread used to capture performance metrics is now a daemon
+  Thread.
+* Improved some error messages.
+
+2.2.0 (22 December 2003)
+* Fixed 'build.xml not found' bug when creating a new project.
+
+2.2.0beta9 (18 December 2003)
+* Added beta schema migration support to the Workbench. The validate schema
+  option on the schema window will now generate a migration script for all
+  databases except Informix. You can edit and run the script directly in the
+  Workbench or save it and use a database SQL tool to run it. Don't use this
+  without backups!
+* Added option to write automatically generated table and column names into the
+  meta data to the Workbench. Right click on a class in the grid view and
+  choose one of the 'Lock XXX' options.
+* Reduced memory consumption of cached query results and improved performance
+  of queries coming from cache.
+* Fixed bug with non-transactional writes being allowed if
+  javax.jdo.option.NontransactionalRead is true.
+* Fixed incorrect exception being thrown for get with invalid index on SCOList.
+* Fixed bug with SCO's being shared between PC instances prior to commit not
+  being resolved after commit.
+* Fixed bug with SCO instances not trapping exceptions from server calls
+  properly.
+* Fixed bug with duplicate key error after a flush of a dirty Set field.
+* Fixed bug with field in a JDOQL ordering expression being treated as
+  a parameter if there is a parameter with the same name.
+
+2.2.0beta8 (8 December 2003)
+* Reduced memory footprint significantly through many small improvements. This
+  release can handle more concurrent users in the same amount of memory than
+  before.
+* Reduced object creation leading to less garbage collection activity and
+  better performance.
+* Improved event logging to make it easy to match resource allocation events
+  with resource release events.
+* Added demo (demos/processlog) showing how to analyze event log binary files.
+  The demo checks for Connection, Statement and ResultSet leaks.
+* Added filters to the event log viewer in the Workbench Management Console.
+* Fixed bug with ResultSet not being closed when accessing JDOQL query results
+  as a List, not using a scrollable ResultSet and getting a forward index.
+* Fixed stack overflow when a JDOFatalXXXException is thrown during rollback.
+* Fixed NPE when accessing SCO field of a newly persistent instance after a
+  rollback (i.e. the instances has become unmanaged).
+* Fixed bug with the max connections of the connection pool being exceeded
+  on very busy servers.
+
+2.2.0beta7 (28 November 2003)
+* Combined Project and Datastore properties dialogs into one with tree
+  navigation instead of tabs. There is also a search field to make it easy
+  to find settings (e.g. enter 'isol' to get to 'Transaction Isolation Level').
+* Added support for logging user-defined events to the event log.
+* Added support for user-defined performance metrics.
+* Added tree entry to Project Properties to configure user-defined performance
+  metrics.
+* Added 'Performance Monitoring and Logging' chapter to the manual.
+* Added max connection age to the connection pool. Each time a connection is
+  returned to the pool its age is incremented. When it reaches this setting
+  it is closed. This prevents DB and server problems with JDBC resource leaks.
+* Added jdbc.con.expired and JDBCConExpired event and performance metric
+  respectively to track connections that do expire due to age.
+* Added support for getting the OID of a new instance using a post-insert
+  key generator (e.g. AUTOINC) before commit. This will trigger a flush.
+* Added support for reading the primary key field of a new application identity
+  class instance using a post-insert key generator (e.g. AUTOINC) before
+  commit. This will trigger a flush.
+* The default base filename for .jdolog and .jdoperf files is now
+  jdogenie_<servername> instead of just jdogenie.
+* The default number of backup files for the event log and performance metric
+  downloader is now 3 (was 1).
+* Multiple .jdoperf files can be opened at once in the Management Console.
+* Reduced peak memory requirements and the length of garbage collection pauses
+  for busy applications.
+* Fixed bug with JFreeChart classes ending up in jdogenie.jar.
+* Old event log and performance metric snapshot backup files are now removed
+  on startup.
+* Fixed bug with field number 31 being left out of the insert statement for
+  new instances in some circumstances (e.g. when using the AUTOINC key
+  generator).
+* Fixed bug with JDOQL queries involving boolean fields not being standard.
+  Now you can do 'boolField == true' instead of 'boolField == 1'. Filters of
+  '!boolField' and 'boolField' work.
+* Fixed bug with jdbc.con.timeout event only being logged for event logging
+  level of 'all'. It is now logged for all levels except 'none'.
+* Fixed bug with Informix SE support trimming leading spaces from String
+  fields.
+* The JDO Genie server started in the Workbench no longer writes .jdolog
+  and .jdoperf files.
+
+2.2.0beta6 (17 November 2003)
+* Added get.state and get.state.multi events. These are enabled when logging
+  is set to verbose or all. They are logged when data is fetched from the
+  server for an instance. If the data is being fetched in response to a field
+  being touched then the field name is included in the event. If logging is
+  'all' then the event includes all OIDs returned for the call.
+* Added get.query.batch and get.query.all events. These are enabled when
+  logging is set to verbose or all. They are logged when a batch of query
+  results or all query results is fetched from the server. If logging is
+  'all' then the event includes all OIDs returned for the call.
+* Added getObjectByIDString and newObjectIdInstance methods to
+  JDOGeniePersistenceManager that accept a resolved flag. These can be used
+  when only the base class and primary key of an instance is known.
+* Fixed bug with prefetched data not going into level 2 cache when using
+  non-transactional reads with optimistic false.
+* Fixed bug with data already in the local PM cache being fetched from the
+  server in some circumstances.
+* Added many performance metrics (counters) to the server and new methods on
+  JDOGeniePersistenceManager to retrieve them. Snapshots of the counters are
+  are stored in a ring buffer on the server. The default buffer holds 1 hour
+  of snapshots captured at 1 second intervals.
+* Added performance metric graphs to the Workbench Management Console. The
+  layout can be edited and saved to disk. These provide realtime and historical
+  feedback on the performance of your JDO Genie server.
+* Events and performance metric snapshots are now periodically dumped to
+  .jdolog and .jdoperf files by the JDO Genie server. These files can be opened
+  in the Workbench for offline analysis. This can be configured using on the
+  Event Log tab of the File | Project Properties dialog.
+* Added LogDownloader utility bean and corresponding jdo-download-log Ant task
+  to download event logs and performance snapshots from a JDO Genie server.
+* Implemented nicer editing for fields in the Workbench. You can now edit
+  generated table names and so on without having to retype them.
+* Added support for including superclass fields in the index added to a
+  derived class.
+* Added support for primary key fields of type java.util.Date.
+* Added support for EJB apps on WebLogic 6.1.
+* Fixed internal error handling problem that caused some strange "pm is closed"
+  exceptions.
+* Fixed very rare bug with fields sometimes being left out of insert and
+  update statements.
+* Fixed bug with equals and hashcode not working properly on OIDs returned
+  by getObjectById for datastore identity classes.
+* Fixed 'left sibling == null' bug with same parameter used twice in query
+  on the left side of a binary expression.
+* Fixed bug with cache-strategy=all setting being ignored after the class
+  or all classes are evicted from the level 2 cache.
+* Fixed bug with getState for class with cache-strategy=all still fetching the
+  first instance requested with a query.
+* Fixed bug with i18n characters and MySQL LONGTEXT fields.
+* Fixed some small bugs with PM pool events.
+* Fixed bug with selecting the first row in drop downs in the Workbench
+  sometimes not working.
+
+2.2.0beta5 (21 October 2003)
+* Implemented support for java.io.File, java.net.URL and java.sql.Timestamp.
+  These must be enabled in the Workbench before fields will be persisted
+  (File|Datastore Properties, Java Type Mapping tab).
+* Added method to cancel the currently executing JDOQL query for a PM to
+  JDOGeniePersistenceManager. This method is thread safe.
+* Added a ServerUserObject property to JDOGeniePersistenceManagerFactory.
+  There is one such object for the whole JDO Genie server. This is designed
+  for remote PMFs (server provides remote object for app specific services).
+* The JdbcConverters supplied with JDO Genie have been refactored to use
+  common base classes. This makes it easier to implement your own.
+* Added support for foreign key constraints for references from link tables
+  to the owning table and/or key and/or value classes. These are generated by
+  default and can be edited/disabled using Filed Properties in the Workbench.
+* Added info on using JDO Genie with Java Web Start to the manual.
+* Fixed bug with batch deletes from a map failing when rows had to be deleted
+  from more than one map instance in the same tx.
+* Fixed bug with data for classes with String fields greater than 64K
+  failing to transport when using remote PMs.
+* Fixed bug with Workbench Build|View Schema opening floating window instead
+  of activating schema view.
+* Fixed bug with lists containing instances of several different subclasses
+  failing with an NPE when the data comes from the level 2 cache.
+* Fixed bug with duplicates in query results for filters with more than one
+  contains() expression and || (e.g.'list1.contains(p) || listb.contains(p)').
+* Fixed bug with FOR UPDATE being used on query containing DISTINCT on
+  Oracle and Postgres.
+* Fixed bug with some JDOQL filters failing with a JDOFatalInternalException
+  'getPreCharIndex() called on ..'.
+* Fixed bug with Workbench sometimes becoming very sluggish.
+* Fixed bug with Workbench and existing JDOQL results not being cleared when
+  the new query returned no results. This gave the impression that the results
+  were the same as the old query.
+
+2.2.0beta4 (7 October 2003)
+* Added support for embedding inline SQL in JDOQL queries with templating for
+  column names and so on. This makes it very easy to use database specific
+  SQL functions and text. See 'Query and JDOQL Extensions' in the manual.
+* Added methods to add extra eviction classes to a query. This is useful when
+  not all tables involved in the query are known to JDO Genie e.g. when using
+  embedded SQL.
+* Added support for TreeSet and TreeMap including user defined Comparators.
+* Added support for custom RMI client and server socket factories for remote
+  PersistenceManager's and remote monitoring.
+* Added cut and paste support to event detail views in the Workbench. You can
+  now cut and paste SQL from an event into an SQL Window to run it.
+* Added support for 'this == param' JDOQL queries.
+* Improved performance of PersistenceManager pool.
+* Added 'admin' as a default reserved word for Firebird and Interbase.
+* Added 'interval' as default reserved word for Informix, Informix SE and
+  MySQL.
+* Added tree view of classes to the Workbench.
+* Added support for viewing the database query spec for SQL queries in the
+  Workbench for Oracle, Sybase and Pointbase (more databases to follow).
+* Sorted event tabs in the Workbench Management Console now remember their
+  sort order when new events are received.
+* Added 'local' button to Workbench management console connect dialog to
+  connect to the JDO Genie server running in the Workbench.
+* Fixed ArrayIndexOutOfBounds exception when the jdoGenieOptions parameter
+  appeared before other parameters and executeWithArray was used.
+* Fixed bug with refresh on an instance already touched in a datastore tx
+  not hitting the database.
+* Fixed rare bug with fetching instances for the first persistent class (when
+  sorted by name) if it is in a class heirachy.
+* Fixed bug with jdo_version column sometimes not being fetched when it
+  should have been.
+* Fixed bug with objectid-class using field(s) and methods from a base class
+  not working.
+* Fixed bug with bad SQL being generated to fetch some complex fetch groups.
+* Fixed bug with parameter type not being correctly set for parameters involved
+  in some JDOQL expressions (e.g. 'fieldA + fieldB > param').
+* Fixed NPE if the username is not specified in datastore connection
+  properties.
+* Fixed bug with logging of ResultSet data being duplicated accross all events
+  for the ResultSet (for logging 'all' mode).
+* Fixed bug with changing the default name of a column in a reference field
+  in a subclass not working.
+* Fixed bug with Workbench losing selected field on the grid view when classes
+  are reloaded (e.g. after alt-tab).
+* Fixed NPE when selecting classes on diagrams that have been removed from the
+  project.
+* Fixed bug with license file check assuming system default encoding of UTF8.
+* Fixed ArrayIndexOutOfBounds bug with add(int,Object) and
+  addAll(int,Collection) for java.util.List SCO.
+* Fixed rare race condition with the connection pool that caused more than the
+  configured maximum number of connections to be created.
+
+2.2.0beta3 (17 September 2003)
+* Dummy update statements generated for locking on databases without
+  'SELECT FOR UPDATE' now avoid updating the primary key if possible. This was
+  causing problems with SERIAL and IDENTITY columns.
+
+2.2.0beta2 (16 September 2003)
+* Implemented blockOnFull option for the connection pool. This is now the
+  default. When the pool is full threads will block. Configure this in the
+  Workbench.
+* A jdbc.pool.full event is logged whenever the connection pool is full if
+  event logging is enabled. If you see this you probably need to increase the
+  maximum size of the pool (or maybe you are leaking connections somewhere).
+* Added search field to the add classes dialog in the Workbench.
+* Added sample methods to lock individual instances to the manual.
+* Fixed ArrayIndexOutOfBounds bug with retrieving collection data.
+
+2.2.0beta (12 September 2003)
+* Added countStarOnSize JDOQL option to run a 'select coumt(*)' query the
+  first time size() is invoked on the query results instead of fetching
+  all the data.
+* Implemented instance locking for datastore transactions. This is done using
+  'select for update' (Oracle et al)  or by a dummy update statement (Sybase
+  et al) depending on the database.
+* Implemented support for setting the database transaction isolation level.
+* Added documentation for JDO Genie locking behaviour to the manual.
+* The jdbc-shared extension is no longer needed and is ignored. JDO Genie
+  detects columns shared between fields that should not be updated
+  automatically.
+* Improved exception messages when on errors reading data from a ResultSet.
+* Improved exception messages for all inserts and updates. The message now
+  includes the failing statement. Parameter values are included if event
+  logging is set to 'all'. Nested batch exceptions are extracted.
+* Added server.port property (and field to Project Properties dialog) to set
+  the port that the JDO Genie server exports itself on for remote access.
+* Added option to not put comments in SQL create scripts.
+* Referential integrity constraints are now generated for Oracle for
+  references that may be null.
+* Added code completion for ordering expression in Workbench JDOQL query editor.
+* Added tree and flat packages views to the add classes dialog in the
+  Workbench.
+* Improved performance of collection and map field retrieval in some cases.
+* Fixed bug with getConnectionXXX methods on PMF not working.
+* Fixed NPE on some calls to Extent.closeAll.
+* Fixed bug with JDOQL query results not being retrieved from cache for a
+  query with a null filter.
+* Fixed NPE with new instances being used as parameters for an in memory query
+  (i.e. a query against a Collection).
+* Fixed bug with enhancer still requiring JDBC drivers to be on the classpath.
+* Fixed bug with enhancer errors not failing the build.
+* Fixed bug with converting absolute and relative paths in the Workbench.
+* Fixed NPE in Workbench when attempting to make an interface persistent.
+* Added check for interfaces in the .jdo meta data at server start.
+* Fixed bug with 'constraints' not being added to 'drop table' SQL when
+  recreating schema for Postgres 7.3.2+ in the Workbench.
+
+2.0.1 (28 August 2003)
+* Replaced Piccolo.jar with xerces because of problem with i18n encodings(GBK).
+
+1.5.0 (22 August 2003)
+* New easier to use Workbench with better Ant integration.
+* Workbench now works on Max OS X (tested on OSX 10.2).
+* Added Ant tab to Workbench Project Properties dialog. This is for configuring
+  the Ant build file for the project and the name of the compile and enhance
+  target.
+* Workbench prompts if Ant is not properly configured on project load and
+  compile.
+* Added compile and enhance feature to the Workbench (build menu and compile
+  button). This runs the compile target of your Ant build file.
+* Added Ant targets from the project build file to the build menu.
+* The Workbench will automatically compile and enhance if required when
+  starting a local JDO Genie server (e.g. to run JDOQL queries).
+* Workbench will now automatically reload classes when it is activated if
+  a local JDO Genie server is not running.
+* Added search button to SQL schema view in Workbench.
+* Fixed NPE on some query result trees in the Workbench.
+* Fixed a bug with converting absolute paths to relative paths in Workbench.
+* Added SQL pretty printer to JDOQL and SQL query spec output in Workbench.
+* All demos now compile and enhance "out of the box". We have included
+  servlet.jar, jboss-j2ee.jar and junit.jar as needed.
+* Fixed bug with prefetching of references to class heirachies in some rare
+  circumstances.
+* PM.refresh will now refresh non-transactional instances (this is outside
+  of the spec).
+* The enhancer no longer attempts to load JDBC drivers so they do not have to
+  be on the classpath.
+* Fixed bug with hyperdrive classes and long, float and double fields with
+  JdbcConverters.
+* Fixed bug with PMF.getProperties() failing if jdogenie-tools.jar was not
+  on the classpath.
+* Changed from @@identity to scope_identity() for IDENTITY columns on
+  Microsoft SQL Server 2000 and newer. This also improves the performance
+  of inserts with IDENTITY columns.
+* Fixed bugs with copying databases with IDENTITY or AUTOINC columns. The
+  original primary keys are now preserved.
+
+1.4.13 (4 August 2003)
+* Added check for remote clients connecting to a JDO Genie server using a
+  different version of JDO Genie.
+* Hyperdrive classes generated at enhancement time are now version checked
+  when the JDO Genie server starts.
+* Fixed bugs with new connection pool idle and active connection counts.
+* Fixed bug with SCO collections not being reset properly after a flush prior
+  to commit. This caused duplicate key exceptions on commit.
+* Cleaned up demos/testcenter build file a bit and added some support for
+  stressing this app with Grinder.
+* Batching is no longer used on DB2 when the statement contains a CLOB or BLOB
+  column.
+
+1.4.12 (25 July 2003)
+* New JDBC connection pool features:
+  - Idle connections are tested periodically by a background thread. This
+    prevents errors when the connections in the pool become stale
+    (e.g. after a database restart).
+  - Active connections are closed if there is no new activity for a
+    configurable timeout period. This catches leaks and stuck SQL.
+  - The pool can be configured to maintain a minimum number of idle
+    connections. This prevents connection delays when server load is
+    increasing.
+* The Workbench now shows messages on the dataad of on a fixed
+  window at the bottom of the frame. A history button pops up a window with
+  past messages if required. This makes better use of screen space.
+* Fixed bug with multiselect not working on the event log view in the
+  Workbench management console. You can now save blocks of events to files for
+  tuning.
+* Fixed bug with Workbench not showing column names after reloading classes.
+* Fixed NPE with java.util.Map fields in transient instances created from JDO
+  managed instances.
+* Fixed rare "column conversion exception" when prefetching instances in
+  class heirachies for java.util.Map fields with PC key and values.
+* Fixed rare ArrayIndexOutOfBoundsException when persisting collections
+  containing mixed old and new instances with hyperdrive classes on.
+* SAX parser error messages generated when parsing .jdo meta data files now
+  include the name of the resource.
+* Attempting to use an unsupported non-primitive array (e.g. String[]) now
+  throws a JDOFatalUserException at enhancement time instead of a
+  ClassCastException at runtime.
+* Added position as a reserved word for Interbase and Firebird.
+* Fixed bug with application identity and composite primary keys with some of
+  the primary key fields using JdbcConverter's.
+* Fixed NPE with setting a field to null that is already null in the
+  Workbench.
+* Batching is no longer used on Oracle when the statement contains a LONG
+  or LONG RAW column.
+
+1.4.11 (9 July 2003)
+* Fixed another bug with stale JDOQL results remaining in the cache.
+* The Workbench now shows all column names and the names of all link tables.
+* The JDO meta data is now compiled in the background. An icon on the top
+  right hand corner of the Workbench frame indicates errors (red).
+* Class diagrams in the Workbench can now show SQL column names and SQL data
+  types. You can choose what info to display using the diagram properties
+  dialog. Link tables will be available soon for complete E/R diagrams.
+* Added system property to bypass JAXP for XML parser lookup. This solves some
+  problems with JAXP 1.0 environments (e.g. WebLogic 6.0). See forum thread
+  317 for more info.
+* Fixed NPE in Workbench when editing columns for a reference to a composite
+  pk class in a recently added subclass.
+* Fixed NPE in diagram windows after adding new classes.
+* Running JDOQL queries with the output going to the same window now closes
+  the PM for the previous results.
+* The JDOQL query window will now close when a different project is opened.
+
+1.4.10 (4 July 2003)
+* Fixed bug with stale JDOQL results sometimes not being evicted from the
+  cache.
+* Fixed bug with demos/tut1sb that stopped it working under JDK 1.3.x.
+* Added events for jdoql.exec, jdoql.cache.hit, jdoql.cache.fail and
+  jdoql.cache.evict. The latter 3 are only enabled if event logging is
+  set to "all".
+* Added CSV file export of SQL query results.
+* When JDOQL queries are run in the Workbench only the first 200 instances
+  are displayed. Click next to get the next 200 and so on. This applies to the
+  Run | View Class Extent option as well.
+* The JDOQL results window in the Workbench now also has a re-execute button.
+* On Windows workbench.bat now includes all jars in lib and tools on the
+  classpath. Just drop JDBC drivers into lib and they will be available for
+  all your JDO Genie projects.
+
+1.4.9 (2 July 2003)
+* Fixed some small bugs with code-insight in the Workbench JDOQL editor.
+* Fixed rare bug with JDBC connection being pinned to a PM after a JDOQL
+  query.
+* Added support for enhancement of classes containing clone methods and calls
+  to super.clone(). Note that the reference enhancer does not handle clone
+  properly and this area is hazy in the JDO spec. Cloned JDO instances are
+  transient.
+
+1.4.8 (2 July 2003)
+* Updated demos/legacydb to use the "opt tx always open" model for the GUI.
+* Added method to tut1sb demo EJB to get an Order as a value object graph.
+* Added PM ID and datastore Tx ID to performance events. This makes it easier
+  to tie a series of events together for a single PM or JDBC transaction.
+* The PreparedStatement cache on each JDBC connection can now be size limited.
+  For Oracle this avoids using too many cursors on a connection. The default
+  limit on Oracle is 30 and there is no limit on other databases. Configure
+  this using File | Datastore Properties "Pool Settings" tab.
+* PM.refreshAll will now refresh all instances read in an optimistic tx, not
+  just transactional instances. Before only dirty instances were refreshed.
+* All instances read in an optimistic tx are now made hollow on commit (i.e.
+  they will refresh when touched). Before only dirty instances were made
+  hollow.
+* Added jdogenieAllDirtyInstances method to JDOGeniePersistenceManager. This
+  returns all dirty instances in the current tx in a List.
+* Fixed rare ArrayIndexOutOfBounds exception with remote PMs.
+* Fixed rare bug with OIDs sometimes being resolved to the incorrect types
+  when using remote PMs and inheritance.
+* Fixed bug with JDBC connection not always being released after running a
+  JDOQL query in an optimistic tx. This caused data in the PM to refuse to
+  refresh on some databases (e.g. Oracle).
+* Fixed bug with control-S bringing up choose classes dialog instead of
+  saving when pressed on a diagram.
+* Fixed Workbench JDOQL editor bug not recognizing a semicolon as a variable
+  separator.
+* New projects created in the Workbench now have non-transactional read and
+  write off by default and pm pooling for remote PMs enabled.
+
+1.4.7 (26 June 2003)
+* Fixed broken "Diagram Properties" dialog.
+* Double-clicking or events in the management console event log now brings up
+  event details on the sorted event tabs (used to only work on main tab).
+
+1.4.6 (24 June 2003)
+* Fixed statement leak bug when calling size() on JDOQL query results.
+* Added support for creating and editing class diagrams to the Workbench.
+  These can be configured to display lots of JDO information (e.g. table
+  names, inverse 1-n relationships and so on). Edit meta data by double
+  clicking nodes on the diagram. These diagrams will show more database
+  information soon.
+* Added more efficient cache locking scheme to reduce optimistic locking
+  failures.
+* The copy database dialog now allows the destination URL to be the same if
+  at least one of the other properties is different (e.g. username).
+* The enhancer is much faster.
+
+1.4.5 (18 June 2003)
+* Added support for IDENTITY columns on Sybase and Microsoft SQL Server,
+  AUTO_INCREMENT columns on MySQL and  SERIAL columns on Informix and
+  Informix SE. Use the AUTOINC key generator for this support.
+* The jdo-create-db task and Workbench View Schema option now comment the
+  generated SQL script with class and field names.
+* Added GUI applications chapter to the manual.
+* Renamed our "con" package to "conn" to avoid problems unpacking our jars
+  on Windows (con is not allowed as a file or directory name).
+* Added makeTransientRecursive method to JDOGeniePersistenceManager to
+  recursively make a graph of JDO instances transient. Only references and
+  collections currently loaded are made transient.
+* Fixed bug with non-transactional instance being made hollow on commit of
+  tx.
+* Fixed rare NPE when creating large complicated object graphs.
+* Improved performance of JDOQL result cache (approx 20% faster).
+* Fixed NPE for key generators with null args beans.
+* Fixed NPE with copy database wizard in Workbench if no extra connection
+  properties are specified.
+* Added event logging level setting to copy database wizard to help debug
+  problems if the copy files.
+* Optimistic locking column properties can now be set without having to also
+  set the mode.
+* Fixed "pm already closed" bug in tut1sb session bean demo.
+* Added system_user as a reserved word for Microsoft SQL Server.
+
+1.4.4 (6 June 2003)
+* Added Ant task (jdo-copy-db) and Workbench Wizard (Build|Copy Database)
+  to copy a JDO Genie mapped database to a new URL. This can copy accross
+  servers (e.g. MS SQL Server to Oracle).
+* Fixed memory leak bug in the Workbench.
+* Improved exception handling in managed environments.
+
+1.4.3 (4 June 2003)
+* Improved performance some query operations by 20%.
+* Improved performance of precompiled JDOQL queries.
+* Improved error message for getObjectById calls with an unknown
+  objectid-class.
+* Fixed bug with jdoPostLoad not being called on Serialization of hollow
+  instances.
+* JDOGenieObjectNotFoundException now extends JDODataStoreException as per
+  spec (used to extend JDOUserException).
+* Fixed bug with PM being returned to pool marked as managed in mixed
+  container managed and bean managed transactions EJB environment.
+* Fixed bug with transactional "SCO" fields failing (e.g. a transactional
+  java.util.Date field).
+* Fixed exception when running with cache completely disabled.
+* Fixed bug with null application identity fields in new instances.
+
+1.4.2 (28 May 2003)
+* Added Swing GUI client to the testcenter Stuts and JDO demo. The Swing GUI
+  uses remote PersistenceManager's to connect to the JDO Genie server running
+  in the servlet engine or standalone.
+* Added JDOQL query options for maxRows (to limit instances returned) and
+  fetchSize (to control server round trips).
+* Improved performance of query processing when size() is called on the
+  results.
+* Added check for the same objectid-class used in different heirachies.
+* Fixed JDOQL to SQL generation bug with isEmpty() and contains() on the
+  inverse size of a many-to-many relationship.
+* Fixed rare lockup bug with the query cache.
+
+1.4.1 (20 May 2003)
+* Implemented support for null literals in JDOQL queries.
+* Fixed lockup bug with queries with lots of parameters used more than once.
+* Fixed JDOFatalInternalException when persisting very complex object
+  graphs that worked with 1.3.2.
+* The jdo-create-schema task now closes its database connections on exit.
+* Name generators now know what database they are being used for.
+* Added quick "instance for OID" lookup to Workbench.
+* The Workbench no longer converters OID parameters into objects before
+  running queries. This makes it possible to query for objects referencing
+  an object that does not exist. You can then fix the broken references.
+* Added button to set fields to null to the Workbench query results Window.
+* Added better error message when reading a null column value for a primitive
+  field.
+
+1.4 (14 May 2003)
+* Added support for IBM DB2 and Informix SE databases.
+* Added support for sharing columns between fields. This makes it possible
+  to use reference fields in the primary key and to share common foreign
+  key columns between references. This is common in legacy databases.
+* Added support for automatic caching of JDOQL query results.
+* Added new demo of the new mapping capabilities in demos/legacydb. This is
+  also a demo of a JDO Swing app.
+* Added beta cache listener implementations using Tangosol Coherence and
+  Java Groups for clustering.
+* Added support for live editing of instances returned by JDOQL queries in the
+  Workbench. This is a lot easier than writing SQL statements to fix data.
+* The Workbench supports editing and execution of Beanshell scripts to
+  manipulate JDO instances.
+* JDOQL queries can be used to generate Beanshell scripts for data fixing
+  or to cut and paste into your application.
+* Added delete-orphans extension to control deleting or orphans from
+  one-to-many relationships. An instance involved in at least one one-to-many
+  with no "parents" is now only deleted if the class has delete-orphans true.
+  This was catching too many people out. If you need the old behaviour set
+  delete-orphans to true on all the many classes.
+* Key generators configured for application identity classes are now only
+  invoked if the primary key field(s) of the new instance have the same values
+  as a new instance of the objectid-class (i.e. have not been set).
+* Added Javadoc API docs for javax.jdo and JDO Genie extensions in docs/api.
+* Added methods on JDOGeniePMF to convert classes to/from class IDs and
+  indexes.
+* Fixed bug with fields declared as java.util.Collection (instead of List or
+  Set) not being persisted properly.
+* Improved performance of distributed persistence managers.
+* Fixed stack overflow bug when comitting a very deep object graph.
+* Fixed bug with modification of transient SCO instances throwing an
+  exception.
+* Connection pool events now show the pool data after the
+  operation.
+* Fixed performance bug with deleting instances of classes with many-to-many
+  relationships.
+* JDO Genie will now never attempt to fetch DTDs from the net when parsing
+  .jdo meta data files.
+* Fixed rare bug with an Error being thrown when parsing invalid JDOQL. Now
+  a normal JDOUserException is thrown.
+* Changed JDOGenieCacheListener and JDOGenieCache interfaces to make it
+  easier to implement clustering.
+* Fixed rare bug with JDOQL with ordering expressions sometimes failing
+  on Oracle.
+* Fixed bug with parsing the database version String for Postgres 7.3dev.
+* Constraints generated for Postgres no longer include MATCH FULL as this
+  causes problems when shared columns are used.
+* Optimized flushing on query execution to only flush if there are dirty
+  instances of classes involved in the query.
+
+1.3.2 (8 April 2003)
+* Added beta support for WebSphere 5.
+* Added validate mapping option to jdo-create-db task and to the
+  WorkBench 'View Schema' window. This will check the mapping against the
+  actual database tables and report errors.
+* Added option to validate the mapping when the JDO Genie server starts.
+* Added 'View Class Extent' option to browse all the instances for the
+  currently selected class.
+* The Workbench now uses a cleaner look and feel (Kunststoff).
+* The Workbench query window now opens on its own tab by default.
+* The query spec option in the Workbench has been implemented. This will
+  show the SQL for a JDOQL query.
+* The Workbench management console now opens on its own tab by default.
+* This release includes many performance enhancements.
+* Fixed rare memory leak with level 2 cache.
+* Fixed bug with the Workbench not saving Java and JDBC type mappings
+  properly.
+* Added support for a special JdbcConverter name of "{none}" for
+  explicitly removing a converter added by the default JDBC or Java type
+  mappings.
+* Fixed bug with Workbench always considering the project dirty and
+  always prompting to save on exit or when opening other projects.
+
+1.3.1 (27 March 2003)
+* Fixed bug with many-to-many and inheritance trees.
+* Fixed inconsistent naming of extension classes and interfaces. All
+  now follow JDOGenieXXX instead of some having JdoGenieXXX.
+* Implemented query spec support on JDOGenieQuery.
+
+1.3.0 (25 March 2003)
+* Replaced JCA adapter for WebLogic and JBoss with a faster MBean. The
+  jdo-create-rar Ant task is no longer required and has been removed.
+* Replaced Petstore with model 'Struts with JDO' application (demos/testcenter).
+* Fixed problems with foreign key constraints and MySQL.
+* Repackaged bcel.jar into jdogenie.jar to avoid version conflicts.
+* Added option to generate hyperdrive classes at enhancement time.
+* Fixed bug with hyperdrive OID classes and wrapper types (Integer et al).
+* Fixed bug with cache listener class not being loaded correctly by Workbench.
+
+1.2.12 (19 March 2003)
+* Added support for managed many-to-many relationships.
+* Implemented ordering extension for sorting otherwise unordered collections
+  (e.g. lists mapped using an inverse foreign key) [166].
+* Fixed several bugs with cache listener plugin [194].
+* Added support for Pointbase 4.5.
+* Added pooling of Persistence Managers to improve performance. There is
+  a new tab in the Workbench File|Project Properties dialog for this.
+* Improved performance of OID parsing for int, short, long and byte PKs.
+* Improved PM performance for transactions involving many instances.
+* Added method to JDOGeniePMF to check if an OID is in the level 2 cache.
+* Improved performance of collection SCO instances.
+* Fixed bug with hyperdrive class names for persistent inner classes.
+* Fixed bug with the enhancer not adding default constructors to abstract
+  persistent classes without a default constructor.
+* Fixed bug with crash on startup with transactional fields [192].
+* Fixed bugs with hyperdrive OID classes and certain pk types.
+* Fixed bug with deleting new instances with dependent fields.
+* Fixed bug with multiple null parameters in JDOQL queries sometimes
+  corrupting the SQL.
+* Improved the performance of datastore transactions.
+* Added button to Workbench Management Console event log display to go to the
+  most recent event.
+* Added support for entering java.util.Date parameters when running JDOQL
+  queries in the Workbench.
+* Fixed focus bug on the JDOQL query form in the Workbench. Clicking execute
+  while still editing a field caused the edit to be ignored.
+* Control-C and Control-V now work as expected on all Workbench forms.
+
+1.2.11 (4 March 2003)
+* Fixed bug with inverse extension not being properly parsed.
+
+1.2.10 (27 Feb 2003)
+* Fixed bug with server not starting in Workbench if the init SQL or
+  validation SQL pool settings have been touched [175].
+* Renamed the 'jdbc-link-foreign-key' extension to 'inverse'. The old
+  key still works. The Workbench will automatically update old projects
+  when they are opened.
+
+1.2.9 (26 Feb 2003)
+* Added support for MySQL 3.23.
+* OIDs can now be used for query parameters that are perstent instances.
+  This saves having to lookup the instance before running the query.
+* PM.newObjectIdInstance(Class,String) now accepts a null class when
+  creating OIDs for datastore identity classes.
+* One to many relationships are now handled by the SCO implementation and
+  not by code inserted by the enhancer.
+* Improved delete performance.
+* Fixed error running enhancer on JDK 1.3.0.
+* Fixed bug with hyperdrive OID classes and long primary keys.
+* Fixed bug with jdbc-sql-type extension causing an exception.
+* Execution of connection initialization SQL is now logged.
+* Fixed bug with the table name for persistent inner classes including
+  a dollar sign [172].
+
+1.2.8 (14 Feb 2003)
+* Added support for Postgres 7.3.1.
+* Added PDF manual in docs/manual.pdf.
+
+1.2.7 (13 Feb 2003)
+* Fixed rare bug with delete operation ordering (caused constraint
+  violation on Postgres, Interbase and Firebird).
+* Fixed bug with jdoPreDelete not being called for instances being deleted
+  through a dependent field.
+* Fixed bug with elements removed from a dependent collection mapped using
+  a foreign key not being deleted [149].
+* Fixed bug with dependent fields not working for a base class in a
+  heirachy when a subclass is deleted [164].
+* Improved performance of deletes of complex object graphs.
+* Added tips and tricks chapter to the manual.
+* Added demo showing how to use JDO Genie with JUnit.
+* Fixed bug with empty validate and init SQL in .jdogenie file
+  causing an exception on startup.
+* Fixed "could not create SCO" bug with hyperdrive=false and primitive
+  arrays.
+* Fixed bug with char value of 0 leading to a NullPointerException on
+  Informix.
+* Fixed bug with incorrect concat operator being used on Informix.
+* Fixed bug with manual not launching correctly from Workbench on
+  Windows 2000.
+* The PMF flag retainValues not defaults to false for new projects and
+  if unspecified.
+
+1.2.6 (7 Feb 2003)
+* Fixed NPE when calling JdoGeniePMF evict methods with PMF wide cache
+  disabled.
+* Updated documentation and Workbench online help for new connection pool
+  features.
+
+1.2.5 (7 Feb 2003)
+* The HTML manual now uses frames. Each chapter is in its own file and there
+  is a contents listing on the left. Much easier to navigate.
+* Fixed memory leak when iterating over extents.
+* Fixed bug with some queries and remote persistence managers.
+* Cleaned up exception handling so JDOFatalXXX exceptions always rollback the
+  current transaction (as they should).
+* Fixed bug with evictions from the local PM cache not always freeing the
+  instances for garbage collection.
+* Instances evicted from the local PM cache are now made hollow to reduce
+  memory usage even if they are still reachable.
+* Improved performance of transactions involving large numbers of instances
+  and evictions substantially (by a factor of 10 in some cases).
+* Added validation and initialization SQL to the connection pool.
+* Connections can be validated on allocation and/or release and/or after
+  an exception.
+* The server can be set to wait until it has a sucessful database connection
+  before starting. This solves timing problems in production when the server
+  starts before the database.
+* Added retry count and retry interval for attempting to connect to the
+  database once the server is up.
+* Fixed bug with Oracle CLOB, BLOB and LONG columns with hyperdrive classes.
+* The JDOQL plus operator is now converted into an SQL concat operator when
+  used with string arguments for databases that require this.
+* Workbench now handles NoClassDefFoundError when getting fields for a class.
+* Updated included Postgres JDBC driver to pg73jdbc2.jar. This solves some
+  timestamp related problems.
+
+1.2.4 (31 Jan 2003)
+* Added Workbench support for embedded fields (currently only
+  primitive arrays).
+* Specifying dependent=true or keys-dependent=true for collections,
+  references, maps etc. of non-PC types is now trapped as an error
+  (was causing a nasty exception on deletes).
+* Improved error message for missing rows in a collection of a
+  base class for a heirachy.
+
+1.2.3 (30 Jan 2003)
+* Added support for primtive arrays (byte[], int[], short[], long[],
+  boolean[], float[], double[], char[]) stored in BLOB columns [141].
+* Fixed bug with some second class objects not being reset properly
+  after a flush.
+* Updated exception handling so JDOFatalDatastoreExceptions will
+  always rollback the current transaction.
+* Fixed bug with enhancer and empty superclasses.
+* Fixed NoSuchMethodError with enhancer and heirachies with some enhanced
+  classes and some unenhanced classes.
+* The SQL text is now logged for exec.batch events.
+* Setting a collection field mapped to a link table on a new instance no
+  longer generates an extra SQL delete operation.
+* Default JDBC name generator now removes leading underscores from field
+  and class names (Firebird and Interbase do not allow them) [158].
+* Added check for pc-superclass skipping a PC class in the meta data
+  and corresponding logic in the Workbench superclass pick list.
+* Fixed bug with code insight in the Workbench and unenhanced classes.
+
+1.2.2 (27 Jan 2003)
+* Fixed bug with application identity primary key fields being cleared on
+  transition to hollow state.
+
+1.2.1 (24 Jan 2003)
+* Updated database specific info chapter in the manual.
+* Added support for Firebird [153].
+* ANSI SQL syntax is now used for Sybase 12 and newer.
+* ANSI SQL syntax is now used for Microsoft SQL Server.
+* The local PM cache is now cleared on commit if retainValues is false. This
+  is ambiguous in the specification for optimistic transactions. Before we
+  would keep non-transaction (i.e. optimistic) instances after commit causing
+  problems if refresh was not used.
+* Fixed memory leak with OO7 benchmark.
+* Fixed bug with accessing fields of deleted instances in collections on
+  commit.
+* Optimized multiple 'select (exists' subqueries under an 'or' into outer
+  joins instead [152].
+* A JDOGenieObjectNotFoundException is thrown for objects not found in the
+  database.
+* Fixed bug with persisting changes to unordered collections not working
+  properly if no other fields were changed.
+* Default max identifier length for SAP DB is now 32 characters.
+* Multiselect now works (again) in Workbench add class and add field dialogs.
+* Fixed 'cannot add packageless class' bug [23].
+* Fixed bug with fully qualified class names being displayed in red in
+  the Workbench.
+* Fixed bug with Build | Recreate Schema not working for Sybase in Workbench.
+
+1.2.0 (20 Jan 2003)
+* Updated documentation.
+* Setting event logging to normal will no longer log jdbc.addbatch events.
+
+0.9.39rc (20 Jan 2003)
+* Fixed delete bug with inheritance structure.
+* Added database docs.
+* Added support to call clearBatch for certain jdbc drivers as they do not
+  clear the batch themselves.
+
+0.9.38rc (17 Jan 2003)
+* Fixed bug with changes to instances of classes with more than 32
+  persistent fields sometimes being ignored on commit.
+
+0.9.37rc (16 Jan 2003)
+* Implemented getConnectionURL and getConnectionDriverName on PMF. These
+  return info for the default (first) datastore.
+* All open queries are now closed on commit and rollback (some JDBC drivers
+  do this anyway).
+* Fixed bug that disabled JDO Genie query options.
+* The enhancer task can now be used from the command line (i.e. outside Ant).
+* Fixed problem with classes with no default constructor and remote access.
+* Fixed NPE when creating database schema in Workbench [146].
+* Fixed bug with Workbench leaking JDBC connections.
+* Calling shutdown on a JdoGeniePersistenceManagerFactory now closes all
+  database connections.
+
+0.9.36rc (9 Jan 2003)
+* Oracle CLOB support now works properly [116].
+* Classes with collections mapped using an inverse foreign key are now
+  inhanced to complete the relationship automatically i.e. adding a detail
+  to the master automatically sets the back reference and visa versa [131].
+* Added PreparedStatement cacheing. This can be disabled in the Workbench.
+* Fixed bug with navigating a reference to a missing instance not throwing
+  an exception after the first navigation [133].
+* Fixed bug with fields with null-value="exception" allowing nulls [132].
+* Fixed bug with hyperdrive flag not working properly with more than one
+  JDO Genie server running in the same VM and Classloader.
+* Fixed bug with changes made to a HashSet via an Iterator not being detected.
+* Fixed bug with executing some JDOQL queries using multiple OR (||)
+  expressions (ambiguous column name and other errors).
+* LinkedList and Vector now show up in supported options.
+* Fixed rare array index exception bug when logging ResultSet values (verbose).
+* Default max identifier length for Oracle is now 30 (was 14).
+* Changes to dirty instances in the local PM cache are now flushed to the
+  database before executing JDOQL queries. Before the query was evaluated
+  against dirty instances and the results merged with database results.
+
+0.9.35rc (17 Dec 2002)
+* References in the default fetch group are now fetched with an
+  outer join by default [128].
+* Renamed refs-in-default-fetch-group extension to
+  oids-in-default-fetch-group as this name more closely matches
+  its function.
+* Added Interbase support [68].
+* Fixed bug with upper and lower case obfuscated class names [129].
+
+0.9.34rc (13 Dec 2002)
+* Fixed delete bug with OO7 benchmark.
+* Fixed bug with extra SQL query being run for fetch of collection
+  fields on classes using version or timestamp opt locking.
+* Fixed lots of memory leaks + reduced memory usage.
+* Disabled batching for SAP DB (unreliable if lots of rows).
+* Added support for Oracle CLOBs to JdbcConverter interface
+  (note that the Oracle CLOB support is not working yet).
+* Sorted out problems with the JBoss connection manager and the JCA
+  adapter.
+* Reserved word list in name generator is much more comprehensive. This
+  may result in some automatically generate column names changing.
+* Fixed bug with non-primitive (e.g. String) primary key fields allowing
+  nulls in the generated schema.
+
+0.9.33rc (02 Dec 2002)
+* Fixed rollback bug with retainValues true and writing to fields never
+  read.
+* Fixed JNDI lookup bug with WebLogic.
+* Fixed "PM closed" bug with JCA adapter.
+
+0.9.32rc (29 Nov 2002)
+* Added support for toLowerCase() in JDOQL queries [30].
+* Added API to access the JDBC connection(s) used by a PM [63].
+* Added a flushThreshold and flush method to PM for flushing changes through to
+  the db before commit (for modifying millions of instances in one tx) [96].
+* Added support for Cut & Paste in Workbench schema and SQL windows [88].
+* Fixed bug with queries that use 'this' keyword [107].
+* Fixed bug with Workbench ignoring OIDs pasted into parameter list for JDOQL
+  queries [106].
+* Fixed bug with Workbench ignoring imports for JDOQL parameters [105].
+* Columns used for foreign key collections are now indexed automatically [93].
+* Disabled batch inserts for Sybase due to problems with JConnect [101].
+* Fixed bug with expanding JDOQL results tree in Workbench throwing
+  exceptions [97].
+* Fixed memory leak with objects retained after tx commit [95] [85].
+* Added API to evict OIDs and classes from the PMF wide cache [65].
+* Fixed NPE when using cache-strategy="all" in some cases [91].
+* Improved error message when trying to make a second class object for an
+  unsupported type [74].
+* Added must simplier configuration option for event logging [71].
+* Added support for java.util.LinkedList [75].
+* Implemented new client side compiled JDOQL query caching mechanism.
+* Fixed abstract method error with IBM 1.3.1 VM on Linux.
+* Fixed abstract method error with JDK 1.3.x on Windows [35].
+* Refactored plugin cache interface into a cache listener interface.
+* Fixed bug with repeat calls PMF.getPM() not returning the same PM in managed
+  environment [84].
+
+0.9.31rc (20 Nov 2002)
+* Fixed bug(59) with parameters and literals having to be on the right hand
+  side of a comparison operator in JDOQL.
+* Fixed bug(54) with remote persistence managers and "no meta data" exception.
+* Fixed bug(58) with instance callbacks not working in some classes.
+* Fixed bug with loading JDOQL queries in the workbench.
+* Fixed bug(56) with not converting parameter types to correct types in JDOQL.
+* Fixed bug(67) with reference fields disappearing from the Workbench on
+  reload classes.
+* Fixed bug(70) with enhancer and classes with no fields.
+* Fixed several bugs with JDOQL code completion in the Workbench.
+* Fixed JNDI lookup bug with JCA adapter and JBoss3.
+* Added "Simple and Reference Field Mapping" chapter to the manual.
+* Added "Map and Collection Mapping" chapter to the manual.
+
+0.9.30rc (18 Nov 2002)
+* Fixed NPE in jdo-enhance task.
+
+0.9.29rc (15 Nov 2002)
+* Online help text in Workbench has been cleaned up a bit.
+* Field drop downs in the Workbench now include superclass fields.
+* Fixed navigation bug with fetch groups specified for default fetch
+  group fields.
+
+0.9.28rc (14 Nov 2002)
+* When deployed using the JCA adapter the JDO Genie PMF now uses the JNDI
+  name jdo/<server_name> as per spec (was server_name<_jdogenie>).
+* Added "Using JDO in Session and Message Driven Beans" chapter to the manual.
+* Fixed several query bugs including VerifyError for some queries.
+* Fixed bug with complex graphs of application identity classes with no
+  key generators not being persisted properly.
+* Fixed bug with deleting instances using many consecutive transactions.
+* Added support for "this." in JDOQL filters.
+* The columns of link tables can now be edited in the Workbench.
+* Reading of application identity primary key fields after makePersistent
+  but before commit allocates an OID and fills the fields.
+* JDOQL code completion now handles superclass fields properly.
+
+0.9.27rc (11 Nov 2002)
+* Removed create-oid-at-make-persistent extension. If you call
+  pm.getObjectId(pc) before commit an OID is allocated removing the
+  need for this extension.
+* The columns for references to composite primary key classes can
+  now be defined in the meta data and edited in the Workbench.
+* The columns of link tables for collections can now be defined in the
+  meta data. Workbench support will be in the next release.
+* Client side queries are now compiled into bytecode for much faster
+  performance. These are used to resolve the database view of the model
+  with uncommitted changes in the local PM cache.
+* Fixed bug with constructors not being properly enhanced. This caused
+  problems when pm.makePersistent was called from a constructor of a PC
+  class.
+* Fixed bug with non-serializable exceptions causing problems when
+  using remote PMs. All exceptions are now visible on the client side
+  with stack trace (even on JDK 1.3.1).
+* The Workbench now has tooltip help for column captions on the main
+  classes and fields grids.
+* The execute query and show query spec buttons are now on the JDOQL and
+  SQL windows and not on the main toolbar.
+* The JDOQL window now has code completion and error highlighting for
+  the query filter. Press control-SPACE to activate.
+
+0.9.26rc (4 Nov 2002)
+* Added support for one to one mappings i.e. Class A and B reference each
+  other and instances referencing each other are persisted at the same time.
+* Added create-oid-at-make-persistent extension to allocate primary keys
+  when makePersistent is called. This is very useful for session beans that
+  need to know the primary key before the transaction commits (e.g. they
+  return a value object).
+* Online help in the Workbench is much more extensive.
+* The manual now includes "Using JDO Genie with Ant",
+  "Using JDO in Web Applications" and the start of "Workbench Guide".
+* The tut1sb session been demo now uses only container managed transactions.
+* Fixed bug with creating JDO Genie server in servlet init method in Tomcat.
+* The Petstore demo now starts the JDO Genie server in the init method of
+  the Struts servlet.
+* Turned on the PMF wide cache for the Petstore demo.
+* The Petstore demo now closes its PersistenceManager's at the end of
+  main_template.jsp.
+* Log4j is no longer required by the Workbench.
+* The JCA resource adapter throws an JDOException if there are no persistent
+  classes (was giving an ArrayIndexOutOfBounds exception).
+* Fixed bug with the JCA resource adapter being configured for local
+  transactions by default (now uses XA transactions by default).
+* Added "xa" attribute to the jdo-create-rar Ant task to select XA (default)
+  or local transactions. Currently xa transactions have been disabled. XA
+  will be the default for the next release.
+* Implemented renaming of reference columns in the meta data and Workbench.
+* Fixed NPE with getting datate JDO Genie server with cache
+  disabled.
+* The jdo-create-db and jdo-create-adapter Ant tasks now use the outputdir
+  attribute as a synonym for destdir (same as jdo-enhance).
+* The Workbench now traps Error's (e.g. NoClassDefFoundError) when loading
+  project classes. Before these projects would fail to open.
+* Added right-click menu to Workbench classes and fields grids.
+* Required Informix connection properties are now filled in when the Choose
+  button is used on the Connection tab of Datastore Properties.
+* The Workbench can now load a project with a missing Ant filter token file.
+
+0.9.25rc (21 Oct 2002)
+* Added "Architecture" and "Query options and extensions" chapters
+  to the manual.
+* A JDO Genie server with remote access enabled now locates or
+  creates a RMI registry instead of using JNDI. This fixes
+  clashes with application server JNDI.
+* If you have used 0.9.24 to connect to a remote JDO Genie
+  server from the Workbench then you must find and delete
+  any .jdogenie files on your system (in your home dir).
+* Fixed bug with converting the path to  a .jdo meta data File
+  into a resource name. This was mostly a problem on Windows.
+* Fixed bug with unicode chars in .jgogenie project files. This
+  should solve a number of annoying path related bugs.
+* Fixed bug with workbench.bat and JAVA_HOME with spaces.
+* Moved workbench.sh and workbench.bat from bin to root of
+  distribution. Got rid of bin.
+* JDOHelper.getPersistenceManagerFactory(...) now uses the 'host'
+  property instead of the 'remote' property to decide if it should
+  connect to a  remote server or start one.
+* Implemented remote client list in the Management Console.
+* Added a userObject to JdoGeniePersistenceManagerFactory and the
+  remote client list in the Management Console.
+* Added a getJdbcConnection method to JdoGeniePersistenceManagerFactory
+  to get a raw JDBC connection from the pool for a datastore.
+* Management Console now indicates which PMs are open and displays
+  times properly.
+* The toString of object IDs for datastore identity classes now
+  uses a hyphen instead of a pipe as a separator.
+* Fixed bug with a SecurityException when using JDBC drivers that
+  are not on the Workbench classpath in the Workbench.
+* Changed the way persistent aware classes are specified for the
+  jdo-enhance task. See demos/tut1/build.xml for details.
+* JDO Genie version number is now written to project and user
+  settings files so we can be backwards compatible in future.
+* Fixed bug with null pointer in the Management Console under
+  JDK 1.3.x on Linux and Windows.
+
+0.9.24rc (14 Oct 2002)
+* Added 'remote' property to .jdogenie project file to decide if
+  JDOHelper.getPersistenceManagerFactory(...) should connect to a
+  remote server or start one. The tut1 demo uses this property.
+* Added event logging for lots of events.
+* Implemented option for random access to large JDOQL results using
+  scrollable ResultSet's.
+* Implemented plugin cache API for using external cache providers (e.g.
+  Tangosol Coherence).
+* Implemented new server configuration API (see
+  JdoGeniePersistenceManagerFactory for details).
+* Properties of server components (e.g. cache plugin) are discovered
+  using reflection and the java.beans API.
+* The Workbench Management Console can now connect to remote JDO Genie
+  servers. You can use this to change settings, view server events,
+  monitor remote clients etc.
+* Remote access to a JDO Genie server can now be controlled with a simple
+  login and password.
+* JDBC PreparedStatement events now include the original SQL in the
+  description.
+* Postgres default max index name length is now 31.
+* Fixed lots of bugs with creating new projects in the Workbench.
+
+0.9.23rc2 (2 Oct 2002)
+* The Ant tasks are now defined in jdogenie.tasks (see demos/tut1/build.xml).
+* The demos have all been updated so the .jdogenie project file is in
+  the project root and is copied to build/classes.
+* The tut1 and tut1sb demos no longer use application identity.
+* The name generator (generates JDBC schema names) can now be configured
+  in the workbench.
+* Special query options can now be set using "String jdoGenieOptions"
+  parameter.
+* Added equalityTest flag to JDBC and Java type mappings. If this is
+  false for a column then the column is not included in the where clause
+  for changed optimistic locking (for non-exact types e.g. floats).
+* The JdbcKeyGenerator and factory now use an args bean (like
+  JdbcConverter and factory).
+* Default JDBC key generator and properties can be configured in the
+  workbench.
+* Fixed bug with JCA RAR file created on Windows XP not working.
+* One JCA RAR file can now be used with serveral service.xml files
+  on JBoss.
+* Fixed bug with workbench not handling transient fields correctly.
+* Workbench now supports adding of field not automatically persistent
+  to the meta data (e.g. transient fields).
+* Enabled batch updates for all supported databases.
+* Added workbench (and datastore) option to disable batch updates.
+* Added JdoGenieCache interface for future support for user written
+  cache plugins.
+* Drop downs in the workbench now resize to match contents.
+* Columns in SQL query results in workbench now resize to match contents.
+* Many class names are now displayed with class name part first in
+  workbench. This makes the important class name easy to see in columns.
+* Implemented LONGVARCHAR mapping for Oracle, Informix and SAP DB
+  (Sybase, MS SQL Server and Postgres already supported). Oracle mapping
+  uses a LONG column so only one is allowed per table. We will fix this.
+* JDO Genie version information is now available using
+  Package.getPackage("za.co.hemtech.jdo").
+* Workbench windows now close when escape is pressed.
+* Informix 9 works (tested on RedHat 7.3).
+* Fixed bug with null properties on datastore connection tab after
+  choosing a driver and saving the project.
+* Fixed bug with column names specified in the meta data being ignored.
+* Primary key default column names are now displayed in the workbench.
+* JONAS application server is supported.
+
+0.9.22rc1 (26 Sep 2002)
+* The manual is out of sync with this release. It will be updated soon.
+* Added chapter on web applications with JDO to manual.
+* Included a PDF of "Java Data Objects" by Robin Roos.
+* The petstore demo has been updated.
+* Brand new Workbench with much more powerful mapping features.
+* Workbench now resolves Ant tokens for connection properties using
+  an Ant filter token properties file.
+* Dropped package level meta data in favour of datastore level options.
+* Implemented newObjectIdInstance on PersistenceManager.
+* Fixed bug with refresh sometimes not loading the correct fields.
+* Fixed bug with unmodified collections getting damaged sometimes.
+* Fixed bug with JCA adapter Ant task failing on Windows XP.
+
+0.9.21beta (18 Sep 2002)
+* Updated for jdk1.4.
+
+0.9.20beta (11 Sep 2002)
+* Fixed bug with ignore cache option on PM not being used properly.
+* Fixed serialization bugs with multiple JDO engines in one VM and remote PMs.
+
+0.9.19beta (2 Sep 2002)
+* A J2EE application using the JCA adapter can now be redeployed without
+  redeploying the adapter or restarting the app server.
+* Fixed bug with some collection fields not being correctly fetched in
+  inheritance heirachies.
+
+0.9.18beta (28 August 2002)
+* Beta release of JCA adapter for JBoss 3.0, JBoss 2.4 and Weblogic 7.0.
+* New session bean demo using the JCA adapter (demos/tut1sb).
+* Manual includes a walkthrough of the session bean demo.
+* Fixed problems with connection properties getting lost at runtime. This
+  causes problems with Microsoft SQL Server which requires SelectMethod=cursor
+  to work.
+* Fixed bug with Microsoft SQL Server and null parameters in queries.
+* SAP DB is now supported.
+* Removed obfuscation from exception classes.
+* Unenhanced PC classes are detected on server startup and in the Workbench.
+* Added support for null collections and maps (they come back empty though).
+
+0.9.17beta (20 August 2002)
+* Added support for TEXT columns in Sybase, MS SQL and Postgres. Informix and
+  Oracle to follow shortly.
+* Accessing query results as a List will now efficiently skip rows for
+  get(index) where index > max previously requested index.
+* Several enhancer related bugs have been fixed (enhancement for methods
+  with lots of parameters was broken).
+* Fixed NPE with add classes in Workbench when no classes are selected.
+
+0.9.16beta (14 August 2002)
+* Fixed bug with parsing date in license file in some locales.
+* Fixed incorrect jar names in workbench.bat.
+* Add support for synchronization callback on Transaction.
+* Application identity classes are now validated when the meta data is read.
+  This prevents nasty NoSuchMethodError problems later on.
+* Looking up an instance by ID that does not exist now throws a
+  JDODataStoreException instead of a JDOFatalDataStoreException.
+
+0.9.15beta (13 August 2002)
+* The remote PersistenceManager support is ready. PersistenceManager's can use
+  RMI to communicate with a JDO Genie server in another VM. See demos/tut1.
+* Fixed bug with create schema task attempting to drop tables using the
+  incorrect case.
+* Executing a query now returns a List (instead of a Collection). If size()
+  is called the whole list is resolved. If iterator() is called results are
+  fetched as needed. If get(index) is called on an unresolved list results
+  are efficiently skipped until index is reached.
+* TreeMap is now supported.
+* Fixed bug with incorrect classloader being used to load parameter and
+  variable types in queries (caused exception in Workbench).
+* Boolean and boolean fields are now mapped to tinyints for Sybase as bit
+  columns do not allow nulls.
+
+0.9.14alpha (01 August 2002)
+* Classes with no fields in the default fetch group now work.
+* Fixed bug with inserting instances of a subclass with application identity.
+* Generated name of application identity fields now follows same naming
+  convention as other fields (fooId -> foo_id).
+* The persistence-capable-superclass attribute is filled automatically when
+  new PC classes are added in the Workbench.
+
+0.9.13alpha (31 July 2002)
+* Workbench now includes online help for many fields. Pressing F1 on a field
+  may display additional help from the manual in an external browser window.
+* Hashtable fields are now supported.
+
+0.9.12alpha (30 July 2002)
+* Manual now includes a complete meta data reference.
+* The create schema task now has a main method + can be used outside of ant.
+* HashMap and Map fields are supported.
+* Fixed pick list for the use join field in the class meta data dialog in
+  the Workbench.
+* Added support for editing constraint name for a reference field in the
+  Workbench.
+* Fixed bug with setting the name of a link table for a collection in the
+  Workbench.
+
+0.9.11alpha (24 July 2002)
+* The HTML manual now includes a nicer CSS stylesheet.
+* The autoset extension now supports setting fields on creation and/or
+  modification of an instance.
+* The tut1 demo now closes its query results properly.
+* Fixed array out of bounds bug with committing some derived classes.
+* Events are now generated for connection pool operations.
+* Implemented supported options for PMF.
+
+0.9.10alpha (19 July 2002)
+* All text files now use CRLF line separators (for Windows users).
+* Changed back to compiling with JDK 1.3.1 due to problems with JDK 1.4
+  that broke the Workbench.
+* Added close calls for queries in tut1 demo.
+* The manual now includes an almost complete walkthrough for tut1.
+
+0.9.9alpha (18 July 2002)
+* Included the manual in HTML format (not complete).
+* JDBC primary key and class id mappings can be edited in workbench.
+* Added a class and package level option to include reference fields in the
+  default fetch group. Only the OIDs are read and the referenced object is
+  only fetched on navigation.
+* PersistenceManager's obtained from a factory initialized with JDOHelper
+  are now configured properly.
+* Simplified meta data for jdbc-class-id option.
+* Simplified meta data for jdbc-primary-key option.
+* Added 'string' to reserved word list for default name generator.
+* Changed Workbench menu options to resemble normal IDE 'build', 'run' etc.
+* Added client type drop down to project properties dialog in Workbench.
+
+0.9.8alpha
+* Added option to not create the table for a class when generating schema.
+
+0.9.7alpha
+* Project properties dialog is modal again.
+
+0.9.6alpha
+* Added connection pool settings to Workbench project properties dialog.
+* Added connection pool settings to ant tokenize option.
+* Default JDBC name generator now generates the PK column name from
+  the field name for application identity classes.
+* Added cache settings to Workbench project properties dialog.
+* Fixed bug with PK constraint for class with multiple application identity
+  fields listing columns in the wrong order.
+* Opening schema window in Workbench will now reparse meta data.
+
+0.9.5alpha
+* Fixed bug with joined refs to class heirachy not being fetched properly.
+* Events are printed to System.out by default.
+* Added props to control event logging to project file and workbench dialog.
+
+0.9.4alpha
+* Columns from subclass in base table now always allow nulls.
+* Implemented factory wide cache.
+* Workbench and meta data now support JDBC indexes.
+
+0.9.3alpha
+* Fixed bug with informix + startsWith/endsWith + parameter.
+* Fixed bug with deleting of non-dependent objects.
+* Fixed bug with order declaration and informix.
+* Fixed exception handling for menu options in workbench.

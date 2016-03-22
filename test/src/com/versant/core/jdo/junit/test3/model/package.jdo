@@ -1,0 +1,874 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jdo>
+    <package name="com.versant.core.jdo.junit.test3.model.smart">
+        <class name="SmartA"/>
+        <class name="SmartB"/>
+        <class name="SmartD" persistence-capable-superclass="SmartB">
+            <field name="stringList" default-fetch-group="true">
+                <collection element-type="java.lang.String"/>
+            </field>
+            <field name="smartC" default-fetch-group="true"/>
+        </class>
+        <class name="SmartC">
+            <field name="stringList" default-fetch-group="true">
+                <collection element-type="java.lang.String"/>
+            </field>
+        </class>
+    </package>
+    <package name="com.versant.core.jdo.junit.test3.model">
+        <class name="BaseClass"/>
+        <class name="SubClass" persistence-capable-superclass="BaseClass"/>
+        <class name="BaseClassAutoInc">
+            <extension vendor-name="versant" key="jdbc-key-generator" value="AUTOINC"/>
+        </class>
+        <class name="SubClassAutoInc" persistence-capable-superclass="BaseClassAutoInc"/>
+        <class name="BaseClassLOB">
+            <field name="baseLob">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-type" value="CLOB"/>
+                </extension>
+            </field>
+        </class>
+        <class name="SubClassLOB" persistence-capable-superclass="BaseClassLOB">
+            <field name="subLob">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-type" value="CLOB"/>
+                </extension>
+            </field>
+        </class>
+        <class name="BaseClassAppId" identity-type="application" objectid-class="BaseClassAppId$ID">
+            <field name="pka" primary-key="true"/>
+            <field name="pkb" primary-key="true"/>
+        </class>
+        <class name="SubClassAppId" persistence-capable-superclass="BaseClassAppId">
+            <extension vendor-name="versant" key="jdbc-inheritance">
+                <extension vendor-name="versant" key="jdbc-ref" value="pka">
+                    <extension vendor-name="versant" key="jdbc-column">
+                        <extension vendor-name="versant" key="jdbc-column-name" value="pkax"/>
+                    </extension>
+                </extension>
+                <extension vendor-name="versant" key="jdbc-ref" value="pkb">
+                    <extension vendor-name="versant" key="jdbc-column">
+                        <extension vendor-name="versant" key="jdbc-column-name" value="pkbx"/>
+                    </extension>
+                </extension>
+            </extension>
+        </class>
+        <class name="SubSubClassAppId" persistence-capable-superclass="SubClassAppId"/>
+        <class name="BaseClass2"/>
+        <class name="SubClass2" persistence-capable-superclass="BaseClass2">
+            <extension vendor-name="versant" key="jdbc-inheritance" value="vertical">
+                <extension vendor-name="versant" key="jdbc-column"/>
+            </extension>
+        </class>
+        <class name="SubClass2A" persistence-capable-superclass="SubClass2"/>
+        <class name="SubClass2B" persistence-capable-superclass="SubClass2"/>
+        <class name="ArrayContainer">
+            <field name="strings" persistent="true"/>
+            <field name="ints" persistent="true"/>
+            <field name="locales" persistent="true"/>
+            <field name="bigdecs" persistent="true"/>
+            <field name="dates" persistent="true"/>
+            <field name="files" persistent="true"/>
+            <field name="pints" persistent="true" embedded="true"/>
+        </class>
+        <class name="WrapperContainer"/>
+        <class name="InvFkArrayContainer">
+            <field name="elements">
+                <array>
+                    <extension vendor-name="versant" key="inverse" value="parent"/>
+                    <extension vendor-name="versant" key="ordering" value="name ascending"/>
+                </array>
+            </field>
+        </class>
+        <class name="InvFkArrayElement"/>
+        <class name="BaseStrCid">
+            <extension vendor-name="versant" key="jdbc-class-id" value="BASE"/>
+        </class>
+        <class name="SubStrCid" persistence-capable-superclass="BaseStrCid">
+            <extension vendor-name="versant" key="jdbc-inheritance" value="flat"/>
+            <extension vendor-name="versant" key="jdbc-class-id" value="SUB"/>
+        </class>
+        <class name="BaseStrCidFullName">
+            <extension vendor-name="versant" key="jdbc-class-id" value="{fullname}"/>
+        </class>
+        <class name="BaseStrCidName">
+            <extension vendor-name="versant" key="jdbc-class-id" value="{name}"/>
+        </class>
+        <class name="SubStrCidFullName" persistence-capable-superclass="BaseStrCidFullName">
+            <extension vendor-name="versant" key="jdbc-class-id" value="{fullname}"/>
+        </class>
+        <class name="SubStrCidName" persistence-capable-superclass="BaseStrCidName">
+            <extension vendor-name="versant" key="jdbc-class-id" value="{name}"/>
+        </class>
+        <class name="Order">
+            <field name="lines">
+                <collection element-type="OrderLine">
+                    <extension vendor-name="versant" key="inverse" value="order"/>
+                    <extension vendor-name="versant" key="managed" value="false"/>
+                </collection>
+            </field>
+            <extension vendor-name="versant" key="fetch-group" value="all">
+                <extension vendor-name="versant" key="field-name" value="name"/>
+                <extension vendor-name="versant" key="field-name" value="lines"/>
+            </extension>
+        </class>
+        <class name="OrderLine"/>
+        <class name="Order2">
+            <field name="customer" default-fetch-group="true"/>
+            <field name="lines" default-fetch-group="true">
+                <collection element-type="OrderLine2">
+                    <extension vendor-name="versant" key="inverse" value="order"/>
+                    <extension vendor-name="versant" key="managed" value="false"/>
+                </collection>
+            </field>
+        </class>
+        <class name="OrderLine2">
+            <field name="item" default-fetch-group="true"/>
+        </class>
+        <class name="Customer"/>
+        <class name="Item"/>
+        <class name="Order3">
+            <field name="lines">
+                <collection element-type="OrderLine3">
+                    <extension vendor-name="versant" key="ordered" value="false"/>
+                </collection>
+            </field>
+        </class>
+        <class name="OrderLine3"/>
+        <class name="Order4">
+            <field name="lines" default-fetch-group="true">
+                <collection element-type="OrderLine4">
+                    <extension vendor-name="versant" key="ordered" value="false"/>
+                </collection>
+            </field>
+            <field name="customer" default-fetch-group="true"/>
+        </class>
+        <class name="OrderLine4">
+            <field name="item" default-fetch-group="true"/>
+        </class>
+        <class name="TreeNode">
+            <field name="children" default-fetch-group="true">
+                <collection element-type="TreeNode">
+                    <extension vendor-name="versant" key="ordered" value="false"/>
+                </collection>
+            </field>
+            <field name="firstChild" default-fetch-group="true"/>
+        </class>
+        <class name="NullWrapper"/>
+    </package>
+    <package name="com.versant.core.jdo.junit.test3.model.complex">
+        <class name="A">
+            <field name="stringListBase">
+                <collection element-type="java.lang.String"/>
+            </field>
+            <field name="dfgBaseRef" default-fetch-group="true"/>
+            <field name="refBList">
+                <collection element-type="RefB"/>
+            </field>
+            <extension vendor-name="versant" key="fetch-group" value="refbList">
+                <extension vendor-name="versant" key="field-name" value="refBList"/>
+                <extension vendor-name="versant" key="field-name" value="refA"/>
+                <extension vendor-name="versant" key="field-name" value="val"/>
+            </extension>
+            <field name="fkCol">
+                <collection element-type="FKColEntryBase">
+                    <extension vendor-name="versant" key="inverse" value="a"/>
+                </collection>
+            </field>
+            <extension vendor-name="versant" key="jdbc-class-id" value="111111111"/>
+            <extension vendor-name="versant" key="jdbc-table-name" value="xa"/>
+        </class>
+        <class name="AA_A" persistence-capable-superclass="A_A"/>
+        <class name="AA_B" persistence-capable-superclass="A_A"/>
+        <class name="AB_A" persistence-capable-superclass="A_B"/>
+        <class name="AB_B" persistence-capable-superclass="A_B"/>
+        <class name="AC_A" persistence-capable-superclass="A_C"/>
+        <class name="AC_B" persistence-capable-superclass="A_C"/>
+        <class name="A_A" persistence-capable-superclass="A">
+            <field name="listRefA">
+                <collection element-type="RefA"/>
+            </field>
+            <extension vendor-name="versant" key="jdbc-class-id" value="AAA"/>
+        </class>
+        <class name="A_B" persistence-capable-superclass="A">
+            <field name="stringListAB">
+                <collection element-type="java.lang.String"/>
+            </field>
+        </class>
+        <class name="A_C" persistence-capable-superclass="A"/>
+        <class name="RefBase"/>
+        <class name="RefA" persistence-capable-superclass="RefBase"/>
+        <class name="RefB" persistence-capable-superclass="RefBase"/>
+        <class name="FKColEntryA" persistence-capable-superclass="FKColEntryBase"/>
+        <class name="FKColEntryA_A" persistence-capable-superclass="FKColEntryA"/>
+        <class name="FKColEntryA_B" persistence-capable-superclass="FKColEntryA"/>
+        <class name="FKColEntryB" persistence-capable-superclass="FKColEntryBase"/>
+        <class name="FKColEntryBase"/>
+    </package>
+    <package name="com.versant.core.jdo.junit.test3.model.attachdetach">
+        <class name="DetAddressHolder">
+            <field name="defaultAdd" default-fetch-group="false"/>
+            <field name="add"/>
+        </class>
+        <class name="DetAddress">
+            <field name="street1" default-fetch-group="false"/>
+            <field name="street2"/>
+        </class>
+        <class name="ClassWithDateEquals"/>
+        <class name="CollectionChild">
+            <extension vendor-name="versant" key="fetch-group" value="allFields">
+                <extension vendor-name="versant" key="field-name" value="no"/>
+                <extension vendor-name="versant" key="field-name" value="simpleFields"/>
+            </extension>
+        </class>
+        <class name="CollectionFields">
+            <field name="arrayList">
+                <collection element-type="CollectionChild"/>
+            </field>
+            <field name="hashMap">
+                <map key-type="java.lang.String" value-type="CollectionChild"/>
+            </field>
+            <field name="hashSet">
+                <collection element-type="CollectionChild"/>
+            </field>
+            <field name="hashtable">
+                <map value-type="CollectionChild" key-type="java.lang.String"/>
+            </field>
+            <field name="linkedList">
+                <collection element-type="CollectionChild"/>
+            </field>
+            <field name="treeMap">
+                <map key-type="java.lang.String" value-type="CollectionChild"/>
+            </field>
+            <field name="sortedMap">
+                <map key-type="java.lang.String" value-type="CollectionChild"/>
+            </field>
+            <field name="treeSet">
+                <collection element-type="CollectionChild"/>
+            </field>
+            <field name="sortedSet">
+                <collection element-type="CollectionChild"/>
+            </field>
+            <field name="vector">
+                <collection element-type="CollectionChild"/>
+            </field>
+            <field name="dateSet" default-fetch-group="true">
+                <collection element-type="ClassWithDateEquals"/>
+            </field>
+            <field name="collectionChildren" persistence-modifier="persistent"/>
+            <extension vendor-name="versant" key="fetch-group" value="allFields">
+                <extension vendor-name="versant" key="field-name" value="arrayList">
+                    <extension vendor-name="versant" key="next-fetch-group" value="allFields"/>
+                </extension>
+                <extension vendor-name="versant" key="field-name" value="hashMap">
+                    <extension vendor-name="versant" key="next-fetch-group" value="allFields"/>
+                </extension>
+                <extension vendor-name="versant" key="field-name" value="hashSet">
+                    <extension vendor-name="versant" key="next-fetch-group" value="allFields"/>
+                </extension>
+                <extension vendor-name="versant" key="field-name" value="hashtable">
+                    <extension vendor-name="versant" key="next-fetch-group" value="allFields"/>
+                </extension>
+                <extension vendor-name="versant" key="field-name" value="linkedList">
+                    <extension vendor-name="versant" key="next-fetch-group" value="allFields"/>
+                </extension>
+                <extension vendor-name="versant" key="field-name" value="no"/>
+                <extension vendor-name="versant" key="field-name" value="treeMap">
+                    <extension vendor-name="versant" key="next-fetch-group" value="allFields"/>
+                </extension>
+                <extension vendor-name="versant" key="field-name" value="sortedMap">
+                    <extension vendor-name="versant" key="next-fetch-group" value="allFields"/>
+                </extension>
+                <extension vendor-name="versant" key="field-name" value="treeSet">
+                    <extension vendor-name="versant" key="next-fetch-group" value="allFields"/>
+                </extension>
+                <extension vendor-name="versant" key="field-name" value="sortedSet">
+                    <extension vendor-name="versant" key="next-fetch-group" value="allFields"/>
+                </extension>
+                <extension vendor-name="versant" key="field-name" value="vector">
+                    <extension vendor-name="versant" key="next-fetch-group" value="allFields"/>
+                </extension>
+                <extension vendor-name="versant" key="field-name" value="collectionChildren">
+                    <extension vendor-name="versant" key="next-fetch-group" value="allFields"/>
+                </extension>
+                <extension vendor-name="versant" key="field-name" value="collection">
+                    <extension vendor-name="versant" key="next-fetch-group" value="allFields"/>
+                </extension>
+                <extension vendor-name="versant" key="field-name" value="list">
+                    <extension vendor-name="versant" key="next-fetch-group" value="allFields"/>
+                </extension>
+                <extension vendor-name="versant" key="field-name" value="map">
+                    <extension vendor-name="versant" key="next-fetch-group" value="allFields"/>
+                </extension>
+                <extension vendor-name="versant" key="field-name" value="set">
+                    <extension vendor-name="versant" key="next-fetch-group" value="allFields"/>
+                </extension>
+            </extension>
+            <field name="map">
+                <map key-type="java.lang.String" value-type="CollectionChild"/>
+            </field>
+            <field name="list">
+                <collection element-type="CollectionChild"/>
+            </field>
+            <field name="collection">
+                <collection element-type="CollectionChild"/>
+            </field>
+            <field name="set">
+                <collection element-type="CollectionChild"/>
+            </field>
+        </class>
+        <class name="FetchGroupLevel1"/>
+        <class name="FetchGroupSelfRef">
+            <field name="selfRefList">
+                <collection element-type="FetchGroupSelfRef"/>
+            </field>
+            <extension vendor-name="versant" key="fetch-group" value="allFields">
+                <extension vendor-name="versant" key="field-name" value="no"/>
+                <extension vendor-name="versant" key="field-name" value="selfRef">
+                    <extension vendor-name="versant" key="next-fetch-group" value="allFields"/>
+                </extension>
+                <extension vendor-name="versant" key="field-name" value="selfRefList">
+                    <extension vendor-name="versant" key="next-fetch-group" value="allFields"/>
+                </extension>
+            </extension>
+        </class>
+        <class name="SimpleFields" persistence-capable-superclass="SimpleFieldsBase">
+            <extension vendor-name="versant" key="fetch-group" value="allFields">
+                <extension vendor-name="versant" key="field-name" value="bytesField"/>
+                <extension vendor-name="versant" key="field-name" value="charsField"/>
+                <extension vendor-name="versant" key="field-name" value="doublesField"/>
+                <extension vendor-name="versant" key="field-name" value="booleansField"/>
+                <extension vendor-name="versant" key="field-name" value="floatsField"/>
+                <extension vendor-name="versant" key="field-name" value="intsField"/>
+                <extension vendor-name="versant" key="field-name" value="longsField"/>
+                <extension vendor-name="versant" key="field-name" value="shortsField"/>
+            </extension>
+            <extension vendor-name="versant" key="fetch-group" value="someFields">
+                <extension vendor-name="versant" key="field-name" value="bytesField"/>
+                <extension vendor-name="versant" key="field-name" value="intsField"/>
+                <extension vendor-name="versant" key="field-name" value="shortsField"/>
+            </extension>
+            <extension vendor-name="versant" key="fetch-group" value="polyRefFG">
+                <extension vendor-name="versant" key="field-name" value="booleansField"/>
+                <extension vendor-name="versant" key="field-name" value="bytesField"/>
+                <extension vendor-name="versant" key="field-name" value="intsField"/>
+            </extension>
+        </class>
+        <class name="SimpleFieldsBase" identity-type="application" objectid-class="com.versant.core.jdo.junit.test3.model.attachdetach.SimpleFieldsBase$ID">
+            <extension vendor-name="versant" key="fetch-group" value="allFields">
+                <extension vendor-name="versant" key="field-name" value="booleanField"/>
+                <extension vendor-name="versant" key="field-name" value="byteField"/>
+                <extension vendor-name="versant" key="field-name" value="charField"/>
+                <extension vendor-name="versant" key="field-name" value="dateField"/>
+                <extension vendor-name="versant" key="field-name" value="doubleField"/>
+                <extension vendor-name="versant" key="field-name" value="floatField"/>
+                <extension vendor-name="versant" key="field-name" value="intField"/>
+                <extension vendor-name="versant" key="field-name" value="longField"/>
+                <extension vendor-name="versant" key="field-name" value="shortField"/>
+                <extension vendor-name="versant" key="field-name" value="stringField"/>
+            </extension>
+            <extension vendor-name="versant" key="fetch-group" value="someFields">
+                <extension vendor-name="versant" key="field-name" value="byteField"/>
+                <extension vendor-name="versant" key="field-name" value="intField"/>
+                <extension vendor-name="versant" key="field-name" value="shortField"/>
+            </extension>
+            <field name="simpleFieldsBaseId" primary-key="true"/>
+            <extension vendor-name="versant" key="fetch-group" value="polyRefFG">
+                <extension vendor-name="versant" key="field-name" value="booleanField"/>
+                <extension vendor-name="versant" key="field-name" value="byteField"/>
+                <extension vendor-name="versant" key="field-name" value="intField"/>
+                <extension vendor-name="versant" key="field-name" value="stringField"/>
+            </extension>
+        </class>
+        <class name="PolyRefParent">
+            <extension vendor-name="versant" key="fetch-group" value="polyRefFG">
+                <extension vendor-name="versant" key="field-name" value="no"/>
+                <extension vendor-name="versant" key="field-name" value="simpleFields">
+                    <extension vendor-name="versant" key="next-fetch-group" value="polyRefFG"/>
+                </extension>
+            </extension>
+        </class>
+    </package>
+    <package name="com.versant.core.jdo.junit.test3.model.nav">
+        <class name="NavRoot"/>
+        <class name="NavRootRef1"/>
+        <class name="NavRootRef2"/>
+        <class name="NavRootSubA" persistence-capable-superclass="NavRoot"/>
+        <class name="NavRootSubAA" persistence-capable-superclass="NavRootSubA"/>
+        <class name="NavRootSubAARef1" persistence-capable-superclass="NavRootSubARef1"/>
+        <class name="NavRootSubAARef2" persistence-capable-superclass="NavRootSubARef2"/>
+        <class name="NavRootSubARef1" persistence-capable-superclass="NavRootRef1"/>
+        <class name="NavRootSubARef2" persistence-capable-superclass="NavRootRef2"/>
+    </package>
+    <package name="com.versant.core.jdo.junit.test3.model.externalizer">
+        <class name="ExtContainer">
+            <field name="stringExtType">
+                <extension vendor-name="versant" key="externalizer" value="STRING"/>
+            </field>
+            <field name="object" persistence-modifier="persistent">
+                <extension vendor-name="versant" key="externalizer" value="SERIALIZED"/>
+            </field>
+            <field name="list">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-type" value="VARBINARY"/>
+                </extension>
+                <extension vendor-name="versant" key="externalizer" value="SERIALIZED"/>
+            </field>
+            <field name="address">
+                <extension vendor-name="versant" key="externalizer" value="SERIALIZED"/>
+            </field>
+            <field name="map">
+                <extension vendor-name="versant" key="externalizer" value="SERIALIZED"/>
+            </field>
+            <field name="address2" persistence-modifier="persistent">
+                <extension vendor-name="versant" key="externalizer" value="SERIALIZED"/>
+            </field>
+        </class>
+        <class name="Address"/>
+    </package>
+    <package name="com.versant.core.jdo.junit.test3.model.fabian">
+        <class name="Acto" identity-type="application" objectid-class="com.versant.core.jdo.junit.test3.model.fabian.Acto$ID">
+            <field name="pkActo" primary-key="true">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-length" value="20"/>
+                </extension>
+            </field>
+            <field name="pkLic" primary-key="true">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-length" value="20"/>
+                </extension>
+            </field>
+            <field name="pkSol" primary-key="true">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-length" value="20"/>
+                </extension>
+            </field>
+            <field name="parent">
+                <extension vendor-name="versant" key="jdbc-ref" value="pkLic">
+                    <extension vendor-name="versant" key="jdbc-column">
+                        <extension vendor-name="versant" key="jdbc-column-name" value="pk_lic"/>
+                    </extension>
+                </extension>
+                <extension vendor-name="versant" key="jdbc-ref" value="pkSol">
+                    <extension vendor-name="versant" key="jdbc-column">
+                        <extension vendor-name="versant" key="jdbc-column-name" value="pk_sol"/>
+                    </extension>
+                </extension>
+            </field>
+        </class>
+        <class name="Liquid" identity-type="application" objectid-class="com.versant.core.jdo.junit.test3.model.fabian.Liquid$ID">
+            <field name="pkLic" primary-key="true">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-length" value="20"/>
+                </extension>
+            </field>
+            <field name="pkSol" primary-key="true">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-length" value="20"/>
+                </extension>
+            </field>
+        </class>
+        <class name="LiquidSub" persistence-capable-superclass="Liquid">
+            <extension vendor-name="versant" key="jdbc-inheritance" value="flat"/>
+            <field name="actos">
+                <collection element-type="Acto">
+                    <extension vendor-name="versant" key="inverse" value="{auto}"/>
+                </collection>
+            </field>
+        </class>
+    </package>
+    <package name="com.versant.core.jdo.junit.test3.model.colreuse">
+        <class name="ClassB">
+            <field name="aFake">
+                <collection element-type="SubClassA">
+                    <extension vendor-name="versant" key="inverse" value="{auto}">
+                        <extension vendor-name="versant" key="jdbc-column">
+                            <extension vendor-name="versant" key="jdbc-column-name" value="class_b_id_fake"/>
+                        </extension>
+                    </extension>
+                </collection>
+            </field>
+            <field name="aInv">
+                <collection element-type="SubClassA">
+                    <extension vendor-name="versant" key="inverse" value="classb"/>
+                </collection>
+            </field>
+            <field name="bFake">
+                <collection element-type="SubClassB">
+                    <extension vendor-name="versant" key="inverse" value="{auto}">
+                        <extension vendor-name="versant" key="jdbc-column">
+                            <extension vendor-name="versant" key="jdbc-column-name" value="class_b_id_fake"/>
+                        </extension>
+                    </extension>
+                </collection>
+            </field>
+            <field name="bInv">
+                <collection element-type="SubClassB">
+                    <extension vendor-name="versant" key="inverse" value="classb"/>
+                </collection>
+            </field>
+            <field name="cFake">
+                <collection element-type="SubClassC">
+                    <extension vendor-name="versant" key="inverse" value="{auto}">
+                        <extension vendor-name="versant" key="jdbc-column">
+                            <extension vendor-name="versant" key="jdbc-column-name" value="class_b_id_fake"/>
+                        </extension>
+                    </extension>
+                </collection>
+            </field>
+            <field name="cInv">
+                <collection element-type="SubClassC">
+                    <extension vendor-name="versant" key="inverse" value="classb"/>
+                </collection>
+            </field>
+        </class>
+        <class name="SubClassA" persistence-capable-superclass="SuperOfClass">
+            <extension vendor-name="versant" key="jdbc-inheritance" value="flat"/>
+            <field name="classb">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-column-name" value="class_b_id_inv"/>
+                </extension>
+            </field>
+        </class>
+        <class name="SubClassB" persistence-capable-superclass="SuperOfClass">
+            <extension vendor-name="versant" key="jdbc-inheritance" value="flat"/>
+            <field name="classb">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-column-name" value="class_b_id_inv"/>
+                </extension>
+            </field>
+        </class>
+        <class name="SubClassC" persistence-capable-superclass="SuperOfClass">
+            <extension vendor-name="versant" key="jdbc-inheritance" value="flat"/>
+            <field name="classb">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-column-name" value="class_b_id_inv"/>
+                </extension>
+            </field>
+        </class>
+        <class name="SuperOfClass">
+            <extension vendor-name="versant" key="jdbc-class-id" value="{hash}" />
+        </class>
+    </package>
+    <package name="com.versant.core.jdo.junit.test3.model.leaf">
+        <class name="LeafBase">
+            <extension vendor-name="versant" key="jdbc-class-id" value="{no}"/>
+        </class>
+        <class name="LeafSub" persistence-capable-superclass="LeafBase">
+            <extension vendor-name="versant" key="jdbc-inheritance" value="flat"/>
+        </class>
+        <class name="LeafBaseHolder">
+            <field name="list">
+                <collection element-type="LeafBase"/>
+            </field>
+        </class>
+        <class name="LeafBase2">
+            <extension vendor-name="versant" key="jdbc-class-id" value="{no}"/>
+        </class>
+        <class name="LeafBase2Holder">
+            <field name="list">
+                <collection element-type="LeafBase2"/>
+            </field>
+        </class>
+        <class name="LeafMid" persistence-capable-superclass="LeafBase2">
+            <extension vendor-name="versant" key="jdbc-inheritance" value="flat"/>
+        </class>
+        <class name="LeafSub2" persistence-capable-superclass="LeafMid">
+            <extension vendor-name="versant" key="jdbc-inheritance" value="flat"/>
+        </class>
+    </package>
+    <package name="com.versant.core.jdo.junit.test3.model.attachdetach.bug1113">
+        <class name="PersistentThingImpl" objectid-class="com.versant.core.jdo.junit.test3.model.attachdetach.bug1113.IdAsStringPK" identity-type="application">
+            <field name="_id" primary-key="true"/>
+            <extension vendor-name="versant" key="fetch-group" value="PDSTest">
+                <extension vendor-name="versant" key="field-name" value="_id"/>
+                <extension vendor-name="versant" key="field-name" value="_originalId"/>
+            </extension>
+        </class>
+        <class name="A" persistence-capable-superclass="PersistentThingImpl">
+            <extension vendor-name="versant" key="jdbc-inheritance" value="vertical"/>
+            <field name="_myBs">
+                <collection element-type="B"/>
+            </field>
+            <extension vendor-name="versant" key="fetch-group" value="PDSTest">
+                <extension vendor-name="versant" key="field-name" value="_id"/>
+                <extension vendor-name="versant" key="field-name" value="_myBs">
+                    <extension vendor-name="versant" key="next-fetch-group" value="PDSTest"/>
+                </extension>
+            </extension>
+            <extension vendor-name="versant" key="fetch-group" value="A">
+                <extension vendor-name="versant" key="field-name" value="_id"/>
+                <extension vendor-name="versant" key="field-name" value="_myBs">
+                    <extension vendor-name="versant" key="next-fetch-group" value="B"/>
+                </extension>
+            </extension>
+        </class>
+        <class name="B" persistence-capable-superclass="PersistentThingImpl">
+            <extension vendor-name="versant" key="jdbc-inheritance" value="vertical"/>
+            <extension vendor-name="versant" key="fetch-group" value="PDSTest">
+                <extension vendor-name="versant" key="field-name" value="_id"/>
+                <extension vendor-name="versant" key="field-name" value="_myString"/>
+            </extension>
+            <extension vendor-name="versant" key="fetch-group" value="B">
+                <extension vendor-name="versant" key="field-name" value="_id"/>
+                <extension vendor-name="versant" key="field-name" value="_myString"/>
+            </extension>
+        </class>
+    </package>
+    <package name="com.versant.core.jdo.junit.test3.model.attachdetach.demo">
+        <class name="Address">
+            <extension vendor-name="versant" key="fetch-group" value="demo">
+                <extension vendor-name="versant" key="field-name" value="city"/>
+            </extension>
+        </class>
+        <class name="Contact">
+            <extension vendor-name="versant" key="fetch-group" value="demo">
+                <extension vendor-name="versant" key="field-name" value="address">
+                    <extension vendor-name="versant" key="next-fetch-group" value="demo"/>
+                </extension>
+                <extension vendor-name="versant" key="field-name" value="age"/>
+                <extension vendor-name="versant" key="field-name" value="email"/>
+                <extension vendor-name="versant" key="field-name" value="name"/>
+                <extension vendor-name="versant" key="field-name" value="phone"/>
+            </extension>
+        </class>
+        <class name="Country"/>
+    </package>
+    <package name="com.versant.core.jdo.junit.test3.model.kai">
+        <class name="Base" identity-type="application" objectid-class="com.versant.core.jdo.junit.test3.model.kai.IdAsStringPK">
+            <field name="id" primary-key="true"/>
+            <extension vendor-name="versant" key="fetch-group" value="fg">
+                <extension vendor-name="versant" key="field-name" value="id"/>
+                <extension vendor-name="versant" key="field-name" value="originalId"/>
+            </extension>
+        </class>
+        <class name="SubB" persistence-capable-superclass="Base"/>
+        <class name="SubA" persistence-capable-superclass="Base">
+            <extension vendor-name="versant" key="fetch-group" value="fg">
+                <extension vendor-name="versant" key="field-name" value="subB"/>
+            </extension>
+            <extension vendor-name="versant" key="jdbc-inheritance">
+                <extension vendor-name="versant" key="jdbc-ref" value="id">
+                    <extension vendor-name="versant" key="jdbc-column">
+                        <extension vendor-name="versant" key="jdbc-column-name" value="idxx"/>
+                    </extension>
+                </extension>
+            </extension>
+        </class>
+    </package>
+    <package name="com.versant.core.jdo.junit.test3.model.attachdetach.fgtest">
+        <class name="Order">
+            <field name="lines">
+                <collection element-type="OrderLine">
+                    <extension vendor-name="versant" key="inverse" value="{auto}"/>
+                </collection>
+            </field>
+            <extension vendor-name="versant" key="fetch-group" value="test1111Ref">
+                <extension vendor-name="versant" key="field-name" value="customer">
+                    <extension vendor-name="versant" key="next-fetch-group" value="test1111Ref"/>
+                </extension>
+            </extension>
+            <extension vendor-name="versant" key="fetch-group" value="test1111Ref2">
+                <extension vendor-name="versant" key="field-name" value="customer">
+                    <extension vendor-name="versant" key="next-fetch-group" value="test1111Ref3"/>
+                </extension>
+            </extension>
+            <extension vendor-name="versant" key="fetch-group" value="testCol1">
+                <extension vendor-name="versant" key="field-name" value="customer">
+                    <extension vendor-name="versant" key="next-fetch-group" value="testCol1.1"/>
+                </extension>
+                <extension vendor-name="versant" key="field-name" value="lines">
+                    <extension vendor-name="versant" key="next-fetch-group" value="testCol1"/>
+                </extension>
+            </extension>
+        </class>
+        <class name="Customer" persistence-capable-superclass="Entity"/>
+        <class name="Address">
+            <extension vendor-name="versant" key="fetch-group" value="test1111Ref">
+                <extension vendor-name="versant" key="field-name" value="city">
+                    <extension vendor-name="versant" key="next-fetch-group" value="test1111Ref"/>
+                </extension>
+            </extension>
+            <extension vendor-name="versant" key="fetch-group" value="test1111Ref4">
+                <extension vendor-name="versant" key="field-name" value="city">
+                    <extension vendor-name="versant" key="next-fetch-group" value="test1111Ref5"/>
+                </extension>
+            </extension>
+            <extension vendor-name="versant" key="fetch-group" value="testCol1.1">
+                <extension vendor-name="versant" key="field-name" value="city"/>
+            </extension>
+            <extension vendor-name="versant" key="fetch-group" value="testCol1.2">
+                <extension vendor-name="versant" key="field-name" value="code"/>
+            </extension>
+            <extension vendor-name="versant" key="fetch-group" value="test9Fg1">
+                <extension vendor-name="versant" key="field-name" value="city"/>
+            </extension>
+            <extension vendor-name="versant" key="fetch-group" value="test9Fg2">
+                <extension vendor-name="versant" key="field-name" value="city"/>
+            </extension>
+            <extension vendor-name="versant" key="fetch-group" value="test9Fg3">
+                <extension vendor-name="versant" key="field-name" value="city"/>
+            </extension>
+            <extension vendor-name="versant" key="fetch-group" value="test9Fg4">
+                <extension vendor-name="versant" key="field-name" value="city"/>
+            </extension>
+            <extension vendor-name="versant" key="fetch-group" value="test9Fg5">
+                <extension vendor-name="versant" key="field-name" value="city"/>
+            </extension>
+            <extension vendor-name="versant" key="fetch-group" value="test9Fg6">
+                <extension vendor-name="versant" key="field-name" value="city"/>
+            </extension>
+            <extension vendor-name="versant" key="fetch-group" value="test9Fg7">
+                <extension vendor-name="versant" key="field-name" value="city"/>
+            </extension>
+            <extension vendor-name="versant" key="fetch-group" value="test9Fg8">
+                <extension vendor-name="versant" key="field-name" value="city"/>
+            </extension>
+            <extension vendor-name="versant" key="fetch-group" value="test9Fg9">
+                <extension vendor-name="versant" key="field-name" value="city"/>
+            </extension>
+        </class>
+        <class name="City">
+            <extension vendor-name="versant" key="fetch-group" value="test1111Ref">
+                <extension vendor-name="versant" key="field-name" value="name"/>
+            </extension>
+            <extension vendor-name="versant" key="fetch-group" value="test1111Ref5">
+                <extension vendor-name="versant" key="field-name" value="name"/>
+            </extension>
+        </class>
+        <class name="Entity">
+            <extension vendor-name="versant" key="fetch-group" value="test1111Ref">
+                <extension vendor-name="versant" key="field-name" value="address">
+                    <extension vendor-name="versant" key="next-fetch-group" value="test1111Ref"/>
+                </extension>
+            </extension>
+            <extension vendor-name="versant" key="fetch-group" value="test1111Ref3">
+                <extension vendor-name="versant" key="field-name" value="address">
+                    <extension vendor-name="versant" key="next-fetch-group" value="test1111Ref4"/>
+                </extension>
+            </extension>
+            <extension vendor-name="versant" key="fetch-group" value="testCol1.1">
+                <extension vendor-name="versant" key="field-name" value="address">
+                    <extension vendor-name="versant" key="next-fetch-group" value="testCol1.1"/>
+                </extension>
+            </extension>
+            <extension vendor-name="versant" key="fetch-group" value="testCol1.2">
+                <extension vendor-name="versant" key="field-name" value="address">
+                    <extension vendor-name="versant" key="next-fetch-group" value="testCol1.2"/>
+                </extension>
+            </extension>
+            <extension vendor-name="versant" key="fetch-group" value="test9Fg1">
+                <extension vendor-name="versant" key="field-name" value="address">
+                    <extension vendor-name="versant" key="next-fetch-group" value="test9Fg1"/>
+                </extension>
+            </extension>
+            <extension vendor-name="versant" key="fetch-group" value="test9Fg2">
+                <extension vendor-name="versant" key="field-name" value="address">
+                    <extension vendor-name="versant" key="next-fetch-group" value="test9Fg2"/>
+                </extension>
+            </extension>
+            <extension vendor-name="versant" key="fetch-group" value="test9Fg3">
+                <extension vendor-name="versant" key="field-name" value="address">
+                    <extension vendor-name="versant" key="next-fetch-group" value="test9Fg3"/>
+                </extension>
+            </extension>
+            <extension vendor-name="versant" key="fetch-group" value="test9Fg4">
+                <extension vendor-name="versant" key="field-name" value="address">
+                    <extension vendor-name="versant" key="next-fetch-group" value="test9Fg4"/>
+                </extension>
+            </extension>
+            <extension vendor-name="versant" key="fetch-group" value="test9Fg5">
+                <extension vendor-name="versant" key="field-name" value="address">
+                    <extension vendor-name="versant" key="next-fetch-group" value="test9Fg5"/>
+                </extension>
+            </extension>
+            <extension vendor-name="versant" key="fetch-group" value="test9Fg6">
+                <extension vendor-name="versant" key="field-name" value="address">
+                    <extension vendor-name="versant" key="next-fetch-group" value="test9Fg6"/>
+                </extension>
+            </extension>
+            <extension vendor-name="versant" key="fetch-group" value="test9Fg7">
+                <extension vendor-name="versant" key="field-name" value="address">
+                    <extension vendor-name="versant" key="next-fetch-group" value="test9Fg7"/>
+                </extension>
+            </extension>
+            <extension vendor-name="versant" key="fetch-group" value="test9Fg8">
+                <extension vendor-name="versant" key="field-name" value="address">
+                    <extension vendor-name="versant" key="next-fetch-group" value="test9Fg8"/>
+                </extension>
+            </extension>
+            <extension vendor-name="versant" key="fetch-group" value="test9Fg9">
+                <extension vendor-name="versant" key="field-name" value="address">
+                    <extension vendor-name="versant" key="next-fetch-group" value="test9Fg9"/>
+                </extension>
+            </extension>
+        </class>
+        <class name="OrderLine">
+            <extension vendor-name="versant" key="fetch-group" value="testCol1">
+                <extension vendor-name="versant" key="field-name" value="product">
+                    <extension vendor-name="versant" key="next-fetch-group" value="testCol1"/>
+                </extension>
+            </extension>
+        </class>
+        <class name="Product">
+            <extension vendor-name="versant" key="fetch-group" value="testCol1">
+                <extension vendor-name="versant" key="field-name" value="supplier">
+                    <extension vendor-name="versant" key="next-fetch-group" value="testCol1.2"/>
+                </extension>
+            </extension>
+        </class>
+        <class name="Supplier" persistence-capable-superclass="Entity">
+            <extension vendor-name="versant" key="fetch-group" value="testCol1.2">
+                <extension vendor-name="versant" key="field-name" value="supplierNo"/>
+            </extension>
+        </class>
+        <class name="SupplierHolder">
+            <extension vendor-name="versant" key="fetch-group" value="test9Fg">
+                <extension vendor-name="versant" key="field-name" value="supplier1">
+                    <extension vendor-name="versant" key="next-fetch-group" value="test9Fg1"/>
+                </extension>
+                <extension vendor-name="versant" key="field-name" value="supplier2">
+                    <extension vendor-name="versant" key="next-fetch-group" value="test9Fg2"/>
+                </extension>
+                <extension vendor-name="versant" key="field-name" value="supplier3">
+                    <extension vendor-name="versant" key="next-fetch-group" value="test9Fg3"/>
+                </extension>
+                <extension vendor-name="versant" key="field-name" value="supplier4">
+                    <extension vendor-name="versant" key="next-fetch-group" value="test9Fg4"/>
+                </extension>
+                <extension vendor-name="versant" key="field-name" value="supplier5">
+                    <extension vendor-name="versant" key="next-fetch-group" value="test9Fg5"/>
+                </extension>
+                <extension vendor-name="versant" key="field-name" value="supplier6">
+                    <extension vendor-name="versant" key="next-fetch-group" value="test9Fg6"/>
+                </extension>
+                <extension vendor-name="versant" key="field-name" value="supplier7">
+                    <extension vendor-name="versant" key="next-fetch-group" value="test9Fg7"/>
+                </extension>
+                <extension vendor-name="versant" key="field-name" value="supplier8">
+                    <extension vendor-name="versant" key="next-fetch-group" value="test9Fg8"/>
+                </extension>
+                <extension vendor-name="versant" key="field-name" value="supplier9">
+                    <extension vendor-name="versant" key="next-fetch-group" value="test9Fg9"/>
+                </extension>
+            </extension>
+        </class>
+    </package>
+    <package name="com.versant.core.jdo.junit.test3.model.attachdetach.externalizer">
+        <class name="CreditCard">
+            <field name="cardType" persistence-modifier="persistent">
+                <extension vendor-name="versant" key="externalizer" value="com.versant.core.jdo.junit.test3.model.attachdetach.externalizer.CardTypes$TypeExternalizer" />
+            </field>
+            <extension vendor-name="versant" key="fetch-group" value="all">
+                <extension vendor-name="versant" key="field-name" value="authorisationDigits" />
+                <extension vendor-name="versant" key="field-name" value="cardHolderName" />
+                <extension vendor-name="versant" key="field-name" value="cardNumber" />
+                <extension vendor-name="versant" key="field-name" value="cardType" />
+                <extension vendor-name="versant" key="field-name" value="expiryMonth" />
+                <extension vendor-name="versant" key="field-name" value="expiryYear" />
+            </extension>
+        </class>
+    </package>
+</jdo>
+

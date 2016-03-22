@@ -1,0 +1,25 @@
+# Workbench properties (Not used at run-time)
+versant.workbench.projectDescription=A simple 2 and 3 tier Swing demo
+versant.workbench.srcPath=src/
+versant.workbench.classpath.0=src/
+versant.workbench.classpath.1=bin/
+versant.workbench.classpath.2=../../../../../../../../Program Files/eclipse301/plugins/com.versant.voa_1.1.0/lib/openaccess.jar
+versant.workbench.classpath.3=../../../../../../../../Program Files/eclipse301/plugins/com.versant.voa_1.1.0/lib/jta.jar
+versant.workbench.classpath.4=lib/hsqldb.jar
+versant.workbench.antDisabled=true
+versant.workbench.antRunTarget=run
+
+# Open Access Class Diagrams
+versant.workbench.diagram.count=1
+
+versant.workbench.diagram0.name=Classes
+versant.workbench.diagram0.legend=287,2
+versant.workbench.diagram0.general=13,Y,Y
+versant.workbench.diagram0.class=Y,N,N,N,N,Y,N,Y,N,N,N,N,N,N,N,N,N
+versant.workbench.diagram0.field=Y,Y,N,N,N,N
+versant.workbench.diagram0.class.count=5
+versant.workbench.diagram0.class0=tut1.model.Category,56,224
+versant.workbench.diagram0.class1=tut1.model.Customer,112,8
+versant.workbench.diagram0.class2=tut1.model.Item,220,206
+versant.workbench.diagram0.class3=tut1.model.Order,7,108
+versant.workbench.diagram0.class4=tut1.model.OrderLine,171,95

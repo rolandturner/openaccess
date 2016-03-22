@@ -1,0 +1,87 @@
+<!--
+Demo showing a simple JUnit test for a JDO model.
+
+The test.TestContact class shows how to create a TestSuite that starts up
+and shuts down the JDO Genie server properly. It also sets the
+contextClassLoader for the current thread so that the JUnit GUI can
+reload classes.
+
+$Id: build.xml,v 1.1 2005/03/08 08:31:43 david Exp $
+-->
+
+<project name="junit" default="compile" basedir=".">
+
+    <!-- The path to junit.jar. Edit this if you have your own JUnit. -->
+    <property name="junit.jar" value="lib/junit.jar"/>
+
+    <property name="src" value="src"/>
+    <property name="build" value="build"/>
+    <property name="build.classes" value="${build}/classes"/>
+    <property name="jdo.project" value="versant.properties"/>
+    <property name="jdo.home" value="../.."/>
+    <property name="jdo.license" value="../../license"/>
+    <property name="jdo.lib" value="../../lib"/>
+    <property name="jdo.tools" value="../../tools"/>
+
+    <path id="cp">
+        <pathelement path="${src}"/>
+        <pathelement path="${build.classes}"/>
+        <pathelement path="${jdo.license}"/>
+        <pathelement path="${junit.jar}"/>
+        <fileset dir="${jdo.lib}" includes="**/*.jar"/>
+    </path>
+
+    <target name="clean"
+        description="Get rid of all generated files">
+        <delete dir="${build}"/>
+        <mkdir dir="${build.classes}"/>
+    </target>
+
+    <target name="init">
+        <mkdir dir="${build.classes}"/>
+        <!-- Put versant.properties project file on classpath -->
+        <copy file="${jdo.project}" todir="${build.classes}"/>
+        <!-- Define JDO Genie tasks (jdo-xxx) -->
+        <taskdef resource="versant.tasks">
+            <classpath>
+                <path refid="cp"/>
+                <fileset dir="${jdo.tools}" includes="**/*.jar"/>
+            </classpath>
+        </taskdef>
+    </target>
+
+    <target name="compile" depends="init"
+        description="Compile and enhance all Java sources">
+        <dependset>
+            <!-- Delete the classes if the JDO meta data has been changed.
+                 They need to be recompiled and enhanced. -->
+            <srcfileset dir="${src}" includes="**/*.jdo"/>
+            <targetfileset dir="${build.classes}" includes="**/*.class"/>
+        </dependset>
+        <javac srcdir="${src}" destdir="${build.classes}" classpathref="cp"/>
+        <jdo-enhance outputdir="${build.classes}">
+            <persistentaware dir="${build.classes}"/>
+        </jdo-enhance>
+    </target>
+
+    <target name="create-db" depends="compile"
+        description="Re-create database schema">
+        <jdo-create-db
+            outputdir="${build}"
+            droptables="*"
+            createtables="*"/>
+    </target>
+
+    <target name="test" depends="create-db"
+        description="Run the unit tests">
+        <java classname="junit.textui.TestRunner" classpathref="cp" fork="true">
+            <arg value="test.TestContact"/>
+        </java>
+    </target>
+
+    <target name="junit-gui" depends="create-db"
+        description="Run the JUnit Swing test runner">
+        <java classname="junit.swingui.TestRunner" classpathref="cp" fork="true"/>
+    </target>
+
+</project>

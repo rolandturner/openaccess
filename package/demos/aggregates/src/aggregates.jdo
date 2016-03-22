@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jdo>
+    <package name="aggregates.model">
+        <class name="Contact">
+            <query name="countryContactCounts" ordering="address.country.name ascending">
+                <result grouping="address.country.name having count(this) &gt;= n"><![CDATA[address.country.name, count(this)]]></result>
+                <declare parameters="Integer n"/>
+                <extension vendor-name="versant" key="query-param-values">
+                    <extension vendor-name="versant" key="value" value="3"/>
+                </extension>
+            </query>
+            <query name="all"/>
+        </class>
+        <class name="Address">
+            <query name="all"/>
+        </class>
+        <class name="Country">
+            <extension vendor-name="versant" key="cache-strategy" value="all"/>
+            <query name="all"/>
+            <query name="byCode">
+                <declare parameters="String c"/>
+                <extension vendor-name="versant" key="query-param-values">
+                    <extension vendor-name="versant" key="value" value="ZA"/>
+                </extension>
+                <filter><![CDATA[code == c]]></filter>
+            </query>
+        </class>
+    </package>
+</jdo>

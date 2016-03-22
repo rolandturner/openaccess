@@ -1,0 +1,46 @@
+<!--
+The JDBC store.
+-->
+<project name="jdbc" default="compile" basedir=".">
+
+    <import file="../common.xml"/>
+
+    <path id="cp.path">
+        <path location="../engine/build/classes"/>
+        <fileset dir="../engine/lib" includes="**/*.jar"/>
+        <path location="../ejbapi/build/classes"/>
+        <path location="../ejb/build/classes"/>
+        <fileset dir="lib.jdbc" includes="**/*.jar"/>
+    </path>
+
+    <target name="init">
+        <mkdir dir="build/classes"/>
+    </target>
+
+    <target name="clean">
+        <delete dir="build"/>
+    </target>
+
+    <target name="compile-deps" depends="init" unless="nodeps">
+        <ant target="compile" dir="../engine" />
+        <ant target="compile" dir="../ejb" />
+    </target>
+
+    <target name="compile" depends="compile-deps" description="Compile all sources">
+        <copy todir="build/classes">
+            <fileset dir="src" includes="*.properties"/>
+        </copy>
+        <javac srcdir="src" destdir="build/classes"
+            source="1.3"
+            target="1.3"
+            compiler="modern"
+            debug="on"
+            optimize="${javac.optimize}"
+            debuglevel="${javac.debuglevel}">
+            <classpath>
+                <path refid="cp.path"/>
+            </classpath>
+        </javac>
+    </target>
+
+</project>

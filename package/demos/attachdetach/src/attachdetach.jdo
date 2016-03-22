@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jdo>
+    <package name="attachdetach.model">
+        <class name="Address">
+            <extension vendor-name="versant" key="fetch-group" value="demo">
+                <extension vendor-name="versant" key="field-name" value="city"/>
+            </extension>
+        </class>
+        <class name="Contact">
+            <extension vendor-name="versant" key="fetch-group" value="demo">
+                <extension vendor-name="versant" key="field-name" value="address">
+                    <extension vendor-name="versant" key="next-fetch-group" value="demo"/>
+                </extension>
+                <extension vendor-name="versant" key="field-name" value="age"/>
+                <extension vendor-name="versant" key="field-name" value="email"/>
+                <extension vendor-name="versant" key="field-name" value="name"/>
+                <extension vendor-name="versant" key="field-name" value="phone"/>
+            </extension>
+        </class>
+        <class name="Country"/>
+    </package>
+</jdo>
+

@@ -1,0 +1,803 @@
+options {
+  JAVA_UNICODE_ESCAPE = true;
+  UNICODE_INPUT = false;
+  STATIC = false;
+  CHOICE_AMBIGUITY_CHECK = 5;
+}
+
+PARSER_BEGIN(EJBQLParser)
+
+package com.versant.core.ejb.query;
+
+public class EJBQLParser {
+
+    public static void main(String[] args) {
+        try {
+            EJBQLParser parser = new EJBQLParser(System.in);
+            System.out.println("Type some input and Ctrl-D to parse :");
+            Node q = parser.ejbqlQuery();
+            System.out.println("\nparser.ejbqlQuery():\n" + q);
+        } catch (Exception x) {
+            x.printStackTrace(System.out);
+            System.exit(1);
+        }
+    }
+
+}
+
+PARSER_END(EJBQLParser)
+
+SKIP : /* WHITE SPACE */
+{
+  	" "
+	| "\t"
+	| "\n"
+	| "\r"
+	| "\f"
+}
+
+TOKEN : /* SEPARATORS */
+{
+	< LPAREN: "(" >
+	| < RPAREN: ")" >
+	| < LBRACE: "{" >
+	| < RBRACE: "}" >
+	| < LBRACKET: "[" >
+	| < RBRACKET: "]" >
+	| < SEMICOLON: ";" >
+	| < COMMA: "," >
+	| < DOT: "." >
+	| < QUESTION: "?" >
+	| < COLON: ":" >
+	| < EQ: "=" >
+	| < LT: "<" >
+	| < LE: "<=" >
+	| < GT: ">" >
+	| < GE: ">=" >
+	| < NE: "<>" >
+}
+
+TOKEN : /* RESERVED WORDS - keep reservedWord() production in sync */
+{
+	< SELECT: ("SELECT"|"select") >
+	| < FROM: ("FROM"|"from") >
+	| < DISTINCT: ("DISTINCT"|"distinct") >
+	| < OBJECT: ("OBJECT"|"object") >
+	| < LEFT: ("LEFT"|"left") >
+	| < OUTER: ("OUTER"|"outer") >
+	| < INNER: ("INNER"|"inner") >
+	| < JOIN: ("JOIN"|"join") >
+	| < FETCH: ("FETCH"|"fetch") >
+	| < IN: ("IN"|"in") >
+	| < AS: ("AS"|"as") >
+	| < UPDATE: ("UPDATE"|"update") >
+	| < SET: ("SET"|"set") >
+	| < DELETE: ("DELETE"|"delete") >
+	| < NEW: ("NEW"|"new") >
+	| < AVG: ("AVG"|"avg") >
+	| < MAX: ("MAX"|"max") >
+	| < MIN: ("MIN"|"min") >
+	| < SUM: ("SUM"|"sum") >
+	| < COUNT: ("COUNT"|"count") >
+	| < WHERE: ("WHERE"|"where") >
+	| < GROUP: ("GROUP"|"group") >
+	| < BY: ("BY"|"by") >
+	| < HAVING: ("HAVING"|"having") >
+	| < OR: ("OR"|"or") >
+	| < AND: ("AND"|"and") >
+	| < NOT: ("NOT"|"not") >
+	| < BETWEEN: ("BETWEEN"|"between") >
+	| < LIKE: ("LIKE"|"like") >
+	| < ESCAPE: ("ESCAPE"|"escape") >
+	| < IS: ("IS"|"is") >
+	| < EMPTY: ("EMPTY"|"empty") >
+	| < MEMBER: ("MEMBER"|"member") >
+	| < OF: ("OF"|"of") >
+	| < EXISTS: ("EXISTS"|"exists") >
+	| < ALL: ("ALL"|"all") >
+	| < ANY: ("ANY"|"any") >
+	| < SOME: ("SOME"|"some") >
+	| < CONCAT: ("CONCAT"|"concat") >
+	| < SUBSTRING: ("SUBSTRING"|"substring") >
+	| < TRIM: ("TRIM"|"trim") >
+	| < LOWER: ("LOWER"|"lower") >
+	| < UPPER: ("UPPER"|"upper") >
+	| < LEADING: ("LEADING"|"leading") >
+	| < TRAILING: ("TRAILING"|"trailing") >
+	| < BOTH: ("BOTH"|"both") >
+	| < LENGTH: ("LENGTH"|"length") >
+	| < LOCATE: ("LOCATE"|"locate") >
+	| < ABS: ("ABS"|"abs") >
+	| < SQRT: ("SQRT"|"sqrt") >
+	| < MOD: ("MOD"|"mod") >
+	| < BIT_LENGTH: ("BIT_LENGTH"|"bit_length") >
+	| < CURRENT_DATE: ("CURRENT_DATE"|"current_date") >
+	| < CURRENT_TIME: ("CURRENT_TIME"|"current_time") >
+	| < CURRENT_TIMESTAMP: ("CURRENT_TIMESTAMP"|"current_timestamp") >
+	| < ORDER: ("ORDER"|"order") >
+	| < ASC: ("ASC"|"asc") >
+	| < DESC: ("DESC"|"desc") >
+}
+
+TOKEN : /* LITERALS */
+{
+	< DECIMAL_LITERAL: ["1"-"9"] (["0"-"9"])* (["l","L"])? >
+	|
+	  < HEX_LITERAL: "0" ["x","X"] (["0"-"9","a"-"f","A"-"F"])+ (["l","L"])? >
+	|
+	  < OCTAL_LITERAL: "0" (["0"-"7"])* >
+	|
+	  < FLOATING_POINT_LITERAL:
+			(["0"-"9"])+ "." (["0"-"9"])* (<EXPONENT>)? (["f","F","d","D"])?
+		  | "." (["0"-"9"])+ (<EXPONENT>)? (["f","F","d","D"])?
+		  | (["0"-"9"])+ <EXPONENT> (["f","F","d","D"])?
+		  | (["0"-"9"])+ (<EXPONENT>)? ["f","F","d","D"]
+	  >
+	|
+	  < #EXPONENT: ["e","E"] (["+","-"])? (["0"-"9"])+ >
+	|
+	  < CHARACTER_LITERAL:
+		  "'"
+		  (   (~["'","\\","\n","\r"])
+			| ("\\"
+				( ["n","t","b","r","f","\\","'","\""]
+				| ["0"-"7"] ( ["0"-"7"] )?
+				| ["0"-"3"] ["0"-"7"] ["0"-"7"]
+				)
+			  )
+		  )*
+		  "'"
+	  >
+	| < NULL: ("null" | "NULL") >
+
+	| <BOOLEAN_LITERAL: "true" | "false" >
+
+	|
+	  < STRING_LITERAL:
+		  "\""
+		  (   (~["\"","\\","\n","\r"])
+			| ("\\"
+				( ["n","t","b","r","f","\\","'","\""]
+				| ["0"-"7"] ( ["0"-"7"] )?
+				| ["0"-"3"] ["0"-"7"] ["0"-"7"]
+				)
+			  )
+		  )*
+		  "\""
+	  >
+}
+
+TOKEN : /* IDENTIFIERS */
+{
+  	< IDENTIFIER: <LETTER> (<LETTER>|<DIGIT>)* >
+	| < #LETTER: ["_","a"-"z","A"-"Z"] 	>
+	| < #DIGIT:  ["0"-"9"]>
+}
+
+Node ejbqlQuery():
+{
+    Node q;
+}
+{
+    ( q = selectStatement()
+    | q = updateStatement()
+    | q = deleteStatement()
+    )
+    (<EOF> | <SEMICOLON>)
+    { return q; }
+}
+
+SelectNode selectStatement():
+{
+    boolean distinct = false;
+    Node selectList = null, fromList = null, orderBy = null, where = null;
+    Node cur, prev;
+    Node groupBy = null, having = null;
+}
+{
+    <SELECT> [ <DISTINCT> { distinct = true; } ]
+    selectList = selectExpression() { prev = selectList; }
+    ( <COMMA> cur = selectExpression() { prev.setNext(cur); prev = cur; } )*
+    fromList = fromClause()
+    [ <WHERE> where = conditionalExpression() ]
+    [ groupBy = groupByClause() [ <HAVING> having = conditionalExpression() ] ]
+    [ orderBy = orderByClause() ]
+    { return new SelectNode(distinct, selectList, fromList, where,
+        groupBy, having, orderBy); }
+}
+
+DeleteNode deleteStatement():
+{
+    Token schemaName, id = null;
+    SetNode updateList, prev, cur;
+    Node where = null;
+}
+{
+    <DELETE> <FROM> schemaName = <IDENTIFIER> [ [ <AS> ] id = <IDENTIFIER> ]
+    [ <WHERE> where = conditionalExpression() ]
+    { return new DeleteNode(schemaName.image, id == null ? null : id.image,
+            where); }
+}
+
+UpdateNode updateStatement():
+{
+    Token schemaName, id = null;
+    SetNode updateList, prev, cur;
+    Node where = null;
+}
+{
+    <UPDATE> schemaName = <IDENTIFIER> [ [ <AS> ] id = <IDENTIFIER> ]
+    <SET> updateList = updateExpression() { prev = updateList; }
+    ( <COMMA> cur = updateExpression() { prev.setNext(cur); prev = cur; } ) *
+    [ <WHERE> where = conditionalExpression() ]
+    { return new UpdateNode(schemaName.image, id == null ? null : id.image,
+            updateList, where); }
+}
+
+SetNode updateExpression():
+{
+    Token id = null, field;
+    Node value;
+}
+{
+    [ LOOKAHEAD(2) id = <IDENTIFIER> <DOT> ] field = <IDENTIFIER>
+    <EQ> value = expression()
+    { return new SetNode(id == null ? null : id.image, field.image, value); }
+}
+
+Node fromClause():
+{
+    Node fromList = null, cur, prev;
+}
+{
+    <FROM>
+    fromList = identificationVarDeclaration() { prev = fromList; }
+    ( LOOKAHEAD(2) <COMMA>
+        ( cur = identificationVarDeclaration()
+        | cur = collectionMemberDeclaration()
+        ) { prev.setNext(cur); prev = cur; }
+    ) *
+    { return fromList; }
+}
+
+Node orderByClause():
+{
+    Node list = null, cur, prev;
+}
+{
+    <ORDER> <BY>
+    list = pathExpression(PathNode.ORDER_BY) { prev = list; }
+    ( <COMMA> cur = pathExpression(PathNode.ORDER_BY) { prev.setNext(cur); prev = cur; } ) *
+    { return list; }
+}
+
+Node groupByClause():
+{
+    Node list = null, cur, prev;
+}
+{
+    <GROUP> <BY>
+    list = pathExpression(PathNode.GROUP_BY) { prev = list; }
+    ( LOOKAHEAD(2) <COMMA> cur = pathExpression(PathNode.GROUP_BY) { prev.setNext(cur); prev = cur; } ) *
+    { return list; }
+}
+
+Node selectExpression():
+{
+    Node e;
+    Token t;
+}
+{
+    ( e = pathExpression(PathNode.SELECT)
+    | <OBJECT> <LPAREN> t = <IDENTIFIER> <RPAREN> { e = new ObjectNode(t.image); }
+    | e = aggregateSelectExpression()
+    | e = constructorExpression()
+    )
+    { return e; }
+}
+
+PathNode pathExpression(int parentType):
+{
+    PathNode e = new PathNode(parentType);
+    Token t;
+}
+{
+    t = <IDENTIFIER> { e.add(t.image); }
+    ( <DOT> ( t = <IDENTIFIER> | t = reservedWord() ) { e.add(t.image); } ) *
+    { return e; }
+}
+
+AggregateNode aggregateSelectExpression():
+{
+    int op;
+    boolean distinct = false;
+    PathNode path;
+}
+{
+    ( <AVG>     { op = AggregateNode.AVG; }
+    | <MAX>     { op = AggregateNode.MAX; }
+    | <MIN>     { op = AggregateNode.MIN; }
+    | <SUM>     { op = AggregateNode.SUM; }
+    | <COUNT>   { op = AggregateNode.COUNT; }
+    )
+    <LPAREN>
+    [ <DISTINCT> { distinct = true; } ]
+    path = pathExpression(PathNode.AGGREGATE)
+    <RPAREN>
+    { return new AggregateNode(op, distinct, path); }
+}
+
+ConstructorNode constructorExpression():
+{
+    Token t;
+    ConstructorNode e;
+    Node cur, prev;
+}
+{
+    <NEW> t = <IDENTIFIER>
+    <LPAREN>
+    ( prev = pathExpression(PathNode.CONSTRUCTOR)
+    | prev = aggregateSelectExpression()
+    ) { e = new ConstructorNode(t.image, prev); }
+    ( <COMMA>
+        ( cur = pathExpression(PathNode.CONSTRUCTOR)
+        | cur = aggregateSelectExpression()
+        ) { prev.setNext(cur); prev = cur; }
+    ) *
+    <RPAREN>
+    { return e; }
+}
+
+IdentificationVarNode identificationVarDeclaration():
+{
+    Token t, t2;
+    JoinNode list = null, prev = null, cur;
+}
+{
+    t = <IDENTIFIER> [ <AS> ] t2 = <IDENTIFIER>
+    ( cur = join() {
+        if (list == null) { list = prev = cur; }
+        else { prev.setNext(cur); prev = cur; }
+    } ) *
+    { return new IdentificationVarNode(t.image, t2.image, list); }
+}
+
+JoinNode join():
+{
+    boolean outer = false;
+    PathNode path;
+    Token t = null;
+}
+{
+    [ ( <LEFT> [ <OUTER> ] { outer = true; } ) | <INNER> ] <JOIN>
+    ( ( <FETCH> path = pathExpression(PathNode.JOIN) )
+    | ( path = pathExpression(PathNode.JOIN) [ <AS> ] t = <IDENTIFIER> )
+    )
+    { return new JoinNode(outer, t == null, path, t == null ? null : t.image); }
+}
+
+CollectionMemberNode collectionMemberDeclaration():
+{
+    PathNode path;
+    Token t;
+}
+{
+    <IN> <LPAREN> path = pathExpression(PathNode.COLLECTION_MEMBER) <RPAREN>
+    [ <AS> ] t = <IDENTIFIER>
+    { return new CollectionMemberNode(path, t.image); }
+}
+
+Node conditionalExpression():
+{
+    Node e, e2;
+}
+{
+    e = conditionalTerm()
+    [ LOOKAHEAD(2) <OR> e2 = conditionalExpression() { e.setNext(e2); e = new OrNode(e); } ]
+    { return e; }
+}
+
+Node conditionalTerm():
+{
+    Node e, e2;
+}
+{
+    e = conditionalFactor()
+    [ LOOKAHEAD(2) <AND> e2 = conditionalTerm() { e.setNext(e2); e = new AndNode(e); } ]
+    { return e; }
+}
+
+Node conditionalFactor():
+{
+    Node e;
+    boolean not = false;
+}
+{
+    [ <NOT> { not = true; } ]
+    ( LOOKAHEAD(2) e = simpleCondExpression()
+    | ( <LPAREN> e = conditionalExpression() <RPAREN> { e = new ParenNode(e); }
+      )
+    )
+    { return not ? new NotNode(e) : e; }
+}
+
+Node simpleCondExpression():
+{
+    Node left, e;
+}
+{
+    ( ( left = expression()
+        ( e = compExpression(left)
+        | LOOKAHEAD(2) e = betweenExpression(left)
+        | LOOKAHEAD(2) e = likeExpression(left)
+        | LOOKAHEAD(2) e = inExpression(left)
+        | e = memberCompExpression(left)
+        | LOOKAHEAD(3) e = emptyCompExpression(left)
+        | e = nullCompExpression(left)
+        )
+      )
+    | e = existsExpression()
+    )
+    { return e; }
+}
+
+Node betweenExpression(Node arg):
+{
+    Node from, to;
+    boolean not = false;
+}
+{
+    <BETWEEN> from = expression() <AND> to = expression()
+    { return new BetweenNode(arg, not, from, to); }
+}
+
+Node inExpression(Node path):
+{
+    boolean not = false;
+    Node list;
+}
+{
+    <IN> <LPAREN> ( list = subquery() | list = inList() ) <RPAREN>
+    { return new InNode(path, not, list); }
+}
+
+Node inList():
+{
+    Node list = null, prev = null, cur;
+}
+{
+    ( cur = literal() | cur = inputParameter() )
+        { list = prev = cur; }
+    ( <COMMA> ( cur = literal() | cur = inputParameter() )
+        { prev.setNext(cur); prev = cur; }
+    ) *
+    { return list; }
+}
+
+LiteralNode literal():
+{
+    LiteralNode e;
+    Token t;
+}
+{
+    ( t = <DECIMAL_LITERAL> { e = new LiteralNode(LiteralNode.LONG, t.image); }
+    | t = <HEX_LITERAL> { e = new LiteralNode(LiteralNode.LONG, t.image); }
+    | t = <FLOATING_POINT_LITERAL> { e = new LiteralNode(LiteralNode.DOUBLE, t.image); }
+    | t = <CHARACTER_LITERAL> { e = new LiteralNode(LiteralNode.STRING, t.image); }
+    | t = <STRING_LITERAL> { e = new LiteralNode(LiteralNode.STRING, t.image); }
+    | t = <BOOLEAN_LITERAL> { e = new LiteralNode(LiteralNode.BOOLEAN, t.image); }
+    )
+    { return e; }
+}
+
+ParameterNode inputParameter():
+{
+    Token t;
+    boolean positional = false;
+}
+{
+    ( <QUESTION> t = <DECIMAL_LITERAL> { positional = true; }
+    | <COLON> t = <IDENTIFIER> )
+    { return new ParameterNode(positional, t.image); }
+}
+
+LikeNode likeExpression(Node path):
+{
+    boolean not = false;
+    Node pattern, escape = null;
+}
+{
+    <LIKE> ( pattern = literal() | pattern = inputParameter() )
+    [ <ESCAPE> ( escape = literal() | escape = inputParameter() ) ]
+    { return new LikeNode(path, not, pattern, escape); }
+}
+
+NullCompNode nullCompExpression(Node arg):
+{
+    boolean not = false;
+}
+{
+    <IS> [ <NOT> { not = true; } ] <NULL>
+    { return new  NullCompNode(arg, not); }
+}
+
+EmptyCompNode emptyCompExpression(Node path):
+{
+    boolean not = false;
+}
+{
+    <IS> [ <NOT> { not = true; } ] <EMPTY>
+    { return new  EmptyCompNode(path, not); }
+}
+
+MemberCompNode memberCompExpression(Node arg):
+{
+    boolean not = false;
+    PathNode path;
+}
+{
+    <MEMBER> [ <OF> ] path = pathExpression(PathNode.WHERE)
+    { return new MemberCompNode(arg, not, path); }
+}
+
+ExistsNode existsExpression():
+{
+    boolean not = false;
+    SelectNode sub;
+}
+{
+    <EXISTS> <LPAREN> sub = subquery() <RPAREN>
+    { return new ExistsNode(not, sub); }
+}
+
+SelectNode subquery():
+{
+    boolean distinct = false;
+    Node selectList = null, fromList = null, where = null, groupBy = null;
+    Node having = null;
+}
+{
+    <SELECT> [ <DISTINCT> { distinct = true; } ]
+    selectList = selectExpression()
+    fromList = fromClause()
+    [ LOOKAHEAD(2) <WHERE> where = conditionalExpression() ]
+    [ LOOKAHEAD(2) groupBy = groupByClause() [ <HAVING> having = conditionalExpression() ] ]
+    { return new SelectNode(distinct, selectList, fromList, where,
+        groupBy, having, null); }
+}
+
+AllOrAnyNode allOrAnyExpression():
+{
+    boolean all = false;
+    SelectNode sub;
+}
+{
+    ( <ALL> { all = true; } | <ANY> | <SOME> )
+    <LPAREN> sub = subquery() <RPAREN>
+    { return new AllOrAnyNode(all, sub); }
+}
+
+Node compExpression(Node left):
+{
+    Node right;
+    int op;
+}
+{
+    ( <EQ> { op = CompNode.EQ; }
+    | <LT> { op = CompNode.LT; }
+    | <LE> { op = CompNode.LE; }
+    | <GT> { op = CompNode.GT; }
+    | <GE> { op = CompNode.GE; }
+    | <NE> { op = CompNode.NE; }
+    )
+    ( right = expression()
+    | right = allOrAnyExpression()
+    )
+    { return new CompNode(left, op, right); }
+}
+
+Node expression():
+{
+    Node left, right;
+    int op;
+}
+{
+    left = term()
+    [ LOOKAHEAD(2) ( "+" { op = AddNode.ADD; }
+      | "-" { op = AddNode.SUBTRACT; }
+      )  right = expression() { left = new AddNode(left, op, right); } ]
+    { return left; }
+}
+
+Node term():
+{
+    Node left, right;
+    int op;
+}
+{
+    left = factor()
+    [ LOOKAHEAD(2) ( "*" { op = MultiplyNode.MULTIPLY; }
+      | "/" { op = MultiplyNode.DIVIDE; }
+      )  right = term() { left = new MultiplyNode(left, op, right); } ]
+    { return left; }
+}
+
+Node factor():
+{
+    boolean neg = false;
+    Node e;
+}
+{
+    [ ( "+" | "-" { neg = true; } ) ]
+    ( e = pathExpression(PathNode.WHERE)
+    | e = literal()
+/*    | ( <LPAREN> e = expression() <RPAREN> { e = new ParenNode(e); } )  */
+    | ( <LPAREN> e = subquery() <RPAREN> )
+    | e = inputParameter()
+    | e = numericFunction()
+    | e = stringFunction()
+    | e = dateFunction()
+    )
+    { return neg ? new UnaryMinusNode(e) : e; }
+}
+
+StringFunctionNode stringFunction():
+{
+    Node arg1, arg2, arg3;
+    int trimSpec = 0;
+    LiteralNode trimChar = null;
+    StringFunctionNode f;
+}
+{
+    ( ( <CONCAT> <LPAREN>
+      arg1 = expression()
+      <COMMA> arg2 = expression() { arg1.setNext(arg2); }
+      { f = new StringFunctionNode(StringFunctionNode.CONCAT, arg1); }
+      )
+    | ( <SUBSTRING> <LPAREN>
+      arg1 = expression()
+      <COMMA> arg2 = expression() { arg1.setNext(arg2); }
+      <COMMA> arg3 = expression() { arg2.setNext(arg3); }
+      { f = new StringFunctionNode(StringFunctionNode.SUBSTRING, arg1); }
+      )
+    | ( <LOWER> <LPAREN>
+      arg1 = expression()
+      { f = new StringFunctionNode(StringFunctionNode.LOWER, arg1); }
+      )
+    | ( <UPPER> <LPAREN>
+      arg1 = expression()
+      { f = new StringFunctionNode(StringFunctionNode.UPPER, arg1); }
+      )
+    | ( <TRIM> <LPAREN>
+      ( ( <LEADING> { trimSpec = StringFunctionNode.TRIM_LEADING; }
+        | <TRAILING> { trimSpec = StringFunctionNode.TRIM_TRAILING; }
+        | <BOTH> { trimSpec = StringFunctionNode.TRIM_BOTH; }
+        )
+        trimChar = literal()
+        <FROM>
+      ) ?
+      arg1 = expression()
+      { f = new StringFunctionNode(trimSpec, trimChar, arg1); }
+      )
+    )
+    <RPAREN>
+    { return f; }
+}
+
+NumericFunctionNode numericFunction():
+{
+    Node arg1, arg2, arg3;
+    NumericFunctionNode f;
+}
+{
+    ( ( <LENGTH> <LENGTH>
+      arg1 = expression()
+      { f = new NumericFunctionNode(NumericFunctionNode.LENGTH, arg1); }
+      )
+    | ( <ABS> <ABS>
+      arg1 = expression()
+      { f = new NumericFunctionNode(NumericFunctionNode.ABS, arg1); }
+      )
+    | ( <SQRT> <SQRT>
+      arg1 = expression()
+      { f = new NumericFunctionNode(NumericFunctionNode.SQRT, arg1); }
+      )
+    | ( <BIT_LENGTH> <BIT_LENGTH>
+      arg1 = expression()
+      { f = new NumericFunctionNode(NumericFunctionNode.BIT_LENGTH, arg1); }
+      )
+    | ( <MOD> <MOD>
+      arg1 = expression()
+      <COMMA> arg2 = expression() { arg1.setNext(arg2); }
+      { f = new NumericFunctionNode(NumericFunctionNode.MOD, arg1); }
+      )
+    | ( <LOCATE> <LOCATE>
+      arg1 = expression()
+      <COMMA> arg2 = expression() { arg1.setNext(arg2); }
+      [ <COMMA> arg3 = expression() { arg2.setNext(arg3); } ]
+      { f = new NumericFunctionNode(NumericFunctionNode.LOCATE, arg1); }
+      )
+    )
+    <RPAREN>
+    { return f; }
+}
+
+DateFunctionNode dateFunction():
+{
+    int function;
+}
+{
+    ( <CURRENT_DATE> { function = DateFunctionNode.CURRENT_DATE; }
+    | <CURRENT_TIME> { function = DateFunctionNode.CURRENT_TIME; }
+    | <CURRENT_TIMESTAMP> { function = DateFunctionNode.CURRENT_TIMESTAMP; }
+    )
+    { return new DateFunctionNode(function); }
+}
+
+
+Token reservedWord():
+{
+    Token t;
+}
+{
+    ( t = <SELECT>
+    | t = <FROM>
+    | t = <DISTINCT>
+    | t = <OBJECT>
+    | t = <LEFT>
+    | t = <OUTER>
+    | t = <INNER>
+    | t = <JOIN>
+    | t = <FETCH>
+    | t = <IN>
+    | t = <AS>
+    | t = <UPDATE>
+    | t = <SET>
+    | t = <DELETE>
+    | t = <NEW>
+    | t = <AVG>
+    | t = <MAX>
+    | t = <MIN>
+    | t = <SUM>
+    | t = <COUNT>
+    | t = <WHERE>
+    | t = <GROUP>
+    | t = <BY>
+    | t = <HAVING>
+    | t = <OR>
+    | t = <AND>
+    | t = <NOT>
+    | t = <BETWEEN>
+    | t = <LIKE>
+    | t = <ESCAPE>
+    | t = <IS>
+    | t = <EMPTY>
+    | t = <MEMBER>
+    | t = <OF>
+    | t = <EXISTS>
+    | t = <ALL>
+    | t = <ANY>
+    | t = <SOME>
+    | t = <CONCAT>
+    | t = <SUBSTRING>
+    | t = <TRIM>
+    | t = <LOWER>
+    | t = <UPPER>
+    | t = <LEADING>
+    | t = <TRAILING>
+    | t = <BOTH>
+    | t = <LENGTH>
+    | t = <LOCATE>
+    | t = <ABS>
+    | t = <SQRT>
+    | t = <MOD>
+    | t = <BIT_LENGTH>
+    | t = <CURRENT_DATE>
+    | t = <CURRENT_TIME>
+    | t = <CURRENT_TIMESTAMP>
+    | t = <ORDER>
+    | t = <ASC>
+    | t = <DESC>
+    )
+    { return t; }
+}

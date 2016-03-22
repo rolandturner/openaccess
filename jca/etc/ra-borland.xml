@@ -1,0 +1,29 @@
+<!DOCTYPE connector PUBLIC "-//Borland Softward Corporation//DTD Connector 1.0//EN"
+    "http://www.borland.com/devsupport/appserver/dtds/connector_1_0-borland.dtd">
+
+<!--
+This sample ra-borland.xml must be included in the META-INF/ra-borland.xml
+virtual folder of the rar.
+Deploy this using Borland's console tool or iastool.
+-->
+
+<connector>
+	<connection-factory>
+		<factory-name>Versant Open Access</factory-name>
+		<factory-description>Versant Open Access JCA Adapter</factory-description>
+
+        <!--The JNDI name of openaccess-->
+		<jndi-name>serial://jdo/openaccess</jndi-name>
+
+        <logging-enabled>true</logging-enabled>
+        <log-file-name>openaccess.log</log-file-name>
+
+        <pool-parameters>
+            <initial-capacity>0</initial-capacity>
+            <capacity-delta>1</capacity-delta>
+            <maximum-capacity>50</maximum-capacity>
+            <cleanup-enabled>false</cleanup-enabled>
+        </pool-parameters>
+
+	</connection-factory>
+</connector>

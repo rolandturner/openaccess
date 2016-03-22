@@ -1,0 +1,19 @@
+# Workbench properties (Not used at run-time)
+versant.workbench.projectDescription=An Apache Struts/JSP web application with Swing GUI client.
+versant.workbench.classpath.0=src
+versant.workbench.classpath.1=webapp/WEB-INF/classes
+
+# Open Access Class Diagrams
+versant.workbench.diagram.count=1
+
+versant.workbench.diagram0.name=All
+versant.workbench.diagram0.legend=402,100
+versant.workbench.diagram0.general=13,Y,Y
+versant.workbench.diagram0.class=Y,N,Y,N,N,Y,N,Y,N,N,N,N,N,N,N,N,N
+versant.workbench.diagram0.field=Y,Y,N,N,N,N
+versant.workbench.diagram0.class.count=5
+versant.workbench.diagram0.class0=com.versant.testcenter.model.Administrator,9,183
+versant.workbench.diagram0.class1=com.versant.testcenter.model.Exam,181,11
+versant.workbench.diagram0.class2=com.versant.testcenter.model.ExamCategory,406,12
+versant.workbench.diagram0.class3=com.versant.testcenter.model.Student,119,169
+versant.workbench.diagram0.class4=com.versant.testcenter.model.SystemUser,35,8

@@ -1,0 +1,107 @@
+# Queries used to test the JavaCC generated parser.
+# These have all been extracted from the EJB 3 spec. Use blank lines to
+# separate queries and start a line with a # for a comment.
+# Syntax: query_name: query text until next blank line
+
+# Examples from 3.15
+
+e01: SELECT o FROM Order o
+
+e02: SELECT o FROM Order o WHERE o.shipping_address.state =  CA
+
+e03: SELECT DISTINCT o.shipping_address.state FROM Order o
+
+e04: SELECT DISTINCT o FROM Order o, IN(o.lineItems) l
+
+e05: SELECT o FROM Order o WHERE o.lineItems IS NOT EMPTY
+
+e05a: SELECT o FROM Order o WHERE o.lineItems.a.b.c.d.e.f IS NOT EMPTY
+
+e06: SELECT o FROM Order o WHERE o.lineItems IS EMPTY
+
+e07: SELECT DISTINCT o FROM Order o JOIN o.lineItems l WHERE l.shipped = FALSE
+
+e08: SELECT o FROM Order o WHERE NOT (o.shipping_address.state = o.billing_address.state AND o.shipping_address.city = o.billing_address.city AND o.shipping_address.street = o.billing_address.street)
+
+e08a: SELECT o FROM Order o WHERE NOT (o.shipping_address.state.a.b.c.d.e = o.billing_address.state AND o.shipping_address.city = o.billing_address.city AND o.shipping_address.street = o.billing_address.street)
+
+e09: SELECT o FROM Order o WHERE o.shipping_address <> o.billing_address
+
+e10:
+SELECT DISTINCT o FROM Order o JOIN o.lineItems l
+WHERE l.product.type =  book
+  AND l.product.name = 'Applying Enterprise JavaBeans: Component-Based Development for the J2EE Platform'
+
+e11:
+SELECT DISTINCT o FROM Order o, IN(o.lineItems) l WHERE l.product.name = ?1
+
+# Misc queries listed in chapter 3 (excluding the examples section)
+
+q01: SELECT DISTINCT o FROM Order AS o JOIN o.lineItems AS l WHERE l.shipped = FALSE
+
+q02: SELECT DISTINCT o FROM Order o JOIN o.lineItems l JOIN l.product p WHERE p.product_type =  office_supplies
+
+q03: SELECT DISTINCT o1 FROM Order o1, Order o2 WHERE o1.quantity > o2.quantity AND o2.customer.lastname =  Smith  AND o2.customer.firstname=  John
+
+q04: SELECT DISTINCT l.product FROM Order AS o, IN(o.lineItems) l
+
+q05: SELECT c FROM Customer c JOIN c.orders o WHERE c.status = 1
+
+q06: SELECT c FROM Customer c INNER JOIN c.orders o WHERE c.status = 1
+
+q07: SELECT OBJECT(c) FROM Customer c, IN(c.orders) o WHERE c.status = 1
+
+q08: SELECT c FROM Customer c LEFT JOIN c.orders o WHERE c.status = 1
+
+q09: SELECT c FROM Customer c LEFT OUTER JOIN c.orders o WHERE c.status = 1
+
+q10: SELECT DISTINCT c FROM Customer c LEFT JOIN FETCH c.orders WHERE c.address.state =  CA
+
+q11: SELECT DISTINCT o FROM Order o JOIN o.lineItems l JOIN l.product p WHERE p.product_type =  office_supplies
+
+q12: SELECT DISTINCT o FROM Order o, IN(o.lineItems) l WHERE l.product.product_type =  office_supplies
+
+q13: SELECT o FROM Order AS o, IN(o.lineItems) l, Product p
+
+q14: SELECT c FROM Customer c WHERE c.status = :stat
+
+q15: SELECT OBJECT(o) FROM Order o, IN(o.lineItems) l WHERE o.lineItems IS EMPTY
+
+q16: SELECT DISTINCT emp FROM Employee emp WHERE EXISTS ( SELECT spouseEmp FROM Employee spouseEmp WHERE spouseEmp = emp.spouse)
+
+q17: SELECT emp FROM Employee emp WHERE emp.salary > ALL ( SELECT m.salary FROM Manager m WHERE m.department = emp.department)
+
+q18: SELECT DISTINCT emp FROM Employee emp WHERE EXISTS ( SELECT spouseEmp FROM Employee spouseEmp WHERE spouseEmp = emp.spouse)
+
+q19: SELECT goodCustomer FROM Customer goodCustomer WHERE goodCustomer.balanceOwed < ( SELECT avg(c.balanceOwed) FROM Customer c)
+
+q20:
+SELECT c.status, avg(c.filledOrderCount), count(c) FROM Customer c GROUP BY c.status HAVING c.status IN (1, 2)
+
+q21: SELECT NEW CustomerDetails(c.id, c.status, o.count) FROM Customer c JOIN c.orders o WHERE o.count > 100
+
+q22: SELECT AVG(o.quantity) FROM Order o
+
+q23: SELECT SUM(l.price) FROM Order o JOIN o.lineItems l JOIN o.customer c WHERE c.lastname =  Smith  AND c.firstname =  John
+
+q24: SELECT COUNT(o) FROM Order o
+
+q25: SELECT COUNT(l.price) FROM Order o JOIN o.lineItems l JOIN o.customer c WHERE c.lastname =  Smith  AND c.firstname =  John
+
+q26: SELECT COUNT(l) FROM Order o JOIN o.lineItems l JOIN o.customer c WHERE c.lastname =  Smith  AND c.firstname =  John  AND l.price IS NOT NULL
+
+q27: SELECT o FROM Customer c JOIN c.orders o JOIN c.address a WHERE a.state =  CA  ORDER BY o.quantity, o.totalcost
+
+q28: SELECT o.quantity, a.zipcode FROM Customer c JOIN c.orders o JOIN c.address a WHERE a.state =  CA  ORDER BY o.quantity, a.zipcode
+
+q29:
+DELETE FROM Customer c
+WHERE c.status =  inactive
+  AND (NOT EXISTS (SELECT c FROM Customer c JOIN c.orders o))
+
+q30: DELETE FROM Customer c WHERE c.status =  inactive  AND c.orders IS EMPTY
+
+q31:
+UPDATE customer c
+SET c.status =  outstanding
+WHERE c.balance < 10000 AND 1000 > (SELECT COUNT(o) FROM customer cust JOIN cust.order o)

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jdo>
+    <package name="model">
+        <class name="Module" />
+        <class name="Registration">
+            <field name="modules">
+                <collection element-type="Module">
+                    <extension vendor-name="versant" key="ordering" value="title ascending" />
+                </collection>
+            </field>
+            <field name="subject" />
+        </class>
+        <class name="Student">
+            <field name="registrations" default-fetch-group="true">
+                <collection element-type="Registration">
+                    <extension vendor-name="versant" key="inverse" value="student" />
+                    <extension vendor-name="versant" key="ordering" value="subject.name ascending" />
+                </collection>
+                <extension vendor-name="versant" key="dependent" value="true" />
+            </field>
+            <extension vendor-name="versant" key="jdbc-index">
+                <extension vendor-name="versant" key="field-name" value="name" />
+            </extension>
+            <extension vendor-name="versant" key="fetch-group" value="name_only">
+                <extension vendor-name="versant" key="field-name" value="name" />
+            </extension>
+        </class>
+        <class name="Subject">
+            <field name="modules">
+                <collection element-type="Module">
+                    <extension vendor-name="versant" key="inverse" value="subject" />
+                    <extension vendor-name="versant" key="ordering" value="title ascending" />
+                </collection>
+            </field>
+        </class>
+    </package>
+</jdo>
+

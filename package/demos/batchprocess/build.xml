@@ -1,0 +1,96 @@
+<!--
+This demo shows various ways of modifying a large number of objects under
+constrained memory conditions.
+
+It is configured to work with MySQL on the local machine out of the box.
+Hypersonic uses a lot of memory when returning query results and fakes
+setMaxRows() so it is not suitable for this sort of demo.
+
+Usage:
+
+ant insert-data
+- populate database with data to process
+
+ant run1
+- process batch using queryForBatchesOfObjects method
+
+ant run2
+- process batch using flushAtIntervals method
+
+-->
+
+<project name="batchprocess" default="compile" basedir=".">
+
+    <property name="src" value="src"/>
+    <property name="build" value="build"/>
+    <property name="classes" value="build/classes"/>
+    <property name="jdo.project" value="versant.properties"/>
+    <property name="jdo.home" value="../.."/>
+
+    <path id="cp">
+        <pathelement path="${classes}"/>
+        <pathelement path="${src}"/>
+        <fileset dir="${jdo.home}/lib" includes="**/*.jar"/>
+        <pathelement path="${jdo.home}/license" />
+    </path>
+
+    <target name="clean"
+        description="Get rid of all generated files">
+        <delete dir="${classes}"/>
+        <delete dir="${build}"/>
+    </target>
+
+    <target name="init">
+        <mkdir dir="${build}"/>
+        <mkdir dir="${classes}"/>
+        <copy file="${jdo.project}" todir="${classes}"/>
+        <!-- Define Open Access tasks (jdo-xxx) -->
+        <taskdef resource="versant.tasks">
+            <classpath>
+                <path refid="cp"/>
+                <fileset dir="${jdo.home}/tools" includes="**/*.jar"/>
+            </classpath>
+        </taskdef>
+    </target>
+
+    <target name="compile" depends="init"
+        description="Compile and enhance all Java sources">
+        <dependset>
+            <!-- Delete the classes if the JDO meta data has been changed.
+                 They need to be recompiled and enhanced. -->
+            <srcfileset dir="${src}" includes="**/*.jdo"/>
+            <targetfileset dir="${classes}" includes="**/*.class"/>
+        </dependset>
+        <javac srcdir="${src}" destdir="${classes}" classpathref="cp"/>
+        <jdo-enhance outputdir="${classes}"/>
+    </target>
+
+    <target name="create-db" depends="compile"
+        description="Re-create database schema">
+        <jdo-create-db
+            outputdir="${build}"
+            droptables="true"
+            createtables="true"/>
+    </target>
+
+    <target name="insert-data" depends="create-db" description="Insert test data">
+        <java classname="util.InsertTestData" classpathref="cp" fork="true"/>
+    </target>
+
+    <target name="run1" depends="compile" description="Run: queryForBatchesOfObjects">
+        <java classname="util.BatchProcess" classpathref="cp" fork="true">
+            <arg value="1"/>
+            <jvmarg value="-Xmx16m"/>
+            <jvmarg value="-Xms16m"/>
+        </java>
+    </target>
+
+    <target name="run2" depends="compile" description="Run: flushAtIntervals">
+        <java classname="util.BatchProcess" classpathref="cp" fork="true">
+            <arg value="2"/>
+            <jvmarg value="-Xmx16m"/>
+            <jvmarg value="-Xms16m"/>
+        </java>
+    </target>
+
+</project>

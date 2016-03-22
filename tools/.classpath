@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/engine"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/jdbc"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/vds"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Ant 1.6.2"/>
+	<classpathentry kind="output" path="build/classes"/>
+</classpath>

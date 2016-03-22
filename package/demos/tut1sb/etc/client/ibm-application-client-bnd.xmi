@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<clientbnd:ApplicationClientBinding xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:clientbnd="clientbnd.xmi" xmlns:client="client.xmi" xmlns:commonbnd="commonbnd.xmi" xmlns:common="common.xmi" xmi:id="Application-client_ID_Bnd">
+  <applicationClient href="META-INF/application-client.xml#Application-client_ID"/>
+  <ejbRefs xmi:id="EjbRefBinding_1" jndiName="Tut1">
+    <bindingEjbRef href="META-INF/application-client.xml#EjbRef_1"/>
+  </ejbRefs>
+</clientbnd:ApplicationClientBinding>

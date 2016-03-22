@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+    <!DOCTYPE application PUBLIC "-//Borland Software Corporation//DTD J2EE Application 1.3//EN"
+    "http://www.borland.com/devsupport/appserver/dtds/application_1_3-borland.dtd">
+
+<application>
+    <module>
+        <connector>openaccess.rar</connector>
+        <hosts>*</hosts>
+    </module>
+    <module>
+        <java>tut1client.jar</java>
+        <hosts>*</hosts>
+    </module>
+    <module>
+        <ejb>tut1sb.jar</ejb>
+        <hosts>*</hosts>
+    </module>
+</application>

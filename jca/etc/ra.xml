@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE connector PUBLIC '-//Sun Microsystems, Inc.//DTD Connector 1.0//EN' 'http://java.sun.com/dtd/connector_1_0.dtd'>
+
+<connector>
+    <display-name>Versant Open Access</display-name>
+    <description>Versant Open Access JCA Adapter</description>
+    <vendor-name>Versant</vendor-name>
+    <spec-version>1.0</spec-version>
+    <eis-type>JDO</eis-type>
+    <version>@JDO.VERSION@</version>
+    <resourceadapter>
+        <managedconnectionfactory-class>com.versant.core.jdo.jca.ManagedPMConnectionFactory</managedconnectionfactory-class>
+        <connectionfactory-interface>com.versant.core.jdo.VersantPersistenceManagerFactory</connectionfactory-interface>
+        <connectionfactory-impl-class>com.versant.core.jdo.jca.PMConnectionFactory</connectionfactory-impl-class>
+        <connection-interface>com.versant.core.jdo.VersantPersistenceManager</connection-interface>
+        <connection-impl-class>com.versant.core.jdo.jca.PMConnection</connection-impl-class>
+
+        <transaction-support>XATransaction</transaction-support>
+
+        <config-property>
+            <description>Name of properties resource used to create the PMF.</description>
+            <config-property-name>PropertiesResource</config-property-name>
+            <config-property-type>java.lang.String</config-property-type>
+            <config-property-value>versant.properties</config-property-value>
+        </config-property>
+
+        <config-property>
+            <description>Newline separated list of key=value pairs to override matching properties from the properties resource.</description>
+            <config-property-name>Properties</config-property-name>
+            <config-property-type>java.lang.String</config-property-type>
+            <config-property-value></config-property-value>
+        </config-property>
+
+        <config-property>
+            <description>Attempt to force connection matching based on transactions, only 'true' for WebSphere 5</description>
+            <config-property-name>ForceConnectionMatching</config-property-name>
+            <config-property-type>java.lang.Boolean</config-property-type>
+            <config-property-value>false</config-property-value>
+        </config-property>
+
+        <authentication-mechanism>
+            <authentication-mechanism-type>BasicPassword</authentication-mechanism-type>
+            <credential-interface>javax.resource.security.PasswordCredential</credential-interface>
+        </authentication-mechanism>
+
+        <reauthentication-support>false</reauthentication-support>
+    </resourceadapter>
+</connector>

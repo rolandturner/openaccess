@@ -1,0 +1,67 @@
+<!--
+A simple entity-mappings persistence tutorial.
+-->
+
+<project name="entity-mappings" default="compile" basedir=".">
+
+    <property name="src" value="src"/>
+    <property name="build" value="build"/>
+    <property name="build.classes" value="${build}/classes"/>
+    <property name="props" value="persistence.xml"/>
+    <property name="mappings" value="entity-mappings.xml"/>
+    <property name="oa.home" value="../../build/package"/>
+    <property name="oa.license" value="${oa.home}/license"/>
+    <property name="oa.lib" value="${oa.home}/lib"/>
+    <property name="oa.tools" value="${oa.home}/tools"/>
+
+    <path id="cp">
+        <pathelement path="${src}"/>
+        <pathelement path="${build.classes}"/>
+        <pathelement path="${oa.license}"/>
+        <fileset dir="${oa.lib}" includes="**/*.jar"/>
+    </path>
+
+    <target name="clean"
+        description="Get rid of all generated files">
+        <delete dir="${build}"/>
+        <mkdir dir="${build.classes}"/>
+    </target>
+
+    <target name="init">
+        <mkdir dir="${build.classes}"/>
+        <copy file="${props}" todir="${build.classes}"/>
+        <copy file="${mappings}" todir="${build.classes}"/>
+        <taskdef resource="versant.tasks">
+            <classpath>
+                <path refid="cp"/>
+                <fileset dir="${oa.tools}" includes="**/*.jar"/>
+            </classpath>
+        </taskdef>
+    </target>
+
+    <target name="compile" depends="init"
+        description="Compile and enhance all Java sources">
+        <javac srcdir="${src}" destdir="${build.classes}" classpathref="cp"
+            source="1.5"
+            target="1.5"
+            compiler="modern"
+            debug="on"
+            debuglevel="lines,vars,source"/>
+        <jdo-enhance outputdir="${build.classes}"/>
+    </target>
+
+    <target name="create-db" depends="compile"
+        description="Re-create database schema">
+        <jdo-create-db
+            outputdir="${build}"
+            droptables="*"
+            createtables="*"/>
+
+    </target>
+
+    <target name="run" depends="create-db"
+        description="Run the application">
+        <java classname="Main" classpathref="cp" fork="true"/>
+    </target>
+
+</project>

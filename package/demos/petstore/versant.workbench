@@ -1,0 +1,16 @@
+# Workbench properties (Not used at run-time)
+versant.workbench.projectDescription=The pet store demo
+versant.workbench.classpath.0=web/WEB-INF/classes
+versant.workbench.classpath.1=src
+versant.workbench.classpath.2=web/WEB-INF/lib/struts.jar
+versant.workbench.classpath.3=web/WEB-INF/lib/struts-layout.jar
+versant.workbench.classpath.4=web/WEB-INF/lib/servlet.jar
+versant.workbench.classpath.5=web/WEB-INF/lib/jdbc2_0-stdext.jar
+versant.workbench.classpath.6=web/WEB-INF/lib/commons-validator.jar
+versant.workbench.classpath.7=web/WEB-INF/lib/commons-services.jar
+versant.workbench.classpath.8=web/WEB-INF/lib/commons-pool.jar
+versant.workbench.classpath.9=web/WEB-INF/lib/commons-logging.jar
+versant.workbench.classpath.10=web/WEB-INF/lib/commons-digester.jar
+versant.workbench.classpath.11=web/WEB-INF/lib/commons-dbcp.jar
+versant.workbench.classpath.12=web/WEB-INF/lib/commons-collections.jar
+versant.workbench.classpath.13=web/WEB-INF/lib/commons-beanutils.jar

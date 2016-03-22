@@ -1,0 +1,7 @@
+# Workbench properties (Not used at run-time)
+versant.workbench.projectDescription=Using JDO Genie and JiBX to persist XML messages
+versant.workbench.srcPath=src
+versant.workbench.classpath.0=src
+versant.workbench.classpath.1=build/classes
+versant.workbench.classpath.2=../../../../../../usr/local/jibx/lib/xpp3.jar
+versant.workbench.classpath.3=../../../../../../usr/local/jibx/lib/jibx-run.jar

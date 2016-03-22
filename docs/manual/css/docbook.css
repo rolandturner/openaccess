@@ -1,0 +1,1158 @@
+﻿
+
+/* 
+ * Complete DocBook 4.1 Stylesheet: the part which complements sdocbook.css.
+ *
+ * Brian Lalonde <brian@webcoder.info>, 2002-03-08
+ */
+
+@import "sdocbook.css";
+
+/* 
+    Simple inlines (no styling required): 
+    action
+    application 
+    artpagenums  
+    citerefentry 
+    city 
+    classname 
+    collabname 
+    country 
+    database 
+    errorcode 
+    errorname 
+    errortype 
+    exceptionname 
+    fax 
+    funcdef 
+    function 
+    hardware 
+    initializer 
+    inlineequation 
+    inlineequation > alt 
+    interfaceinterfacename 
+    invpartnumber 
+    isbn 
+    issn 
+    medialabelmethodname 
+    modifier 
+    mousebutton 
+    ooclass 
+    ooexception 
+    oointerface
+    pagenums 
+    parameter 
+    phone 
+    pob 
+    postcode 
+    productname 
+    productnumber 
+    prompt 
+    property
+    pubsnumber 
+    refname 
+    returnvalue 
+    seriesvolnums 
+    state 
+    street 
+    structfield 
+    structname 
+    wordasword 
+*/
+
+accel {
+    text-decoration: underline; 
+}
+
+ackno,
+address,
+answer,
+areaset,
+areaspec,
+beginpage,
+biblioentry,
+biblioset,
+book,
+bridgehead,
+callout,
+calloutlist,
+caution,
+chapter,
+classsynopsis,
+classsynopsisinfo,
+cmdsynopsis,
+collab,
+colophon,
+confdates,
+confgroup,
+confnum,
+confsponsor,
+conftitle,
+constructorsynopsis,
+contractnum,
+contrib,
+contractsponsor,
+corpname,
+dedication,
+destructorsynopsis,
+equation,
+equation > alt,
+fieldsynopsis,
+formalpara,
+funcprototype,
+funcsynopsis,
+funcsynopsisinfo,
+glossary,
+glossdef,
+glossdiv,
+glossentry,
+glosslist,
+glosssee,
+glossseealso,
+glossentry > glossterm,
+graphic,
+graphicco,
+highlights,
+important,
+index,
+indexdiv,
+indexentry,
+informalequation,
+informalequation > alt,
+informalexample,
+informalfigure,
+lot,
+lotentry,
+methodsynopsis,
+modespec,
+msg,
+msgaud,
+msgentry,
+msgexplan,
+msginfo,
+msglevel,
+msgmain,
+msgorig,
+msgrel,
+msgset,
+msgsub,
+msgtext,
+orgdiv,
+otheraddr,
+part,
+preface,
+primaryie,
+printhistory,
+procedure,
+programlistingco,
+publisher,
+qandadiv,
+qandaentry,
+qandaset,
+question,
+refclass,
+refdescriptor,
+refentry,
+refentrytitle,
+reference,
+refmeta,
+refmiscinfo,
+refnamediv,
+refsect1,
+refsect2,
+refsect3,
+refsynopsisdiv,
+revdescription,
+screen,
+screenco,
+screeninfo,
+screenshot,
+secondaryie,
+sect1,
+sect2,
+sect3,
+sect4,
+sect5,
+seealsoie,
+seeie,
+set,
+setindex,
+shortaffil,
+simpara,
+simplemsgentry,
+simplesect,
+simplelist[type=horiz],
+simplelist[type=vert],
+step,
+substeps,
+synopsis,
+tertiaryie,
+tip,
+toc,
+tocback,
+tocchap,
+tocentry,
+tocfront,
+toclevel1,
+toclevel2,
+toclevel3,
+toclevel4,
+toclevel5,
+tocpart,
+warning {
+    display: block;
+}
+
+ackno {
+    font-style: italic; 
+}
+
+ackno,
+refentry {
+    border: thin solid; 
+    border-color: 
+    silver transparent transparent; 
+    margin-bottom: 1ex; 
+    padding-top: .6ex; 
+}
+
+address,
+address *,
+biblioentry,
+classsynopsis,
+classsynopsisinfo,
+funcsynopsis,
+funcsynopsisinfo,
+programlistingco,
+screen,
+screenco,
+synopsis {
+    white-space: pre; 
+}
+
+anchor:before {
+    content: icon(left-target); 
+    vertical-align: text-top; 
+    color: olive; 
+}
+
+answer,
+question {
+    margin-left: 4ex; 
+}
+
+answer:before {
+    content: "A:"; 
+}
+
+answer:before,
+question:before { 
+    display: marker; 
+    color: olive; 
+    font-weight: bold; 
+}
+
+answer > *:first-child,
+question > *:first-child { 
+    margin-top: 0; 
+    margin-bottom: 0; 
+}
+
+appendixinfo,
+biblioentry,
+bibliographyinfo,
+biblioset,
+bookinfo,
+chapterinfo,
+glossaryinfo,
+indexinfo,
+partinfo,
+prefaceinfo,
+refentryinfo,
+referenceinfo,
+refsect1info,
+refsect2info,
+refsect3info,
+refsynopsisdivinfo,
+screeninfo,
+sect1info,
+sect2info,
+sect3info,
+sect4info,
+sect5info,
+setinfo,
+sidebarinfo { 
+    display: block; 
+    background-color: #EEF; 
+    border: thin solid blue; 
+    padding: .6ex; 
+}
+
+appendixinfo > title, 
+chapter > title, 
+chapterinfo > title, 
+glossary > title, 
+glossaryinfo > title, 
+reference > title, 
+referenceinfo > title {
+    font-size: 2em; 
+}
+
+appendixinfo > title,
+biblioentry > title,
+bibliographyinfo > title,
+biblioset > title,
+bookinfo > title,
+chapterinfo > title,
+glossaryinfo > title,
+indexinfo > title,
+partinfo > title,
+prefaceinfo > title,
+refentryinfo > title,
+referenceinfo > title,
+refsect1info > title,
+refsect2info > title,
+refsect3info > title,
+refsynopsisdivinfo > title,
+screeninfo > title,
+sect1info > title,
+sect2info > title,
+sect3info > title,
+sect4info > title,
+sect5info > title,
+setinfo > title,
+sidebarinfo > title,
+appendixinfo > subtitle,
+biblioentry > subtitle, 
+bibliographyinfo > subtitle,
+biblioset > subtitle,
+bookinfo > subtitle,
+chapterinfo > subtitle,
+glossaryinfo > subtitle,
+indexinfo > subtitle,
+partinfo > subtitle,
+prefaceinfo > subtitle,
+refentryinfo > subtitle,
+referenceinfo > subtitle,
+refsect1info > subtitle,
+refsect2info > subtitle,
+refsect3info > subtitle,
+refsynopsisdivinfo > subtitle,
+screeninfo > subtitle,
+sect1info > subtitle,
+sect2info > subtitle,
+sect3info > subtitle,
+sect4info > subtitle,
+sect5info > subtitle,
+setinfo > subtitle,
+sidebarinfo > subtitle,
+appendixinfo > titleabbrev,
+biblioentry > titleabbrev, 
+bibliographyinfo > titleabbrev,
+biblioset > titleabbrev,
+bookinfo > titleabbrev,
+chapterinfo > titleabbrev,
+glossaryinfo > titleabbrev,
+indexinfo > titleabbrev,
+partinfo > titleabbrev,
+prefaceinfo > titleabbrev,
+refentryinfo > titleabbrev,
+referenceinfo > titleabbrev,
+refsect1info > titleabbrev,
+refsect2info > titleabbrev,
+refsect3info > titleabbrev,
+refsynopsisdivinfo > titleabbrev,
+screeninfo > titleabbrev,
+sect1info > titleabbrev,
+sect2info > titleabbrev,
+sect3info > titleabbrev,
+sect4info > titleabbrev,
+sect5info > titleabbrev,
+setinfo > titleabbrev,
+sidebarinfo > titleabbrev { 
+    margin-left: 0; 
+}
+
+appendixinfo > *,
+biblioentry > *,
+bibliographyinfo > *,
+biblioset > *,
+bookinfo > *,
+chapterinfo > *,
+glossaryinfo > *,
+indexinfo > *,
+partinfo > *,
+prefaceinfo > *,
+refentryinfo > *,
+referenceinfo > *,
+refsect1info > *,
+refsect2info > *,
+refsect3info > *,
+refsynopsisdivinfo > *,
+screeninfo > *,
+sect1info > *,
+sect2info > *,
+sect3info > *,
+sect4info > *,
+sect5info > *,
+setinfo > *,
+sidebarinfo > * { 
+    display: block; 
+    margin-left: 18ex; 
+}
+
+appendixinfo > title:before { 
+    content: "Appendix " counter(n-,upper-alpha) ": "; 
+}
+
+area, 
+co {
+    content: icon(left-half-disc) counter(n) icon(right-half-disc); 
+    color: olive; 
+}
+
+areaspec:before {
+    content: "areas "; 
+    color: olive; 
+    font-weight: bold; 
+}
+
+arg:before {
+    content: " "; 
+}
+
+arg[choice=opt]:after {
+    content: "]"; 
+}
+
+arg[choice=opt]:before,
+group:before {
+    content: " ["; 
+}
+
+arg[choice=req]:after {
+    content: "}"; 
+}
+
+arg[choice=req]:before,
+group[choice=req]:before {
+    content: " {"; 
+}
+
+artpagenums:before, 
+collab:before, 
+confgroup:before, 
+contractnum:before, 
+contractsponsor:before, 
+corpname:before, 
+invpartnumber:before, 
+isbn:before, 
+issn:before, 
+itermset:before, 
+pagenums:before, 
+printhistory:before, 
+productname:before, 
+productnumber:before, 
+publisher:before, 
+seriesvolnums:before { 
+    color: blue; 
+    display: marker; 
+    font-size: small; 
+}
+
+artpagenums:before { 
+    content: "Art. Pages: "; 
+}
+
+beginpage {
+    border: thin solid; 
+    border-width: thin 0 0; 
+}
+
+book,
+chapter,
+part,
+sect1,
+set {
+    margin: 1ex; 
+}
+
+* book,
+* chapter,
+* part,
+* sect1 {
+    margin: 0; 
+}
+
+book > title, 
+bookinfo > title, 
+setindex > title, 
+setindexinfo > title { 
+    font-size: 3em; 
+}
+
+bridgehead,
+conftitle { 
+    color: maroon;
+    font-size: larger; 
+    font-weight: bold; 
+}
+
+callout {
+    margin-left: 6ex; 
+}
+
+callout > *:first-child {
+    margin-top: 0; 
+    margin-bottom: 0; 
+}
+
+calloutlist > callout:before, 
+synopfragment:before {
+    display: marker; 
+    content: icon(left-half-disc) counter(n) icon(right-half-disc); 
+    color: olive; 
+}
+
+caution,
+important,
+tip,
+warning {
+    margin-left: 14ex; 
+}
+
+caution:before {
+    content: "caution "; 
+    display: marker; 
+    color: olive; 
+}
+
+chapter > title:before, 
+chapterinfo > title:before { 
+    content: "Chapter " counter(n-,decimal) ": "; 
+}
+
+citation:after,
+optional:after {
+    content: "]"; 
+}
+
+citation:before,
+optional:before {
+    content: "["; 
+}
+
+classsynopsis,
+classsynopsisinfo,
+funcsynopsis,
+funcsynopsisinfo,
+programlistingco,
+screen,
+screenco,
+synopsis {
+    font-family: monospace; 
+    font-size: .83em; 
+}
+
+collab:before { 
+    content: "Collaborator: "; 
+}
+
+confgroup { 
+    border: thin solid blue; 
+}
+
+confgroup:before {
+    content: "Conference: "; 
+}
+
+constant,
+envar,
+function,
+initializer,
+keycode,
+keysym,
+markup,
+methodname,
+methodparam,
+ooclass,
+ooexception,
+oointerface,
+parameter,
+property,
+sgmltag,
+symbol,
+token,
+type,
+varname {
+    font-family: monospace; 
+    font-size: .83em; 
+}
+
+contractnum:before {
+    content: "Contract: "; 
+}
+
+contractsponsor:before {
+    content: "Sponsor: "; 
+}
+
+corpname:before {
+    content: "Corporation: "; 
+}
+
+entrytbl {
+    display: table; 
+    border: thin inset gray; 
+    padding: 2; 
+}
+
+firstterm,
+foreignphrase,
+glossterm {
+    font-style: italic; 
+}
+
+footnoteref {
+    content: icon(right-link); 
+}
+
+formalpara,
+simpara {
+    margin-top: 1.33ex; 
+    margin-bottom: 1.33ex; 
+}
+
+formalpara > * {
+    margin-top: 0; 
+    margin-bottom: 0; 
+}
+
+formalpara > title {
+    font-weight: bold; 
+}
+
+funcparams:before,
+manvolnum:before,
+shortcut:before {
+    content: "("; 
+}
+
+funcparams:after,
+manvolnum:after,
+shortcut:after {
+    content: ")"; 
+}
+
+glossdef,
+glosssee,
+glossseealso {
+    margin-left: 4ex; 
+}
+
+glossdef > *:first-child {
+    margin-top: 0; 
+    margin-bottom: 0; 
+}
+
+glossentry {
+    margin-top: 1ex; 
+    margin-bottom: 1ex; 
+}
+
+glossentry > glossterm {
+    font-weight: bold; 
+    display: block; 
+}
+
+glossentry > glossterm {
+    font-style: normal; 
+}
+
+graphic,
+inlinegraphic {
+    content: image(attr(fileref),-400,-200); 
+}
+
+graphic {
+    margin-left: auto; 
+    margin-right: auto; 
+}
+
+group:after {
+    content: " ]"; 
+}
+
+group[choice=req]:after {
+    content: " }"; 
+}
+
+group > arg:first-child:before {
+    content: " "; 
+}
+
+group > arg[choice=opt]:first-child:before {
+    content: " ["; 
+}
+
+group > arg[choice=req]:first-child:before {
+    content: " {"; 
+}
+
+group > arg:before {
+    content: " | "; 
+}
+
+group > arg[choice=opt]:before {
+    content: " | ["; 
+}
+
+group > arg[choice=req]:before {
+    content: " | {"; 
+}
+
+guibutton,
+guiicon,
+guilabel,
+guimenu,
+guimenuitem,
+guisubmenu,
+keycap,
+shortcut {
+    font-weight: bold; 
+}
+
+important:before {
+    content: "important "; 
+    display: marker; 
+    color: olive; 
+}
+
+indexterm {
+    color: olive; 
+}
+
+indexterm:after {
+    content: "]"; 
+    color: olive; 
+}
+
+indexterm:before {
+    content: "[indexterm: "; 
+    color: olive; 
+}
+
+invpartnumber:before {
+    content: "Inv. Part# "; 
+}
+
+isbn:before {
+    content: "ISBN: "; 
+}
+
+issn:before {
+    content: "ISSN: "; 
+}
+
+itermset:before {
+    content: "Index Terms: "; 
+}
+
+itermset > indexterm:first-child:before {
+    content: ""; 
+}
+
+itermset > indexterm:before {
+    content: ", "; 
+}
+
+itermset > indexterm:after {
+    content: ""; 
+}
+
+itermset > indexterm {
+    color: inherit; 
+}
+
+keycombo *:before {
+    content: "+"; 
+    color: olive; 
+}
+
+keycombo *:first-child:before {
+    content: "" !important; 
+}
+
+keycombo[action=seq] *:before {
+    content: ","; 
+}
+
+label {
+    color: olive; 
+}
+
+mediaobjectco {
+    display: table; 
+}
+
+mediaobjectco > * {
+    display: table-cell; 
+}
+
+menuchoice > *:first-child:before {
+    content: ""; 
+}
+
+menuchoice > *:before {
+    content: " >> "; 
+}
+
+methodparam:before,
+paramdef:before {
+    content: " "; 
+}
+
+olink,
+olink *,
+synopfragmentref,
+synopfragmentref * {
+    color: navy; 
+    text-decoration: underline; 
+}
+
+pagenums:before {
+    content: "Pages: "; 
+}
+
+part > title, 
+partinfo > title { 
+    font-size: 2.5em; 
+}
+
+part > title:before, 
+partinfo > title:before { 
+    content: "Part " counter(n-,upper-roman) "\A"; 
+}
+
+printhistory:before {
+    content: "Printings: "; 
+}
+
+procedure {
+    margin-left: 2ex; 
+    margin-top: 1.33ex; 
+    margin-bottom: 1.33ex; 
+}
+
+procedure > step, 
+substeps > step {
+    margin-left: 6ex; 
+}
+
+procedure > step:before {
+    display: marker; 
+    content: counter(n, decimal); 
+    font-weight: bold; 
+}
+
+productname:before {
+    content: "Product: "; 
+}
+
+productnumber:before {
+    content: "Product # "; 
+}
+
+programlistingco,
+screen,
+screenco {
+    margin: 1ex; 
+    padding: .6ex; 
+    background-color: #EEE; 
+    border: thin solid gray; 
+}
+
+prompt {
+    font-family: monospace; 
+    font-size: .83em; 
+} 
+
+publisher:before {
+    content: "Publisher: "; 
+}
+
+qandaentry {
+    margin-top: 1.33ex; 
+    margin-bottom: 1.33ex; 
+}
+
+question {
+    font-style: italic; 
+}
+
+question:before {
+    content: "Q:"; 
+    font-style: normal; 
+}
+
+refpurpose:before {
+    content: " -- "; 
+}
+
+remark {
+    font-style: italic; 
+    color: red; 
+}
+
+revdescription {
+    margin: 0 0 1ex 3ex; 
+    padding: 0; 
+}
+
+revdescription > *:first-child {
+    margin-top: 0; 
+    margin-bottom: 0; 
+}
+
+sbr {
+    content: "\A"; 
+}
+
+secondary:before,
+tertiary:before {
+    content: "/"; 
+}
+
+secondaryie,
+seealsoie,
+seeie {
+    margin-left: 2ex; 
+}
+
+sect1 > title, 
+sect1info > title { 
+    font-size: 1.5em; 
+    margin: .83ex 0; 
+}
+
+sect1 > title:before, 
+sect1info > title:before { 
+    content: counter(n-) " "; 
+}
+
+sect2 > title, 
+sect2info > title { 
+    font-size: 1.2em; 
+    margin: 1ex 0; 
+}
+
+sect2 > title:before, 
+sect2info > title:before { 
+    content: counter(nn-) " "; 
+}
+
+sect3 > title, 
+sect3info > title, 
+sect4 > title, 
+sect4info > title, 
+sect5 > title, 
+sect5info > title { 
+    font-size: 1em; 
+    margin: 1.33ex 0; 
+}
+
+sect3 > title:before, 
+sect3info > title:before { 
+    content: counter(nnn-) " "; 
+}
+
+sect4 > title:before, 
+sect4info > title:before { 
+    content: counter(nnnn-) " "; 
+}
+
+sect5 > title:before, 
+sect5info > title:before { 
+    content: ""; 
+}
+
+seeie:before {
+    content: "see "; 
+    color: olive; 
+}
+
+seealsoie:before {
+    content: "see also "; 
+    color: olive; 
+}
+
+see:before {
+    content: " see "; 
+    color: olive; 
+}
+
+seealso:before {
+    content: " see also "; 
+    color: olive; 
+}
+
+seg {
+    display: table-cell; 
+    border: thin inset gray; 
+    padding: 2; 
+}
+
+seg > *:first-child,
+segtitle > *:first-child {
+    margin-top: 0; 
+    margin-bottom: 0; 
+}
+
+seglistitem {
+    display: table-row; 
+    vertical-align: eval(attr(valign)); 
+}
+
+segmentedlist {
+    display: table; 
+    margin: 1.2ex 0; 
+}
+
+segmentedlist > title {
+    display: table-caption; 
+}
+
+segtitle {
+    font-weight: bold; 
+    display: table-cell; 
+}
+
+set > title, 
+setinfo > title { 
+    font-size: 4em; 
+    margin: 1em; 
+}
+
+sgmltag {
+    color: green; 
+}
+
+sgmltag[class=element]:before,
+sgmltag[class=emptytag]:before,
+sgmltag[class=starttag]:before {
+    content: "<"; 
+}
+
+sgmltag[class=element]:after,
+sgmltag[class=endtag]:after,
+sgmltag[class=starttag]:after {
+    content: ">"; 
+}
+
+sgmltag[class=emptytag]:after {
+    content: " />"; 
+}
+
+sgmltag[class=endtag]:before {
+    content: "</"; 
+}
+
+sgmltag[class=genentity]:before {
+    content: "&"; 
+}
+
+sgmltag[class=paramentity]:before {
+    content: "%"; 
+}
+
+sgmltag[class=genentity]:after,
+sgmltag[class=paramentity]:after {
+    content: ";"; 
+}
+
+sgmltag[class=pi]:before {
+    content: "<?"; 
+}
+
+sgmltag[class=pi]:after,
+sgmltag[class=xmlpi]:after {
+    content: " ?>"; 
+}
+
+sgmltag[class=sgmlcomment]:before {
+    content: "<!-- "; 
+}
+
+sgmltag[class=sgmlcomment]:after {
+    content: " -->"; 
+}
+
+sgmltag[class=xmlpi]:before {
+    content: "<?xml "; 
+}
+
+simplelist[type=horiz] > member, 
+simplelist[type=vert] > member {
+    display: block; 
+    margin-left: 2ex; 
+}
+
+simplelist[type=inline] > member:first-child:before {
+    content: ""; 
+}
+
+simplelist[type=inline] > member:before {
+    content: ", "; 
+}
+
+spanspec {
+    display: table-column; 
+}
+
+step > *:first-child {
+    margin-top: 0; 
+    margin-bottom: 0; 
+}
+
+substeps > step:before {
+    display: marker; 
+    content: counter(n, lower-alpha); 
+}
+
+synopfragment {
+    margin-left: 2em; 
+}
+
+tertiaryie {
+    margin-left: 4ex; 
+}
+
+tfoot {
+    display: table-row-group; 
+    vertical-align: eval(attr(valign)); 
+}
+
+tip:before {
+    content: "tip "; 
+    display: marker; 
+    color: olive; 
+}
+
+varargs {
+    content: "..."; 
+}
+
+void {
+    content: "void"; 
+}
+
+warning:before {
+    content: "warning "; 
+    display: marker; 
+    color: olive; 
+}
+
+*[role=nocounters] title:before, 
+*[condition=nocounters] title:before { 
+    content: "" !important; 
+}

@@ -1,0 +1,20 @@
+# Workbench properties (Not used at run-time)
+versant.workbench.projectDescription=Session bean demo for JBoss, WebLogic and WebSphere.
+versant.workbench.classpath.0=build/classes
+versant.workbench.classpath.1=src
+versant.workbench.classpath.2=../../lib
+
+# Open Access Class Diagrams
+versant.workbench.diagram.count=1
+
+versant.workbench.diagram0.name=All
+versant.workbench.diagram0.legend=515,281
+versant.workbench.diagram0.general=13,Y,Y
+versant.workbench.diagram0.class=Y,N,Y,N,N,Y,N,Y,N,N,N,N,N,N,N,N,N
+versant.workbench.diagram0.field=Y,Y,N,N,N,N
+versant.workbench.diagram0.class.count=5
+versant.workbench.diagram0.class0=tut1.model.Category,544,131
+versant.workbench.diagram0.class1=tut1.model.Customer,145,24
+versant.workbench.diagram0.class2=tut1.model.Item,373,122
+versant.workbench.diagram0.class3=tut1.model.Order,27,112
+versant.workbench.diagram0.class4=tut1.model.OrderLine,216,112

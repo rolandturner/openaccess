@@ -1,0 +1,23 @@
+# Workbench properties (Not used at run-time)
+versant.workbench.projectDescription=inheritance
+versant.workbench.srcPath=src/
+versant.workbench.classpath.0=src/
+versant.workbench.classpath.1=build/classes/
+
+# Open Access Class Diagrams
+versant.workbench.diagram.count=1
+
+versant.workbench.diagram0.name=Diagram 1
+versant.workbench.diagram0.legend=600,458
+versant.workbench.diagram0.general=13,N,Y
+versant.workbench.diagram0.class=Y,N,Y,N,N,Y,N,Y,N,N,N,N,N,N,N,N,N
+versant.workbench.diagram0.field=Y,Y,N,N,N,N
+versant.workbench.diagram0.class.count=8
+versant.workbench.diagram0.class0=inheritance.model.Cat,16,106
+versant.workbench.diagram0.class1=inheritance.model.Cow,261,131
+versant.workbench.diagram0.class2=inheritance.model.Dog,99,106
+versant.workbench.diagram0.class3=inheritance.model.FarmAnimal,366,14
+versant.workbench.diagram0.class4=inheritance.model.Pet,59,15
+versant.workbench.diagram0.class5=inheritance.model.Rottweiler,74,193
+versant.workbench.diagram0.class6=inheritance.model.Sheep,452,129
+versant.workbench.diagram0.class7=inheritance.model.WienerDog,167,193

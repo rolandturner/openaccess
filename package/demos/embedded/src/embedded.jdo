@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jdo>
+    <package name="embedded.model">
+        <class name="Person">
+            <field name="address" embedded="true">
+                <extension vendor-name="versant" key="field" value="city">
+                    <extension vendor-name="versant" key="embedded" value="true" />
+                </extension>
+            </field>
+        </class>
+        <class name="Address">
+            <extension vendor-name="versant" key="jdbc-do-not-create-table" value="true" />
+        </class>
+        <class name="City">
+            <extension vendor-name="versant" key="jdbc-do-not-create-table" value="true" />
+        </class>
+        <class name="EmbeddedSelfRef">
+            <field name="next" embedded="true">
+                <extension vendor-name="versant" key="field" value="next">
+                    <extension vendor-name="versant" key="embedded" value="false" />
+                    <extension vendor-name="versant" key="default-fetch-group" value="true" />
+                </extension>
+                <extension vendor-name="versant" key="field" value="val">
+                    <extension vendor-name="versant" key="null-indicator" value="true" />
+                </extension>
+            </field>
+            <extension vendor-name="versant" key="jdbc-primary-key">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-column-name" value="id" />
+                </extension>
+            </extension>
+            <field name="val"/>
+        </class>
+    </package>
+</jdo>
+

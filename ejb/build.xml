@@ -1,0 +1,52 @@
+<!--
+EJB 3 API implementation.
+-->
+<project name="ejb" default="compile" basedir=".">
+
+    <import file="../common.xml"/>
+
+    <path id="cp.path">
+        <path location="../engine/build/classes"/>
+        <fileset dir="../engine/lib" includes="**/*.jar"/>
+        <path location="../ejbapi/build/classes"/>
+        <fileset dir="../jsr220/lib" includes="**/*.jar"/>
+    </path>
+
+    <target name="init">
+        <mkdir dir="build/classes"/>
+    </target>
+
+    <target name="clean">
+        <delete dir="build"/>
+    </target>
+
+    <target name="compile-deps" depends="init" unless="nodeps">
+        <ant target="compile" dir="../engine" />
+        <ant target="compile" dir="../ejbapi" />
+    </target>
+
+    <target name="javacc-compile" depends="init"
+        description="Generate the JavaCC parser for EJBQL">
+        <mkdir dir="build/java/com/versant/core/ejb/query"/>
+        <javacc target="src/com/versant/core/ejb/query/EJBQLParser.jj"
+            javacchome="../engine/javacc"
+            debugparser="false"
+            outputdirectory="build/java/com/versant/core/ejb/query/"/>
+    </target>
+
+    <target name="compile" depends="compile-deps,javacc-compile"
+            description="Compile all sources">
+        <javac srcdir="build/java;src" destdir="build/classes"
+            source="1.5"
+            target="1.5"
+            compiler="modern"
+            debug="on"
+            optimize="${javac.optimize}"
+            debuglevel="${javac.debuglevel}">
+            <classpath>
+                <path refid="cp.path"/>
+            </classpath>
+        </javac>
+    </target>
+
+</project>

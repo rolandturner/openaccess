@@ -1,0 +1,90 @@
+<html>
+<head>
+<title>Versant Open Access Eclipse Tools Plugin</title>
+<STYLE TYPE="text/css">
+<!--
+BODY { font-family: Helvetica; }
+H1, H2 { color: #666699; background-color: #F0F0FF; }
+-->
+</STYLE>
+</head>
+<body bgcolor="#FFFFFF">
+
+<table border="0" cellspacing="0" cellpadding="0" width="600">
+<tr>
+<td>
+
+<h1>Versant OpenAccess Eclipse Tools Plugin</h1>
+
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td><p><center>
+<a href="http://www.versant.com"><img src="icons/voa32.png" border="0"></a><br><br>
+<a href="http://www.versant.com"><font size="-1">www.versant.com</font></a></center></p>
+</td>
+<td width="20">&nbsp;</td>
+<td>
+<p>Versant OpenAccess is a high performance Java Data Objects implementation
+supporting leading commercial and open source relational databases. This plugin
+integrates JDO enhancement into the Eclipse build process. Some features of the
+standalone OpenAccess Workbench is integrated into the VOA Perspective and can
+be used to edit mappings and to setup a project.</p>
+</td>
+</tr></table>
+
+<h2>Using OpenAccess Tools with an Eclipse project</h2>
+
+<h3>Adding the VOA Nature to your project</h3>
+<p>Open the 'VOA JDO' Perspective.<br/>('Window' >> 'Open Perspective' >> 'Other'
+Select 'VOA JDO' and press OK)</p>
+
+<p>In the VOA Mapping view, add the VOA nature to your project using the right
+click popup menu.</p>
+
+
+<p><img src="images/addVoaNature.png" border="0">
+<ol>
+<li><i>Project file name.</i> Specifies the location of the OpenAccess (versant.properties)
+project file.</li><br>
+
+<li><i>Auto Enhance.</i> Enhance persistent classes whenever they are recompiled.
+The Enhancer is added to the 'External Tools Builders' section. You can always
+enhance manually by selecting 'Versant OpenAccess' >> 'Enhance classes'
+from the project popup menu.</li><br>
+
+<li><i>Copy project file to output dir.</i> Copy the project file to the
+project classpath on enhancement. This is useful if the project file is
+not in the classpath or if you want to use an Ant style token replacement.</li><br>
+
+<li><i>Ant filter token properties.</i> This is used to resolve Ant filter
+tokens in your OpenAccess project file when it is copied to the classpath.
+This option is only available if 'Copy project file to output dir' is
+selected.</li><br>
+
+<li><i>Use relative paths.</i> All paths are stored relative the project if selected.</li><br>
+
+</ol>
+<br/>Select a VOA Project file name. The default is versant.properties in you
+project root.
+<br/>We recomend that you select 'Auto enhance' to let VOA automatically enhance
+your persistent classes after compile.
+<br/>You can have VOA copy your project to the output path so it is always on your
+classpath.
+</p>
+
+<p>You should now see you VOA Project Properties.</p>
+
+<h3>Making a class persistent</h3>
+<p>To make a class persistent go to the Package Explorer in the Java perspective.
+Find the class node in the tree (please note: not the .java file node). In the
+right click popup menu select 'Versant OpenAcces' >> 'Make persistent'<br/>
+Your persistent class will now be visible in the VOA Mapping view.</p>
+
+<p>For more information visit
+<a href="http://www.versant.com">www.versant.com</a>.</p>
+
+</body>
+
+</td>
+</tr>
+</table>

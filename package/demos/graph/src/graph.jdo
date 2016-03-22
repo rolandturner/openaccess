@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jdo>
+    <package name="graph.model">
+        <class name="GraphNode">
+            <field name="inEdges">
+                <collection element-type="GraphNode">
+                    <extension vendor-name="versant" key="inverse" value="outEdges"/>
+                </collection>
+            </field>
+            <field name="outEdges">
+                <collection element-type="GraphNode"/>
+            </field>
+            <extension vendor-name="versant" key="fetch-group" value="all">
+                <extension vendor-name="versant" key="field-name" value="name"/>
+                <extension vendor-name="versant" key="field-name" value="outEdges">
+                    <extension vendor-name="versant" key="next-fetch-group" value="all"/>
+                </extension>
+            </extension>
+        </class>
+    </package>
+</jdo>
+

@@ -1,0 +1,24 @@
+<project name="jdo" default="default">
+
+    <target name="default"
+        description="Flat inheritance">
+        <copy file="src/com/versant/core/jdo/junit/test0/test.jdogenie"
+            tofile="build/test.jdogenie" filtering="true"
+            overwrite="true"/>
+    </target>
+
+    <target name="vertical" depends="default"
+        description="Vertical inheritance">
+        <replace file="build/test.jdogenie" encoding="ISO8859-1"
+            token="store0.ext.jdbc-inheritance=vertical"
+            value="store0.ext.jdbc-inheritance=flat"/>
+    </target>
+
+    <target name="vertical-no-descriminator" depends="default"
+        description="Vertical inheritance without a descriminator">
+        <replace file="build/test.jdogenie" encoding="ISO8859-1"
+            token="store0.ext.jdbc-class-id={hash}"
+            value="store0.ext.jdbc-class-id={no}"/>
+    </target>
+
+</project>

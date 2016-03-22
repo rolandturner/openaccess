@@ -1,0 +1,50 @@
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration//EN"
+       "http://jakarta.apache.org/struts/dtds/tiles-config.dtd">
+
+<tiles-definitions>
+
+    <definition name="sidebar.def" controllerUrl="/catalog.do?reqCode=listCategories" path="/sidebar.jsp"/>
+
+    <definition name="petstore.def" path="/main_template.jsp">
+
+      <put name="sidebar"  value="sidebar.def" />
+      <put name="content"  value="" type="string"/>
+      <put name="heading"  value="heading.jsp" />
+
+  </definition>
+
+  <definition name="login_page.def" extends="petstore.def">
+      <put name="content"  value="/login.jsp"/>
+  </definition>
+
+  <definition name="customer_page.def" extends="petstore.def">
+      <put name="content"  value="/customer.jsp"/>
+  </definition>
+
+  <definition name="order_page.def" extends="petstore.def">
+      <put name="content"  value="/order_page.jsp"/>
+  </definition>
+
+  <definition name="order_submitted.def" extends="petstore.def">
+      <put name="content"  value="/order_submitted.jsp"/>
+  </definition>
+
+  <definition name="product_page.def" extends="petstore.def">
+      <put name="content"  value="/product_page.jsp"/>
+  </definition>
+
+  <definition name="item_page.def" extends="petstore.def">
+      <put name="content"  value="/item_page.jsp"/>
+  </definition>
+
+  <definition name="item_details_page.def" extends="petstore.def">
+      <put name="content"  value="/item_details_page.jsp"/>
+  </definition>
+
+  <definition name="cart_page.def" extends="petstore.def">
+      <put name="content"  value="/cart_page.jsp"/>
+  </definition>
+
+
+</tiles-definitions>

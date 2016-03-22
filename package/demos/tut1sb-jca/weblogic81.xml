@@ -1,0 +1,79 @@
+<project basedir="." default="compile" name="JRun4">
+    <import file="common.xml"/>
+    <property file="common.properties"/>
+
+    <!-- ========== Executable Targets ======================================== -->
+    <target name="project_init">
+        <!--        <property name="wl81.home" value="/home/jaco/bea/weblogic81"/>-->
+        <property name="wl81.deploy"
+            value="${wl81.home}/samples/domains/examples/applications"/>
+
+        <property name="j2ee.jar"
+            value="${wl81.home}/server/lib/weblogic.jar"/>
+
+        <path id="weblogic-client.path">
+            <pathelement path="${wl81.home}/server/lib/weblogic.jar"/>
+        </path>
+
+    </target>
+
+    <target name="project_start-server">
+        <echo>Starting up wl81 server !!!</echo>
+        <exec executable="${wl81.home}/samples/domains/examples/startExamplesServer.sh"
+            dir="${wl81.home}/samples/domains/examples/">
+        </exec>
+        <echo>Server has been started !!!</echo>
+    </target>
+
+    <target name="project_stop-server">
+        <echo>Stopping wl81 server !!!</echo>
+        <java classname="weblogic.Admin">
+            <arg line="-url localhost:7001 -username weblogic -password weblogic FORCESHUTDOWN examplesServer"/>
+            <classpath>
+                <path refid="weblogic-client.path"/>
+            </classpath>
+        </java>
+
+        <echo>Server has been stopped !!!</echo>
+    </target>
+
+    <target name="project_run-test">
+        <java classname="tut1.Main" fork="yes" failonerror="yes">
+            <sysproperty key="java.naming.factory.initial"
+                value="weblogic.jndi.WLInitialContextFactory"/>
+            <sysproperty key="java.naming.provider.url"
+                value="t3://localhost:7001"/>
+            <sysproperty key="weblogic.jndi.createIntermediateContexts" value="true"/>
+            <classpath refid="weblogic-client.path"/>
+            <classpath refid="cp"/>
+        </java>
+    </target>
+
+    <target name="project_deploy">
+        <copy toDir="${wl81.home}/server/lib" file="${jdo.home}/lib/openaccess.jar"
+            overwrite="true"/>
+        <copy toDir="${wl81.deploy}" file="${dist.dir}/tut1sb-jca.ear" overwrite="true"/>
+    </target>
+
+
+    <target name="project_deploy_jca" >
+        <property name="jca.tmp.dir" value="${build.dir}/rar_tmp"/>
+        <mkdir dir="${jca.tmp.dir}"/>
+        <unjar src="${jdo.home}/jca/openaccess.rar" dest="${jca.tmp.dir}"/>
+        <replace file="${jca.tmp.dir}/META-INF/weblogic-ra.xml">
+            <replacefilter
+                token="@JNDI_NAME@"
+                value="${jndi.name}"/>
+            <replacefilter
+                token="@WL_CON_FACTORY_NAME@"
+                value="WL_${jndi.name}"/>
+        </replace>
+
+        <jar destfile="${build.dir}/openaccess.rar">
+            <fileset dir="${jca.tmp.dir}"/>
+        </jar>
+        <copy file="${build.dir}/openaccess.rar"
+            tofile="${wl81.deploy}/tut1sb-jca-openaccess.rar" overwrite="true"/>
+    </target>
+
+</project>

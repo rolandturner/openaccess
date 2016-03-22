@@ -1,0 +1,6 @@
+# Workbench properties (Not used at run-time)
+versant.workbench.srcPath=src
+versant.workbench.classpath.0=build/classes
+versant.workbench.classpath.1=src
+versant.workbench.classpath.2=../../lib
+versant.workbench.antRunTarget=run

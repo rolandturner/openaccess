@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin
+   id="Versant"
+   name="VOA Tools"
+   version="@ECLIPSE.TOOLS.VERSION@"
+   provider-name="Versant"
+   class="com.versant.core.jdo.tools.plugins.eclipse.VOAToolsPlugin">
+
+   <runtime>
+      <library name="voa-eclipse.jar">
+      </library>
+      <library name="lib/jdo.jar"/>
+      <library name="lib/jta.jar">
+      </library>
+      <library name="lib/openaccess.jar">
+      </library>
+      <library name="lib/openaccess-tools.jar">
+      </library>
+      <library name="lib/xercesImpl.jar">
+      </library>
+      <library name="lib/xml-apis.jar">
+      </library>
+      <library name="lib/activation.jar">
+      </library>
+   </runtime>
+
+   <requires>
+      <import plugin="org.eclipse.ui"/>
+      <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="org.eclipse.jdt"/>
+      <import plugin="org.eclipse.jdt.core"/>
+      <import plugin="org.eclipse.jdt.launching"/>
+      <import plugin="org.eclipse.jdt.ui"/>
+      <import plugin="org.eclipse.core.resources"/>
+      <import plugin="org.apache.ant"/>
+      <import plugin="org.eclipse.jface.text"/>
+      <import plugin="org.eclipse.ui.editors"/>
+      <import plugin="org.eclipse.ui.workbench.texteditor"/>
+      <import plugin="org.eclipse.ui.ide"/>
+      <import plugin="org.eclipse.pde.ui"/>
+      <import plugin="org.eclipse.pde.runtime"/>
+   </requires>
+
+   <extension
+         point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            adaptable="true"
+            objectClass="org.eclipse.jdt.core.IType"
+            id="com.versant.core.jdo.tools.plugins.eclipse.contribution1">
+         <menu
+               label="Versant OpenAccess"
+               path="additions"
+               id="com.versant.core.jdo.tools.plugins.eclipse.menu1">
+            <separator
+                  name="group1">
+            </separator>
+         </menu>
+         <action
+               enablesFor="1"
+               label="Make Persistent"
+               icon="icons/class16.png"
+               class="com.versant.core.jdo.tools.plugins.eclipse.popup.actions.TogglePersistentClass"
+               menubarPath="com.versant.core.jdo.tools.plugins.eclipse.menu1/group1"
+               id="com.versant.core.jdo.tools.plugins.eclipse.newAction">
+         </action>
+      </objectContribution>
+      <objectContribution
+            adaptable="false"
+            objectClass="org.eclipse.jdt.core.IField"
+            id="com.versant.core.jdo.tools.plugins.eclipse.contribution2">
+         <menu
+               label="Versant OpenAccess"
+               path="additions"
+               id="com.versant.core.jdo.tools.plugins.eclipse.menu2">
+            <separator name="group2"/>
+         </menu>
+         <action
+               enablesFor="1"
+               label="Make Persistent"
+               icon="icons/field16.png"
+               class="com.versant.core.jdo.tools.plugins.eclipse.popup.actions.TogglePersistentField"
+               menubarPath="com.versant.core.jdo.tools.plugins.eclipse.menu2/group2"
+               id="com.versant.core.jdo.tools.plugins.eclipse.newAction2">
+         </action>
+      </objectContribution>
+   </extension>
+
+    <extension
+        point="org.eclipse.jdt.core.classpathContainerInitializer">
+        <classpathContainerInitializer
+            class="com.versant.core.jdo.tools.eclipse.JDOClasspathContainerInitializer"
+            id="JDO_CONTAINER">
+        </classpathContainerInitializer>
+    </extension>
+
+    <extension
+        id="VersantId"
+        name="Versant_Project_Properties"
+        point="org.eclipse.ui.propertyPages">
+        <page
+              adaptable="true"
+              objectClass="org.eclipse.core.resources.IProject"
+              class="com.versant.core.jdo.tools.eclipse.VersantPropertyPage"
+              name="VOA Properties"
+              id="com.versant.core.jdo.tools.eclipse.VersantPropertyPage">
+            <filter
+                name="nature"
+                value="Versant.jdoNature">
+            </filter>
+        </page>
+    </extension>
+
+    <extension
+        id="jdoNature"
+        name="Versant Nature"
+        point="org.eclipse.core.resources.natures">
+        <requires-nature
+            id="org.eclipse.jdt.core.javanature">
+        </requires-nature>
+        <runtime>
+            <run
+                class="com.versant.core.jdo.tools.eclipse.nature.JDONature">
+            </run>
+        </runtime>
+    </extension>
+
+    <extension
+        point="org.eclipse.ui.popupMenus">
+        <objectContribution
+            objectClass="org.eclipse.jdt.core.IJavaProject"
+            id="Versant.EngineMenu">
+            <menu
+                label="Versant OpenAccess"
+                path="additions"
+                id="Versant.Project">
+                <separator
+                    name="Versant.group1">
+                </separator>
+            </menu>
+        </objectContribution>
+        <objectContribution
+            objectClass="org.eclipse.jdt.core.IJavaProject"
+            id="Versant.projects.enhance">
+            <visibility>
+                <objectState
+                    name="nature"
+                    value="Versant.jdoNature">
+                </objectState>
+            </visibility>
+            <action
+                label="Enhance classes"
+                class="com.versant.core.jdo.tools.eclipse.EnhancePopupAction"
+                menubarPath="Versant.Project/group1"
+                enablesFor="1"
+                id="Versant.projects.enhanceTask">
+            </action>
+        </objectContribution>
+    </extension>
+
+    <extension point="org.eclipse.ui.actionSets">
+        <actionSet
+            id="openaccess-actionset"
+            label="Versant">
+            <action id="enhanceAction"
+                menubarPath="project/build"
+                label="JDO Enhance"
+                tooltip="Enhance persistenct project classes"
+                class="com.versant.core.jdo.tools.eclipse.EnhanceAction"
+                enablesFor="1">
+                <enablement>
+                    <objectState
+                        name="projectNature"
+                        value="Versant.jdoNature"/>
+                </enablement>
+            </action>
+        </actionSet>
+    </extension>
+
+    <extension
+         point="org.eclipse.jdt.core.classpathContainerInitializer">
+      <classpathContainerInitializer
+            class="com.versant.core.jdo.tools.eclipse.JDOClasspathContainerInitializer"
+            id="Versant.projects.enhanceTask.JDO_CONTAINER">
+      </classpathContainerInitializer>
+   </extension>
+
+    <extension
+        id="EnhancerBuilder"
+        name="JDOEclipseEnhanceBuilder"
+        point="org.eclipse.core.resources.builders">
+        <builder>
+            <run
+                class="com.versant.core.jdo.tools.eclipse.EnhancerBuilder">
+            </run>
+        </builder>
+    </extension>
+    <extension point="org.eclipse.ui.perspectives">
+  <perspective
+        icon="icons/voa16.png"
+        class="com.versant.core.jdo.tools.plugins.eclipse.perspective.VOAPerspectiveFactory"
+        name="VOA JDO"
+        id="com.versant.core.jdo.tools.plugins.eclipse.perspective.VOAPerspectiveFactory"/> 
+  </extension>
+  <extension point="org.eclipse.ui.views">
+  	<category name="VOA JDO" id="com.versant.core.jdo.tools.plugins.eclipse" /> 
+  	<view
+         allowMultiple="false"
+         icon="icons/voa16.png"
+         class="com.versant.core.jdo.tools.plugins.eclipse.views.PersistenceBrowser"
+         category="com.versant.core.jdo.tools.plugins.eclipse"
+         name="VOA Mapping"
+         id="com.versant.core.jdo.tools.plugins.eclipse.views.PersistenceBrowser"/> 
+  	<view
+         allowMultiple="true"
+         icon="icons/ddl16.png"
+         class="com.versant.core.jdo.tools.plugins.eclipse.views.DDLExplorer"
+         category="com.versant.core.jdo.tools.plugins.eclipse"
+         name="DDL Explorer"
+         id="com.versant.core.jdo.tools.plugins.eclipse.views.DDLExplorer"/> 
+  </extension>
+  <extension
+        point="org.eclipse.ui.editors">
+     <editor
+           class="com.versant.core.jdo.tools.plugins.eclipse.editor.VOAMappingEditor"
+           icon="icons/voa16.png"
+           name="Edit VOA Mapping"
+           id="com.versant.core.jdo.tools.plugins.eclipse.editor.VOAMappingEditor"/>
+     <editor
+           class="com.versant.core.jdo.tools.plugins.eclipse.editor.DDLEditor"
+           icon="icons/ddl16.png"
+           name="DDL Editor"
+           id="com.versant.core.jdo.tools.plugins.eclipse.editor.DDLEditor"/>
+  </extension>
+    
+</plugin>

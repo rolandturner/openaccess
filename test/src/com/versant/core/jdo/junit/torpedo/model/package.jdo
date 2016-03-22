@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jdo>
+    <package name="com.versant.core.jdo.junit.torpedo.model">
+        <class name="JDOAuction" objectid-class="AuctionPK" identity-type="application">
+            <field name="id" primary-key="true">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-column-name" value="AUCTION_ID" />
+                </extension>
+            </field>
+            <field name="bids" default-fetch-group="true">
+                <collection element-type="JDOBid">
+                    <extension vendor-name="versant" key="inverse" value="auction" />
+                </collection>
+            </field>
+            <field name="item" persistence-modifier="persistent" default-fetch-group="true">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-column-name" value="ITEM" />
+                </extension>
+            </field>
+            <field name="seller" persistence-modifier="persistent">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-column-name" value="SELLER" />
+                </extension>
+            </field>
+            <field name="lowPrice">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-column-name" value="LOW_PRICE" />
+                </extension>
+            </field>
+            <extension vendor-name="versant" key="jdbc-table-name" value="AUCTION" />
+            <extension vendor-name="versant" key="fetch-group" value="partial">
+                <extension vendor-name="versant" key="field-name" value="item">
+                    <extension vendor-name="versant" key="next-fetch-group" value="partial" />
+                    <extension vendor-name="versant" key="jdbc-use-join" value="inner" />
+                </extension>
+                <extension vendor-name="versant" key="field-name" value="lowPrice" />
+            </extension>
+        </class>
+        <class name="JDOBid" objectid-class="BidPK" identity-type="application">
+            <field name="id" primary-key="true">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-column-name" value="BID_ID" />
+                </extension>
+            </field>
+            <field name="buyer" persistence-modifier="persistent" default-fetch-group="true">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-column-name" value="BUYER" />
+                </extension>
+            </field>
+            <field name="auction" persistence-modifier="persistent">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-column-name" value="AUCTION" />
+                </extension>
+            </field>
+            <extension vendor-name="versant" key="jdbc-table-name" value="BID" />
+            <field name="amount">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-column-name" value="AMOUNT" />
+                </extension>
+            </field>
+            <field name="maxAmount">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-column-name" value="MAX_AMOUNT" />
+                </extension>
+            </field>
+            <extension vendor-name="versant" key="fetch-group" value="detail">
+                <extension vendor-name="versant" key="field-name" value="id" />
+                <extension vendor-name="versant" key="field-name" value="amount" />
+                <extension vendor-name="versant" key="field-name" value="auction">
+                    <extension vendor-name="versant" key="jdbc-use-join" value="no" />
+                </extension>
+                <extension vendor-name="versant" key="field-name" value="buyer" />
+                <extension vendor-name="versant" key="field-name" value="maxAmount" />
+            </extension>
+        </class>
+        <class name="JDOItem" objectid-class="ItemPK" identity-type="application">
+            <field name="auction" persistence-modifier="none">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-column-name" value="AUCTION" />
+                </extension>
+            </field>
+            <field name="itemName">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-column-name" value="ITEM_NAME" />
+                </extension>
+            </field>
+            <field name="graphicFilename">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-column-name" value="GRAPHIC_FILENAME" />
+                </extension>
+            </field>
+            <field name="description">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-column-name" value="DESCRIPTION" />
+                </extension>
+            </field>
+            <extension vendor-name="versant" key="jdbc-table-name" value="ITEM" />
+            <field name="id" primary-key="true">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-column-name" value="ITEM_ID" />
+                </extension>
+            </field>
+            <extension vendor-name="versant" key="fetch-group" value="partial">
+                <extension vendor-name="versant" key="field-name" value="itemName" />
+            </extension>
+        </class>
+        <class name="JDOUser" objectid-class="UserPK" identity-type="application">
+            <field name="auctions">
+                <collection element-type="JDOAuction">
+                    <extension vendor-name="versant" key="inverse" value="seller" />
+                </collection>
+            </field>
+            <field name="bids">
+                <collection element-type="JDOBid">
+                    <extension vendor-name="versant" key="inverse" value="buyer" />
+                </collection>
+            </field>
+            <field name="id" primary-key="true">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-column-name" value="USER_ID" />
+                </extension>
+            </field>
+            <extension vendor-name="versant" key="jdbc-table-name" value="AUCTION_USER" />
+        </class>
+    </package>
+</jdo>
+

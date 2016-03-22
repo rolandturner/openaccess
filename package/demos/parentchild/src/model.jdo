@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jdo>
+    <package name="model">
+        <class name="ParentA" identity-type="application" objectid-class="model.ParentA$ID">
+            <field name="ida" primary-key="true"/>
+            <field name="idb" primary-key="true"/>
+            <field name="children">
+                <collection element-type="Child">
+                    <extension vendor-name="versant" key="inverse" value="parentA"/>
+                </collection>
+                <extension vendor-name="versant" key="dependent" value="true"/>
+            </field>
+        </class>
+        <class name="ParentB" identity-type="application" objectid-class="model.ParentB$ID">
+            <field name="ida" primary-key="true"/>
+            <field name="idb" primary-key="true"/>
+            <field name="children">
+                <collection element-type="Child">
+                    <extension vendor-name="versant" key="inverse" value="parentB"/>
+                </collection>
+                <extension vendor-name="versant" key="dependent" value="true"/>
+            </field>
+        </class>
+        <class name="Child" identity-type="application" objectid-class="model.Child$ID">
+            <field name="ida" primary-key="true"/>
+            <field name="idb" primary-key="true"/>
+            <field name="idc" primary-key="true"/>
+            <field name="parentA">
+                <extension vendor-name="versant" key="jdbc-ref" value="ida">
+                    <extension vendor-name="versant" key="jdbc-column">
+                        <extension vendor-name="versant" key="jdbc-column-name" value="ida"/>
+                    </extension>
+                </extension>
+                <extension vendor-name="versant" key="jdbc-ref" value="idb">
+                    <extension vendor-name="versant" key="jdbc-column">
+                        <extension vendor-name="versant" key="jdbc-column-name" value="idb"/>
+                    </extension>
+                </extension>
+                <extension vendor-name="versant" key="jdbc-constraint" value="{no}"/>
+            </field>
+            <field name="parentB">
+                <extension vendor-name="versant" key="jdbc-ref" value="ida">
+                    <extension vendor-name="versant" key="jdbc-column">
+                        <extension vendor-name="versant" key="jdbc-column-name" value="ida"/>
+                    </extension>
+                </extension>
+                <extension vendor-name="versant" key="jdbc-ref" value="idb">
+                    <extension vendor-name="versant" key="jdbc-column">
+                        <extension vendor-name="versant" key="jdbc-column-name" value="idb"/>
+                    </extension>
+                </extension>
+                <extension vendor-name="versant" key="jdbc-constraint" value="{no}"/>
+            </field>
+        </class>
+    </package>
+</jdo>
+

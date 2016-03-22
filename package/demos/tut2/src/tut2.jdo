@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jdo>
+    <package name="tut2.model">
+        <class name="Address" />
+        <class name="Country" />
+        <class name="Person">
+            <field name="oldAddressList">
+                <collection element-type="Address" />
+            </field>
+        </class>
+    </package>
+</jdo>
+

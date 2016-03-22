@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+
+<form-validation>
+
+<!--
+     This is a blank Validator form file with a commented examples.
+-->
+
+    <global>
+
+        <!-- An example global constant
+        <constant>
+            <constant-name>postalCode</constant-name>
+            <constant-value>^\d{5}\d*$</constant-value>
+        </constant>
+        end example-->
+
+    </global>
+
+    <formset>
+
+        <form name="studentForm">
+             <field
+                property="firstName"
+                depends="required">
+                    <arg0 key="student.firstName"/>
+             </field>
+
+            <field
+                property="surname"
+                depends="required">
+                    <arg0 key="student.surname"/>
+             </field>
+
+            <field
+                property="login"
+                depends="required">
+                    <arg0 key="student.login"/>
+             </field>
+
+            <field
+                property="password"
+                depends="required">
+                    <arg0 key="student.password"/>
+             </field>
+
+        </form>
+
+        <form name="examForm">
+            <field
+                property="name"
+                depends="required">
+                    <arg0 key="exam.name"/>
+             </field>
+            <field
+                property="description"
+                depends="required">
+                    <arg0 key="exam.description"/>
+             </field>
+            <field
+                property="examCategory"
+                depends="required">
+                    <arg0 key="exam.examCategory"/>
+             </field>
+
+        </form>
+
+    </formset>
+
+
+</form-validation>

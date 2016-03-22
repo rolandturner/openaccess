@@ -1,0 +1,17 @@
+# Workbench properties (Not used at run-time)
+versant.workbench.projectDescription=Advanced legacy mapping with parent-child classes.
+versant.workbench.classpath.0=build/classes
+versant.workbench.classpath.1=src
+versant.workbench.classpath.2=../../lib
+
+# Open Access Class Diagrams
+versant.workbench.diagram.count=1
+
+versant.workbench.diagram0.name=Classes
+versant.workbench.diagram0.legend=89,210
+versant.workbench.diagram0.general=13,Y,Y
+versant.workbench.diagram0.class=Y,N,Y,N,N,Y,N,Y,N,N,N,N,N,N,N,N,N
+versant.workbench.diagram0.field=Y,Y,Y,N,Y,N
+versant.workbench.diagram0.class.count=2
+versant.workbench.diagram0.class0=model.Child,296,20
+versant.workbench.diagram0.class1=model.ParentA,31,25

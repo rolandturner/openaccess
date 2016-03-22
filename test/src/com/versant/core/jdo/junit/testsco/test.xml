@@ -1,0 +1,10 @@
+<project name="jdo" default="default">
+
+    <target name="default"
+        description="Standard configuration">
+        <copy file="src/com/versant/core/jdo/junit/testsco/test.jdogenie"
+            tofile="build/test.jdogenie" filtering="true"
+            overwrite="true"/>
+    </target>
+
+</project>

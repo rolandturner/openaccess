@@ -1,0 +1,4 @@
+# Workbench properties (Not used at run-time)
+versant.workbench.projectDescription=How to use custom field types
+versant.workbench.classpath.0=build/classes
+versant.workbench.classpath.1=src

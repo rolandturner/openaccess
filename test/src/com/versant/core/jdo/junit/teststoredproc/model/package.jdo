@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jdo>
+    <package name="com.versant.core.jdo.junit.teststoredproc.model">
+        <class name="Person" />
+        <class name="Person2" persistence-capable-superclass="Person" />
+        <class name="Person3" persistence-capable-superclass="Person2" />
+        <class name="Address" />
+        <class name="Molecule" identity-type="application" objectid-class="Molecule$ID">
+            <extension vendor-name="versant" key="jdbc-class-id" value="MOLECULE">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-column-name" value="moleculetype"/>
+                    <extension vendor-name="versant" key="jdbc-type" value="VARCHAR"/>
+                </extension>
+            </extension>
+            <extension vendor-name="versant" key="jdbc-optimistic-locking" value="none"/>
+            <extension vendor-name="versant" key="jdbc-do-not-create-table" value="true"/>
+            <field name="moleculeId" primary-key="true"/>
+        </class>
+        <class name="Protein" persistence-capable-superclass="Molecule">
+            <extension vendor-name="versant" key="jdbc-class-id" value="PROTEIN"/>
+            <extension vendor-name="versant" key="jdbc-do-not-create-table" value="true"/>
+        </class>
+        <class name="Compound" persistence-capable-superclass="Molecule">
+            <extension vendor-name="versant" key="jdbc-class-id" value="COMPOUND"/>
+            <extension vendor-name="versant" key="jdbc-do-not-create-table" value="true"/>
+        </class>
+        <class name="Metabolicregion" identity-type="application" objectid-class="Metabolicregion$ID">
+            <extension vendor-name="versant" key="jdbc-optimistic-locking" value="none"/>
+            <field name="type">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-column-name" value="type"/>
+                </extension>
+            </field>
+            <field name="name">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-column-name" value="name"/>
+                </extension>
+            </field>
+            <field name="metabolicregion">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-column-name" value="parentmetabolicregion_id"/>
+                </extension>
+            </field>
+            <extension vendor-name="versant" key="jdbc-do-not-create-table" value="true"/>
+            <field name="metaboligregion_id" primary-key="true">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-column-name" value="METABOLICREGION_ID"/>
+                </extension>
+            </field>
+        </class>
+        <class name="Reaction" identity-type="application" objectid-class="Reaction$ID">
+            <extension vendor-name="versant" key="jdbc-table-name" value="REACTION"/>
+            <field name="abbreviation">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-type" value="VARCHAR"/>
+                    <extension vendor-name="versant" key="jdbc-column-name" value="ABBREVIATION"/>
+                </extension>
+            </field>
+            <field name="createdBy">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-type" value="VARCHAR"/>
+                    <extension vendor-name="versant" key="jdbc-column-name" value="CREATED_BY"/>
+                </extension>
+            </field>
+            <field name="direction">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-type" value="VARCHAR"/>
+                    <extension vendor-name="versant" key="jdbc-column-name" value="DIRECTION"/>
+                </extension>
+            </field>
+            <field name="discriminator">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-type" value="VARCHAR"/>
+                    <extension vendor-name="versant" key="jdbc-column-name" value="DISCRIMINATOR"/>
+                </extension>
+            </field>
+            <field name="enzymeclassunknown">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-type" value="CHAR"/>
+                    <extension vendor-name="versant" key="jdbc-column-name" value="ENZYMECLASSUNKNOWN"/>
+                </extension>
+            </field>
+            <field name="equation">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-type" value="VARCHAR"/>
+                    <extension vendor-name="versant" key="jdbc-column-name" value="EQUATION"/>
+                </extension>
+            </field>
+            <field name="equationformula">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-type" value="VARCHAR"/>
+                    <extension vendor-name="versant" key="jdbc-column-name" value="EQUATIONFORMULA"/>
+                </extension>
+            </field>
+            <field name="isdeleted">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-type" value="CHAR"/>
+                    <extension vendor-name="versant" key="jdbc-column-name" value="ISDELETED"/>
+                </extension>
+            </field>
+            <field name="issimulationreaction">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-type" value="CHAR"/>
+                    <extension vendor-name="versant" key="jdbc-column-name" value="ISSIMULATIONREACTION"/>
+                </extension>
+            </field>
+            <field name="istransformation">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-type" value="CHAR"/>
+                    <extension vendor-name="versant" key="jdbc-column-name" value="ISTRANSFORMATION"/>
+                </extension>
+            </field>
+            <field name="istranslocation">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-type" value="CHAR"/>
+                    <extension vendor-name="versant" key="jdbc-column-name" value="ISTRANSLOCATION"/>
+                </extension>
+            </field>
+            <field name="lastModifiedBy">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-type" value="VARCHAR"/>
+                    <extension vendor-name="versant" key="jdbc-column-name" value="LAST_MODIFIED_BY"/>
+                </extension>
+            </field>
+            <field name="lastModifiedDt">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-type" value="DATE"/>
+                    <extension vendor-name="versant" key="jdbc-column-name" value="LAST_MODIFIED_DT"/>
+                </extension>
+            </field>
+            <field name="notes">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-type" value="VARCHAR"/>
+                    <extension vendor-name="versant" key="jdbc-column-name" value="NOTES"/>
+                </extension>
+            </field>
+            <field name="officialname">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-type" value="VARCHAR"/>
+                    <extension vendor-name="versant" key="jdbc-column-name" value="OFFICIALNAME"/>
+                </extension>
+            </field>
+            <field name="reactionnumber">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-type" value="DECIMAL"/>
+                    <extension vendor-name="versant" key="jdbc-column-name" value="REACTIONNUMBER"/>
+                </extension>
+            </field>
+            <field name="sortsequence">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-type" value="VARCHAR"/>
+                    <extension vendor-name="versant" key="jdbc-column-name" value="SORTSEQUENCE"/>
+                </extension>
+            </field>
+            <field name="tcnumber">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-type" value="VARCHAR"/>
+                    <extension vendor-name="versant" key="jdbc-column-name" value="TCNUMBER"/>
+                </extension>
+            </field>
+            <field name="transporterclassunknown">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-type" value="CHAR"/>
+                    <extension vendor-name="versant" key="jdbc-column-name" value="TRANSPORTERCLASSUNKNOWN"/>
+                </extension>
+            </field>
+            <extension vendor-name="versant" key="jdbc-optimistic-locking" value="none"/>
+            <field name="ecnumber">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-column-name" value="ECNUMBER"/>
+                </extension>
+            </field>
+            <extension vendor-name="versant" key="jdbc-do-not-create-table" value="true"/>
+            <field name="reaction_id" primary-key="true"/>
+        </class>
+        <class name="GcsAdmincommandparameters" identity-type="application" objectid-class="GcsAdmincommandparameters$ID">
+            <extension vendor-name="versant" key="jdbc-table-name" value="GCS_ADMINCOMMANDPARAMETERS"/>
+            <field name="createdBy">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-type" value="VARCHAR"/>
+                    <extension vendor-name="versant" key="jdbc-column-name" value="CREATED_BY"/>
+                    <extension vendor-name="versant" key="jdbc-length" value="32"/>
+                </extension>
+            </field>
+            <field name="isdeleted">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-type" value="VARCHAR"/>
+                    <extension vendor-name="versant" key="jdbc-column-name" value="ISDELETED"/>
+                    <extension vendor-name="versant" key="jdbc-length" value="1"/>
+                </extension>
+            </field>
+            <field name="lastModifiedBy">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-type" value="VARCHAR"/>
+                    <extension vendor-name="versant" key="jdbc-column-name" value="LAST_MODIFIED_BY"/>
+                    <extension vendor-name="versant" key="jdbc-length" value="32"/>
+                </extension>
+            </field>
+            <field name="lastModifiedDt">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-type" value="DATE"/>
+                    <extension vendor-name="versant" key="jdbc-column-name" value="LAST_MODIFIED_DT"/>
+                </extension>
+            </field>
+            <field name="parameterdescription">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-type" value="VARCHAR"/>
+                    <extension vendor-name="versant" key="jdbc-column-name" value="PARAMETERDESCRIPTION"/>
+                    <extension vendor-name="versant" key="jdbc-length" value="4000"/>
+                </extension>
+            </field>
+            <field name="parameterisoptional">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-type" value="VARCHAR"/>
+                    <extension vendor-name="versant" key="jdbc-column-name" value="PARAMETERISOPTIONAL"/>
+                    <extension vendor-name="versant" key="jdbc-length" value="1"/>
+                </extension>
+            </field>
+            <field name="parametername">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-type" value="VARCHAR"/>
+                    <extension vendor-name="versant" key="jdbc-column-name" value="PARAMETERNAME"/>
+                    <extension vendor-name="versant" key="jdbc-length" value="30"/>
+                </extension>
+            </field>
+            <field name="parametersequence">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-type" value="DECIMAL"/>
+                    <extension vendor-name="versant" key="jdbc-column-name" value="PARAMETERSEQUENCE"/>
+                    <extension vendor-name="versant" key="jdbc-length" value="22"/>
+                </extension>
+            </field>
+            <field name="parametersize">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-type" value="DECIMAL"/>
+                    <extension vendor-name="versant" key="jdbc-column-name" value="PARAMETERSIZE"/>
+                    <extension vendor-name="versant" key="jdbc-length" value="22"/>
+                </extension>
+            </field>
+            <field name="parametertype">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-type" value="VARCHAR"/>
+                    <extension vendor-name="versant" key="jdbc-column-name" value="PARAMETERTYPE"/>
+                    <extension vendor-name="versant" key="jdbc-length" value="10"/>
+                </extension>
+            </field>
+            <field name="parametervalidationcommand">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-type" value="VARCHAR"/>
+                    <extension vendor-name="versant" key="jdbc-column-name" value="PARAMETERVALIDATIONCOMMAND"/>
+                    <extension vendor-name="versant" key="jdbc-length" value="30"/>
+                </extension>
+            </field>
+            <field name="gcsadmincommands">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-type" value="DECIMAL"/>
+                    <extension vendor-name="versant" key="jdbc-column-name" value="ADMINCOMMAND_ID"/>
+                    <extension vendor-name="versant" key="jdbc-length" value="10"/>
+                </extension>
+            </field>
+            <extension vendor-name="versant" key="jdbc-optimistic-locking" value="changed"/>
+            <extension vendor-name="versant" key="jdbc-do-not-create-table" value="true"/>
+            <field name="admincommandparameterId" primary-key="true"/>
+        </class>
+        <class name="GcsAdmincommands" identity-type="application" objectid-class="GcsAdmincommands$ID">
+            <extension vendor-name="versant" key="jdbc-table-name" value="GCS_ADMINCOMMANDS"/>
+            <field name="commanddescription">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-type" value="VARCHAR"/>
+                    <extension vendor-name="versant" key="jdbc-column-name" value="COMMANDDESCRIPTION"/>
+                    <extension vendor-name="versant" key="jdbc-length" value="4000"/>
+                </extension>
+            </field>
+            <field name="commandname">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-type" value="VARCHAR"/>
+                    <extension vendor-name="versant" key="jdbc-column-name" value="COMMANDNAME"/>
+                    <extension vendor-name="versant" key="jdbc-length" value="30"/>
+                </extension>
+            </field>
+            <field name="commandpackage">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-type" value="VARCHAR"/>
+                    <extension vendor-name="versant" key="jdbc-column-name" value="COMMANDPACKAGE"/>
+                    <extension vendor-name="versant" key="jdbc-length" value="30"/>
+                </extension>
+            </field>
+            <field name="commandproc">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-type" value="VARCHAR"/>
+                    <extension vendor-name="versant" key="jdbc-column-name" value="COMMANDPROC"/>
+                    <extension vendor-name="versant" key="jdbc-length" value="30"/>
+                </extension>
+            </field>
+            <field name="commandtype">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-type" value="VARCHAR"/>
+                    <extension vendor-name="versant" key="jdbc-column-name" value="COMMANDTYPE"/>
+                    <extension vendor-name="versant" key="jdbc-length" value="10"/>
+                </extension>
+            </field>
+            <field name="createdBy">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-type" value="VARCHAR"/>
+                    <extension vendor-name="versant" key="jdbc-column-name" value="CREATED_BY"/>
+                    <extension vendor-name="versant" key="jdbc-length" value="32"/>
+                </extension>
+            </field>
+            <field name="isdeleted">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-type" value="VARCHAR"/>
+                    <extension vendor-name="versant" key="jdbc-column-name" value="ISDELETED"/>
+                    <extension vendor-name="versant" key="jdbc-length" value="1"/>
+                </extension>
+            </field>
+            <field name="lastModifiedBy">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-type" value="VARCHAR"/>
+                    <extension vendor-name="versant" key="jdbc-column-name" value="LAST_MODIFIED_BY"/>
+                    <extension vendor-name="versant" key="jdbc-length" value="32"/>
+                </extension>
+            </field>
+            <field name="lastModifiedDt">
+                <extension vendor-name="versant" key="jdbc-column">
+                    <extension vendor-name="versant" key="jdbc-type" value="DATE"/>
+                    <extension vendor-name="versant" key="jdbc-column-name" value="LAST_MODIFIED_DT"/>
+                </extension>
+            </field>
+            <extension vendor-name="versant" key="jdbc-optimistic-locking" value="changed"/>
+            <extension vendor-name="versant" key="jdbc-do-not-create-table" value="true"/>
+            <field name="admincommandId" primary-key="true"/>
+        </class>
+    </package>
+</jdo>
+

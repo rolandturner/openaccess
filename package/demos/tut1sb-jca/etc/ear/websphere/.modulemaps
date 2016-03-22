@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modulemap:EARProjectMap xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:application="application.xmi" xmlns:modulemap="modulemap.xmi" xmi:id="EARProjectMap_1">
+    <mappings xmi:id="ModuleMapping_1" projectName="Tut1Ejb">
+        <module xmi:type="application:EjbModule" href="META-INF/application.xml#EjbModule_1"/>
+    </mappings>
+    <mappings xmi:id="ModuleMapping_2" projectName="OpenAccess">
+        <module xmi:type="application:ConnectorModule" href="META-INF/application.xml#ConnectorModule_1"/>
+    </mappings>
+    <mappings xmi:id="ModuleMapping_3" projectName="Client">
+        <module xmi:type="application:JavaClientModule" href="META-INF/application.xml#JavaClientModule_1"/>
+    </mappings>
+</modulemap:EARProjectMap>
